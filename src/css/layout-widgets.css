@@ -1,0 +1,156 @@
+#layout .widget-content {
+	border: 2px solid #eee;
+}
+
+#layout .widget-content > .row + .row {
+	margin-top: 15px;
+}
+
+#layout .widget-section h3 {
+	text-align: center;
+	font-size: 18px;
+}
+
+#layout .add-widget {
+	border: 2px dashed #eee;
+	text-align: center;
+}
+
+#layout .add-widget a {
+	display: block;
+	padding: 12px 15px;
+	text-decoration: none;
+	font-size: 16px;
+	color: #8d99ae;
+}
+
+#layout .add-widget:hover {
+	border-color: #ccc;
+}
+
+#layout .add-widget:hover a {
+	color: #ef233c;
+}
+
+#layout .widget-section h3 span {
+	display: inline-block;
+	color: #fff;
+	background-color: #d90429;
+	padding: 3px 12px;
+	border: none;
+}
+
+#layout h4 {
+	font-size: 17px;
+	color: #d90429;
+}
+
+#layout h4::before,
+#layout .add-widget a::before {
+	font: bold 14px "Font Awesome 5 Free";
+	margin-right: 3px;
+}
+
+#layout .widget-box {
+	display: -webkit-flex;
+	display: flex;
+	background-color: #fff;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px 15px;
+	cursor: default;
+	border: 2px solid #f9f9f9;
+}
+
+#layout .widget-box.disabled h4 {
+	color: #8d99ae;
+}
+
+#layout .widget-box.disabled h4::after {
+	content: "(disabled)";
+	font: 400 italic 13px "Nunito", serif;
+	color: #ccc;
+	margin-left: 2px;
+}
+
+#layout .drop-zone .widget-box {
+	cursor: move;
+}
+
+#layout .widget-box:not(.disabled):hover {
+	border-color: #d90429;
+}
+
+#layout .widget-box button {
+	font-size: 13px;
+}
+
+#layout .widget-box button i {
+	font-size: 12px;
+}
+
+#layout .widget-box,
+#layout .add-widget,
+#layout .drop-zone > * {
+	-webkit-transition: 0.5s border-color;
+	-moz-transition: 0.5s border-color;
+	-o-transition: 0.5s border-color;
+	transition: 0.5s border-color;
+	outline: none !important;
+}
+
+#layout .draggable-source--is-dragging {
+	opacity: 0.5;
+}
+
+#layout .draggable-mirror {
+	z-index: 99999;
+}
+
+/*-------------- Layout Widget Icons ----------------*/
+
+#layout [data-id^="main-menu"] h4::before {
+	content: "\f03a";
+}
+
+#layout [data-id^="recent-added"] h4::before {
+	content: "\f0e7";
+}
+
+#layout [data-id^="ads"] h4::before {
+	content: "\f0a1";
+}
+
+#layout [data-id^="category"] h4::before,
+#layout [data-id^="shows-slider"] h4::before,
+#layout [data-id^="selected-shows"] h4::before {
+	content: "\f008";
+}
+
+[data-id^="advance-search"] h4::before {
+	content: "\f0b0";
+}
+
+#layout [data-id^="social-media"] h4::before {
+	content: "\f1e0";
+}
+
+#layout [data-id^="today-schedule"] h4::before {
+	content: "\f783";
+}
+
+#layout [data-id^="links-list"] h4::before {
+	content: "\f0c1";
+}
+
+#layout [data-id^="about-us"] h4::before {
+	content: "\f05a";
+}
+
+#layout [data-id^="account"] h4::before {
+	content: "\f007";
+}
+
+#layout .add-widget a::before {
+	content: "\f067";
+}
