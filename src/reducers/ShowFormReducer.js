@@ -31,9 +31,17 @@ const initialState = {
 		trailer_url: "",
 		tags: [],
 		publish_status: 1,
-		author: "",
+		author: "mustafa_salah",
 		keywords: "",
 		description: "",
+		arcs: {
+			form: {
+				id: "",
+				no: "",
+				name: "",
+			},
+			list: [],
+		},
 		watching_servers: [
 			{ name: "", code: "" },
 			{ name: "", code: "" },
@@ -43,11 +51,14 @@ const initialState = {
 				raw_type: "blu-ray",
 				resolution: "1080",
 				size: "",
-				audio: "aac",
+				audio: "AAC",
 				language: "",
 				subtitle: "",
 				translater: "",
-				download_servers: [{ name: "", link: "" }],
+				download_servers: [
+					{ name: "", link: "" },
+					{ name: "", link: "" },
+				],
 			},
 		],
 	},
@@ -58,10 +69,66 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 	let newState;
 
 	switch (type) {
+		case ACTIONS.SUBMIT_FORM:
+			const { error } = payload;
+			return state;
+
+		case ACTIONS.DELETE_ARC:
+			const { arc_id } = payload;
+
+			// Get a Copy of the state
+			newState = {
+				errors: state.errors,
+				data: deepCopy(state.data),
+			};
+
+			// Delete Arc from Arcs List
+			newState.data.arcs.list = newState.data.arcs.list.filter(
+				(arc) => arc.id !== arc_id
+			);
+
+			return newState;
+
+		case ACTIONS.UPDATE_ARC:
+			const { data } = payload;
+
+			// Get a Copy of the state
+			newState = {
+				errors: state.errors,
+				data: deepCopy(state.data),
+			};
+
+			// Reset Arc Form Fields
+			newState.data.arcs.form = { id: "", no: "", name: "" };
+
+			if (data.id === "") {
+				// Add Arc Logic
+				data.id = Math.round(Math.random() * 100);
+				newState.data.arcs.list = [...state.data.arcs.list, data];
+			} else {
+				// Update Arc Logic
+				newState.data.arcs.list = state.data.arcs.list.map((arc) => {
+					if (arc.id === data.id) return data;
+					return arc;
+				});
+			}
+
+			return newState;
+
+		case ACTIONS.EDIT_ARC:
+			const { arc_data } = payload;
+			return {
+				errors: state.errors,
+				data: {
+					...state.data,
+					arcs: { ...state.data.arcs, form: arc_data },
+				},
+			};
+
 		case ACTIONS.FORM_ADD:
-			const { error, fieldName, fieldValue } = payload;
+			const { error: fieldError, fieldName, fieldValue } = payload;
 			newState = deepCopy(state);
-			newState["errors"][fieldName] = error && error.details[0];
+			newState["errors"][fieldName] = fieldError && fieldError.details[0];
 			setNestedProperty(newState.data, fieldName, fieldValue);
 			return newState;
 
@@ -69,13 +136,13 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 			const { formName, listName } = payload;
 			if (formName === "show") {
 				newState = { errors: state.errors, data: deepCopy(state.data) };
-
+				console.log(listName);
 				setNestedProperty(newState.data, listName, [
 					...getNestedProperty(newState.data, listName),
 					{
 						...getNestedProperty(
 							initialState.data,
-							`${listName}.0`
+							`${listName.replace(/\.[1-9][0-9]*\./g, ".0.")}.0`
 						),
 					},
 				]);

@@ -17,13 +17,14 @@ import VideoFileField from "./VideoFileField";
 import FormSideSection from "./../common/form/FormSideSection";
 import PosterField from "./PosterField";
 import BackgroundField from "./BackgroundField";
-import SquareImageField from "./squareImageField";
+import SquareImageField from "./SquareImageField";
 import PublishFields from "./PublishFields";
 import Gallery from "./Gallery";
 import Arcs from "./Arcs";
 import { connect } from "react-redux";
+import showFormActions from "./../../actions/ShowFormActions";
 
-const ShowForm = ({ showType, data }) => {
+const ShowForm = ({ showType, data, onSubmit }) => {
 	const showTypeText = upperFirst(showType),
 		isMovie = showType === "movie",
 		isAnime = showType === "anime",
@@ -35,7 +36,13 @@ const ShowForm = ({ showType, data }) => {
 				name={`New ${showTypeText}`}
 				faClass="fas fa-plus fa-sm"
 			/>
-			<form method="POST">
+			<form
+				method="POST"
+				onSubmit={(e) => {
+					e.preventDefault();
+					onSubmit(showType, data);
+				}}
+			>
 				<div id="main-side">
 					<FormSection header={`${showTypeText} Information`}>
 						<div className="row">
@@ -45,6 +52,7 @@ const ShowForm = ({ showType, data }) => {
 									label={`${showTypeText} Name`}
 									type="text"
 									placeholder="e.g. The Pirates Of The Caribbean"
+									required
 								/>
 							</div>
 							<div className="col-3-1">
@@ -60,6 +68,7 @@ const ShowForm = ({ showType, data }) => {
 										})
 									)}
 									multiple
+									required
 								/>
 							</div>
 						</div>
@@ -75,6 +84,7 @@ const ShowForm = ({ showType, data }) => {
 											placeholder="e.g. 2020"
 											dateType="year"
 											autoComplete="off"
+											required
 										/>
 									</div>
 									<div className="col-3">
@@ -84,6 +94,7 @@ const ShowForm = ({ showType, data }) => {
 											type="number"
 											placeholder="e.g. 9"
 											style={{ width: 85 }}
+											required
 											htmlAfterField={
 												<span className="appendix">
 													of 10
@@ -146,9 +157,9 @@ const ShowForm = ({ showType, data }) => {
 											}
 										>
 											<FormField
+												name="show.status"
 												label="Airing Status"
 												type="select"
-												defaultValue="a"
 												options={getShowStatus()}
 												required
 											/>
@@ -174,7 +185,7 @@ const ShowForm = ({ showType, data }) => {
 											type="select"
 											defaultValue="N/A"
 											options={[
-												{ label: "N/A", value: "N/A" },
+												{ label: "N/A", value: "n/a" },
 												...getAnimeStudios(),
 											]}
 											tags
@@ -325,7 +336,14 @@ const ShowForm = ({ showType, data }) => {
 								faClass="far fa-file-video"
 								id="video-files"
 							>
-								<VideoFileField />
+								{data.video_files.map((video_file, i) => (
+									<VideoFileField
+										key={i}
+										videoNo={i}
+										formName="show"
+									/>
+								))}
+
 								<AddMoreBtn
 									label="Add More Videos"
 									formName="show"
@@ -430,4 +448,6 @@ const ShowForm = ({ showType, data }) => {
 	);
 };
 
-export default connect((state) => state.forms.show)(ShowForm);
+export default connect((state) => state.forms.show, {
+	onSubmit: showFormActions.onFormSubmit,
+})(ShowForm);

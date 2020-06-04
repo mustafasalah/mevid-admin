@@ -1,0 +1,7 @@
+.Toastify__toast {
+	padding: 10px;
+	font-family: nunito, serif;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}

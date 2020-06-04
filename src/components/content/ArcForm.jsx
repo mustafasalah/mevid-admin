@@ -1,12 +1,13 @@
 import React from "react";
 import FormField from "../common/form/FormField";
 
-const ArcForm = () => {
+const ArcForm = ({ data, onSubmit }) => {
 	return (
 		<div className="row radius">
 			<div className="col-5-1">
 				<FormField
 					label="Arc No."
+					name="show.arcs.form.no"
 					type="number"
 					min="1"
 					placeholder="e.g. 01"
@@ -18,6 +19,7 @@ const ArcForm = () => {
 					<div className="col-5-4">
 						<FormField
 							label="Arc Name"
+							name="show.arcs.form.name"
 							type="text"
 							placeholder="e.g. Greed Island"
 						/>
@@ -26,9 +28,9 @@ const ArcForm = () => {
 						<button
 							type="button"
 							className="dark-btn radius-3 more-btn focus-shadow"
+							onClick={onSubmit}
 						>
-							{" "}
-							Add Arc
+							{data.id === "" ? " Add" : " Update"}
 						</button>
 					</div>
 				</div>

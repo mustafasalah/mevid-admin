@@ -2,8 +2,9 @@ import React from "react";
 import { Fragment } from "react";
 import FormField from "./../common/form/FormField";
 import getAuthors from "./../services/fakeAuthorsServices";
+import propTypes from "prop-types";
 
-const PublishFields = ({ form }) => {
+const PublishFields = ({ form, extraFields }) => {
 	return (
 		<Fragment>
 			<div className="row">
@@ -68,6 +69,10 @@ const PublishFields = ({ form }) => {
 			</button>
 		</Fragment>
 	);
+};
+
+PublishFields.propTypes = {
+	extraFields: propTypes.arrayOf(propTypes.elementType(FormField));
 };
 
 export default PublishFields;

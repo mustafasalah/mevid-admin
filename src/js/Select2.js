@@ -6,6 +6,7 @@ import "select2/dist/css/select2.min.css";
 class Select2 extends Component {
 	componentDidMount() {
 		this.$el = $(this.el);
+		this.$el.val(this.props.value);
 		this.$el.select2(this.props.options);
 
 		this.handleChange = this.handleChange.bind(this);

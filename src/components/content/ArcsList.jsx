@@ -6,9 +6,11 @@ const ArcsList = ({ arcs }) => {
 		<div className="row radius">
 			<div className="col-1">
 				<ol id="arcs-list">
-					{arcs.map((arc) => (
-						<ArcsListItem arc={arc} />
-					))}
+					{arcs
+						.sort((a, b) => b.no - a.no)
+						.map((arc) => (
+							<ArcsListItem key={arc.id} arc={arc} />
+						))}
 				</ol>
 			</div>
 		</div>

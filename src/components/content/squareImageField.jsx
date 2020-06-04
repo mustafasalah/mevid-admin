@@ -1,5 +1,5 @@
 import React from "react";
-import FormField from "./../common/form/FormField";
+import FormField from "../common/form/FormField";
 
 const SquareImageField = () => {
 	return (

@@ -2,15 +2,17 @@ import React, { Fragment } from "react";
 import FormField from "../common/form/FormField";
 import { getRawTypes, getAudioType } from "./../services/fakeShowsInfoServices";
 
-const VideoFileInfo = ({ videoFileNo = 0 }) => {
+const VideoFileInfo = ({ videoNo, formName }) => {
+	const fieldNamePrefix = `${formName}.video_files.${videoNo}`;
+
 	return (
 		<Fragment>
 			<div className="row">
 				<div className="col-4">
 					<FormField
 						label="Raw Type"
+						name={`${fieldNamePrefix}.raw_type`}
 						type="select"
-						defaultValue="blu-ray"
 						options={getRawTypes()}
 						required
 					/>
@@ -18,8 +20,8 @@ const VideoFileInfo = ({ videoFileNo = 0 }) => {
 				<div className="col-4">
 					<FormField
 						label="Resolution"
+						name={`${fieldNamePrefix}.resolution`}
 						type="select"
-						defaultValue="1080"
 						options={[
 							{ label: "2160P", value: "2160" },
 							{ label: "1440P", value: "1440" },
@@ -35,6 +37,7 @@ const VideoFileInfo = ({ videoFileNo = 0 }) => {
 				<div className="col-4">
 					<FormField
 						label="Size"
+						name={`${fieldNamePrefix}.size`}
 						type="text"
 						placeholder="e.g. 1.9GB"
 					/>
@@ -42,8 +45,8 @@ const VideoFileInfo = ({ videoFileNo = 0 }) => {
 				<div className="col-4">
 					<FormField
 						label="Audio"
+						name={`${fieldNamePrefix}.audio`}
 						type="select"
-						defaultValue="AAC"
 						options={getAudioType()}
 					/>
 				</div>
@@ -53,6 +56,7 @@ const VideoFileInfo = ({ videoFileNo = 0 }) => {
 				<div className="col-3">
 					<FormField
 						label="Language"
+						name={`${fieldNamePrefix}.language`}
 						type="text"
 						placeholder="default: English"
 					/>
@@ -60,6 +64,7 @@ const VideoFileInfo = ({ videoFileNo = 0 }) => {
 				<div className="col-3">
 					<FormField
 						label="Subtitle"
+						name={`${fieldNamePrefix}.subtitle`}
 						type="text"
 						placeholder="default: none"
 					/>
@@ -67,6 +72,7 @@ const VideoFileInfo = ({ videoFileNo = 0 }) => {
 				<div className="col-3">
 					<FormField
 						label="Translater"
+						name={`${fieldNamePrefix}.translater`}
 						type="text"
 						placeholder="default: none"
 					/>

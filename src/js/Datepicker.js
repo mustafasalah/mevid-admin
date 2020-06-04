@@ -29,7 +29,9 @@ const runDatepicker = (input, datetype, onChange) => {
 			$("input[datetype='date-to']").datepicker("setStartDate", e.date);
 		}
 		// trigger change event
-		onChange({ currentTarget: this });
+		window.setTimeout(() => {
+			onChange({ currentTarget: this });
+		}, 0);
 	});
 
 	$input.datepicker(options);

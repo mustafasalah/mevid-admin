@@ -1,12 +1,15 @@
 import React, { Fragment } from "react";
 import FormField from "../common/form/FormField";
 
-const VideoFileDownload = ({ isUpload = false }) => {
+const VideoFileDownload = ({ isUpload, formName, videoNo, serverNo }) => {
+	const fieldNamePrefix = `${formName}.video_files.${videoNo}.download_servers.${serverNo}`;
+
 	return (
 		<div className="row">
 			<div className="col-4-1">
 				<FormField
 					label="Server Name"
+					name={`${fieldNamePrefix}.name`}
 					type="text"
 					placeholder="e.g. MEVid Server"
 				/>
@@ -37,6 +40,7 @@ const VideoFileDownload = ({ isUpload = false }) => {
 				) : (
 					<FormField
 						className="url"
+						name={`${fieldNamePrefix}.link`}
 						label="Download Link"
 						type="url"
 						placeholder="e.g. https://drive.google.com/file/d/XXXXXXXXXXXXXXXXXXX/XXXXXXXXX"

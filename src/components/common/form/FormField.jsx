@@ -16,6 +16,7 @@ const FormField = ({
 	unwrappedField,
 	dateType,
 	onFieldChanged,
+	onFormSubmit,
 	forms,
 	...props
 }) => {
