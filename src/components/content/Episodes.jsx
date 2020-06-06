@@ -97,7 +97,7 @@ class Episodes extends AbstractTablePage {
 
 	filtersData = {
 		category: ["tv show", "anime"],
-		author: getAuthors(),
+		author: getAuthors().map((author) => author.name),
 		status: ["published", "drafted"],
 	};
 

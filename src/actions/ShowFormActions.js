@@ -13,6 +13,7 @@ import {
 
 const schema = {
 	name: joi.string().required().empty(""),
+	another_name: joi.string().empty(""),
 	genres: joi.array().min(1).required(),
 	release_year: joi.number().integer().min(1800).required(),
 	score: joi.number().integer().min(1).max(10).required(),
@@ -22,7 +23,7 @@ const schema = {
 		.required(),
 	duration: joi
 		.string()
-		.pattern(/^\s*\d+\s?min(ute)?s?(\s+\d+\s?hours?)?\s*$/i)
+		.pattern(/^\s*\d+\s?min(ute)?s?(\s+\d+\s?hours?)?\s*$/)
 		.empty(""),
 	season_no: joi.number().integer().min(1).empty(""),
 	episodes_no: joi.number().integer().min(1).empty(""),
@@ -50,15 +51,16 @@ const schema = {
 		.empty("")
 		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
 	story: joi.string().required(),
-	imdb_url: joi.string().uri().empty(""),
-	mal_url: joi.string().uri().empty(""),
+	imdb_link: joi.string().uri().empty(""),
+	mal_link: joi.string().uri().empty(""),
 	poster: joi.string().uri().required(),
 	background: joi.string().uri().required(),
 	square_image: joi.string().uri().empty(""),
 	trailer_url: joi.string().uri().empty(""),
 	tags: joi.array(),
 	publish_status: joi.allow("0", "1").required(),
-	author: joi.string().empty("").required(),
+	reviews_enabled: joi.allow("0", "1").required(),
+	author: joi.number().integer().positive().required(),
 	keywords: joi.string().max(500).empty(""),
 	description: joi.string().max(255).empty(""),
 	arcs: joi.object(),

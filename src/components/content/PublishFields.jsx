@@ -26,10 +26,9 @@ const PublishFields = ({ form, extraFields }) => {
 						label="Author"
 						name={`${form}.author`}
 						type="select"
-						defaultValue="mustafa_salah"
 						options={getAuthors().map((author) => ({
-							label: author,
-							value: author,
+							label: author.name,
+							value: author.id,
 						}))}
 					/>
 				</div>
@@ -59,6 +58,13 @@ const PublishFields = ({ form, extraFields }) => {
 						}
 					/>
 				</div>
+
+				{extraFields &&
+					extraFields.map((field, i) => (
+						<div key={i} className="col-1">
+							{field}
+						</div>
+					))}
 			</div>
 
 			<button type="submit" className="primary-btn focus-shadow radius">
@@ -69,10 +75,6 @@ const PublishFields = ({ form, extraFields }) => {
 			</button>
 		</Fragment>
 	);
-};
-
-PublishFields.propTypes = {
-	extraFields: propTypes.arrayOf(propTypes.elementType(FormField));
 };
 
 export default PublishFields;

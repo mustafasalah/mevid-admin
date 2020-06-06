@@ -258,7 +258,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 							) : (
 								<div className="col-2">
 									<FormField
-										name="show.imdb_url"
+										name="show.imdb_link"
 										className="url"
 										label="IMDB Link"
 										type="url"
@@ -282,7 +282,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 							<div className="row">
 								<div className="col-2">
 									<FormField
-										name="show.imdb_url"
+										name="show.imdb_link"
 										className="url"
 										label="IMDB Link"
 										type="url"
@@ -291,7 +291,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 								</div>
 								<div className="col-2">
 									<FormField
-										name="show.mal_url"
+										name="show.mal_link"
 										className="url"
 										label="MyAnimeList Link"
 										type="url"
@@ -440,7 +440,20 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 					</FormSideSection>
 
 					<FormSideSection label="Publish" id="publish">
-						<PublishFields form="show" />
+						<PublishFields
+							form="show"
+							extraFields={[
+								<FormField
+									type="select"
+									label="Reviews"
+									name="show.reviews_enabled"
+									options={[
+										{ label: "Enable", value: 1 },
+										{ label: "Disable", value: 0 },
+									]}
+								/>,
+							]}
+						/>
 					</FormSideSection>
 				</div>
 			</form>

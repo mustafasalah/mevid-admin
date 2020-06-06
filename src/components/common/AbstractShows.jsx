@@ -56,7 +56,7 @@ class AbstractShows extends AbstractTablePage {
 
 	filtersData = {
 		genres: getGenres(this.constructor.name.toLowerCase()),
-		author: getAuthors(),
+		author: getAuthors().map((author) => author.name),
 		status: ["published", "drafted"],
 	};
 
