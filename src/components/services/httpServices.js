@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost/api/shows/";
+axios.defaults.baseURL = "http://localhost/api";
 axios.defaults.contentType = "text/plain";
 axios.interceptors.response.use(
 	(config) => {

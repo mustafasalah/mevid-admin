@@ -1,7 +1,11 @@
 export function deepCopy(inObject) {
 	let outObject, value, key;
 
-	if (typeof inObject !== "object" || inObject === null) {
+	if (
+		inObject === null ||
+		typeof inObject !== "object" ||
+		inObject instanceof File
+	) {
 		return inObject; // Return the value if inObject is not an object
 	}
 

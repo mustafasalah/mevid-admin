@@ -12,17 +12,19 @@ const PosterField = () => {
 			</div>
 			<div className="col-5-3">
 				<div className="show-image-uploader">
-					<input type="file" id="show-poster" name="show-poster" />
-					<label
-						htmlFor="show-poster"
-						className="primary-btn upload-btn radius focus-shadow"
-					>
-						Upload
-					</label>
+					<FormField
+						type="file"
+						name="show.poster.file"
+						label="Upload"
+						labelClass="primary-btn upload-btn radius focus-shadow"
+						accept="image/*"
+						unwrappedField
+						labelAfter
+					/>
 					<span>OR</span>
 					<FormField
 						type="url"
-						name="show.poster"
+						name="show.poster.url"
 						label=""
 						placeholder="Poster Image Url here..."
 						unwrappedField

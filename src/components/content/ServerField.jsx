@@ -27,9 +27,9 @@ const ServerField = ({ serverNo, formName }) => {
 										htmlAfterField={
 											<FormField
 												label=" "
+												name={`${formName}.watching_servers.0.files.${res}`}
 												labelClass="primary-btn upload-btn focus-shadow radius-3"
 												type="file"
-												accept="video/*"
 												unwrappedField
 											/>
 										}

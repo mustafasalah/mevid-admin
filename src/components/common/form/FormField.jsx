@@ -18,14 +18,15 @@ const FormField = ({
 	onFieldChanged,
 	onFormSubmit,
 	forms,
+	labelAfter,
 	...props
 }) => {
 	const fieldName = label.replace(" ", "-").toLowerCase() + "-field-" + name;
-	const isControlled = name !== "" ? true : undefined;
+	const isControlled = name !== "" && type !== "file" ? true : undefined;
 
 	let formName, formField;
 
-	if (isControlled) {
+	if (name !== "") {
 		const index = name.indexOf(".");
 		formName = name.slice(0, index);
 		formField = name.slice(index + 1);
@@ -112,12 +113,23 @@ const FormField = ({
 						}
 						type={type}
 						className={className}
-						required={required}
 						datetype={className === "date" ? dateType : ""}
 						onChange={
-							isControlled &&
-							(({ currentTarget: input }) =>
-								onFieldChanged(formField, input.value))
+							(isControlled || type === "file"
+								? true
+								: undefined) &&
+							(({ currentTarget: input }) => {
+								if (type !== "file") {
+									onFieldChanged(formField, input.value);
+								} else {
+									onFieldChanged(
+										formField,
+										props.multiple
+											? input.files
+											: input.files[0]
+									);
+								}
+							})
 						}
 						{...props}
 					/>
@@ -125,17 +137,20 @@ const FormField = ({
 		}
 	};
 
+	const renderLabel = () => (
+		<label
+			htmlFor={fieldName}
+			className={(required ? "required " : "") + labelClass}
+		>
+			{label}
+		</label>
+	);
+
 	const renderContent = () => (
 		<Fragment>
-			{label !== "" && (
-				<label
-					htmlFor={fieldName}
-					className={(required ? "required " : "") + labelClass}
-				>
-					{label}
-				</label>
-			)}
+			{label !== "" && !labelAfter && renderLabel()}
 			{renderField()}
+			{label !== "" && labelAfter && renderLabel()}
 			{htmlAfterField}
 		</Fragment>
 	);
@@ -158,6 +173,7 @@ FormField.defaultProps = {
 	htmlAfterField: "",
 	unwrappedField: false,
 	name: "",
+	labelAfter: false,
 };
 
 export default connect(

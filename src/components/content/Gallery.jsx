@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 
-const Gallery = () => {
-	const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+const Gallery = ({ onChange }) => {
+	const onDrop = useCallback((acceptedFiles) => {
+		onChange("gallery", acceptedFiles);
+	}, []);
+
+	const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
+		onDrop,
+	});
 
 	const files = acceptedFiles.map((file) => (
 		<li key={file.path}>

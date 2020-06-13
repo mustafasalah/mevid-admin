@@ -30,7 +30,7 @@ const ArcForm = ({ data, onSubmit }) => {
 							className="dark-btn radius-3 more-btn focus-shadow"
 							onClick={onSubmit}
 						>
-							{data.id === "" ? " Add" : " Update"}
+							{data.key === "" ? " Add" : " Update"}
 						</button>
 					</div>
 				</div>

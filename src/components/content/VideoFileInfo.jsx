@@ -71,8 +71,8 @@ const VideoFileInfo = ({ videoNo, formName }) => {
 				</div>
 				<div className="col-3">
 					<FormField
-						label="Translater"
-						name={`${fieldNamePrefix}.translater`}
+						label="Translator"
+						name={`${fieldNamePrefix}.translator`}
 						type="text"
 						placeholder="default: none"
 					/>

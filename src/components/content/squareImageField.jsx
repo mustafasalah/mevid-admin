@@ -12,21 +12,19 @@ const SquareImageField = () => {
 			</div>
 			<div className="col-5-3">
 				<div className="show-image-uploader">
-					<input
+					<FormField
 						type="file"
-						id="show-square-image"
-						name="show-square-image"
+						name="show.square_image.file"
+						label="Upload"
+						labelClass="primary-btn upload-btn radius focus-shadow"
+						accept="image/*"
+						unwrappedField
+						labelAfter
 					/>
-					<label
-						htmlFor="show-square-image"
-						className="primary-btn upload-btn radius focus-shadow"
-					>
-						Upload
-					</label>
 					<span>OR</span>
 					<FormField
 						type="url"
-						name="show.square_image"
+						name="show.square_image.url"
 						label=""
 						placeholder="Square Image Url here..."
 						unwrappedField

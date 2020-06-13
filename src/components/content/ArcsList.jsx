@@ -8,8 +8,8 @@ const ArcsList = ({ arcs }) => {
 				<ol id="arcs-list">
 					{arcs
 						.sort((a, b) => b.no - a.no)
-						.map((arc) => (
-							<ArcsListItem key={arc.id} arc={arc} />
+						.map((arc, i) => (
+							<ArcsListItem key={i} arc={arc} />
 						))}
 				</ol>
 			</div>

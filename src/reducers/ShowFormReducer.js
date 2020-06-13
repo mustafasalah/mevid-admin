@@ -15,10 +15,10 @@ const initialState = {
 		rate: "nr",
 		duration: "",
 		season_no: "",
-		episodes_no: "",
+		episodes: "",
 		status: "a",
-		source_type: "manga",
-		studios: "n/a",
+		source: "manga",
+		studio: "n/a",
 		related_shows: [],
 		release_date: "",
 		aired_from: "",
@@ -26,26 +26,28 @@ const initialState = {
 		story: "",
 		imdb_link: "",
 		mal_link: "",
-		poster: "",
-		background: "",
-		square_image: "",
-		trailer_url: "",
+		poster: { url: "", file: null },
+		background: { url: "", file: null },
+		square_image: { url: "", file: null },
+		trailer_link: "",
 		tags: [],
 		publish_status: 1,
 		reviews_enabled: 1,
-		author: "mustafa_salah",
+		author: 23,
 		keywords: "",
 		description: "",
+		gallery: [],
 		arcs: {
 			form: {
 				id: "",
+				key: "",
 				no: "",
 				name: "",
 			},
 			list: [],
 		},
 		watching_servers: [
-			{ name: "", code: "" },
+			{ name: "", files: {} },
 			{ name: "", code: "" },
 		],
 		video_files: [
@@ -56,7 +58,7 @@ const initialState = {
 				audio: "AAC",
 				language: "",
 				subtitle: "",
-				translater: "",
+				translator: "",
 				download_servers: [
 					{ name: "", link: "" },
 					{ name: "", link: "" },
@@ -76,7 +78,7 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 			return state;
 
 		case ACTIONS.DELETE_ARC:
-			const { arc_id } = payload;
+			const { key } = payload;
 
 			// Get a Copy of the state
 			newState = {
@@ -86,7 +88,7 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 
 			// Delete Arc from Arcs List
 			newState.data.arcs.list = newState.data.arcs.list.filter(
-				(arc) => arc.id !== arc_id
+				(arc) => arc.key !== key
 			);
 
 			return newState;
@@ -101,16 +103,16 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 			};
 
 			// Reset Arc Form Fields
-			newState.data.arcs.form = { id: "", no: "", name: "" };
+			newState.data.arcs.form = { id: "", key: "", no: "", name: "" };
 
-			if (data.id === "") {
+			if (data.key === "") {
 				// Add Arc Logic
-				data.id = Math.round(Math.random() * 100);
+				data.key = newState.data.arcs.list.length;
 				newState.data.arcs.list = [...state.data.arcs.list, data];
 			} else {
 				// Update Arc Logic
 				newState.data.arcs.list = state.data.arcs.list.map((arc) => {
-					if (arc.id === data.id) return data;
+					if (arc.key === data.key) return data;
 					return arc;
 				});
 			}
@@ -138,7 +140,6 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 			const { formName, listName } = payload;
 			if (formName === "show") {
 				newState = { errors: state.errors, data: deepCopy(state.data) };
-				console.log(listName);
 				setNestedProperty(newState.data, listName, [
 					...getNestedProperty(newState.data, listName),
 					{

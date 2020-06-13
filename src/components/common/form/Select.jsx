@@ -14,6 +14,7 @@ const Select = ({ options, placeholder, tags, ...props }) => {
 			options={{
 				placeholder,
 				tags,
+				minimumResultsForSearch: 7,
 			}}
 		></Select2>
 	);

@@ -24,7 +24,7 @@ import Arcs from "./Arcs";
 import { connect } from "react-redux";
 import showFormActions from "./../../actions/ShowFormActions";
 
-const ShowForm = ({ showType, data, onSubmit }) => {
+const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 	const showTypeText = upperFirst(showType),
 		isMovie = showType === "movie",
 		isAnime = showType === "anime",
@@ -72,46 +72,15 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 								/>
 							</div>
 						</div>
+
 						<div className="row">
 							<div className="col-3-2">
-								<div className="row">
-									<div className="col-3">
-										<FormField
-											name="show.release_year"
-											className="date"
-											label="Release Year"
-											type="number"
-											placeholder="e.g. 2020"
-											dateType="year"
-											autoComplete="off"
-											required
-										/>
-									</div>
-									<div className="col-3">
-										<FormField
-											name="show.score"
-											label="Score"
-											type="number"
-											placeholder="e.g. 9"
-											style={{ width: 85 }}
-											required
-											htmlAfterField={
-												<span className="appendix">
-													of 10
-												</span>
-											}
-										/>
-									</div>
-									<div className="col-3">
-										<FormField
-											name="show.rate"
-											label="Rate"
-											type="select"
-											defaultValue="nr"
-											options={getRates()}
-										/>
-									</div>
-								</div>
+								<FormField
+									label="Another Name"
+									placeholder="e.g. The name of the show in other language"
+									name="show.another_name"
+									type="text"
+								/>
 							</div>
 							<div className="col-3-1">
 								{isMovie ? (
@@ -133,6 +102,50 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 								)}
 							</div>
 						</div>
+
+						<div className="row">
+							<div className="col-3-2">
+								<div className="row">
+									<div className="col-2">
+										<FormField
+											name="show.release_year"
+											className="date"
+											label="Release Year"
+											type="number"
+											placeholder="e.g. 2020"
+											dateType="year"
+											autoComplete="off"
+											required
+										/>
+									</div>
+									<div className="col-2">
+										<FormField
+											name="show.score"
+											label="Score"
+											type="number"
+											placeholder="e.g. 9"
+											style={{ width: 110 }}
+											required
+											htmlAfterField={
+												<span className="appendix">
+													of 10
+												</span>
+											}
+										/>
+									</div>
+								</div>
+							</div>
+
+							<div className="col-3-1">
+								<FormField
+									name="show.rate"
+									label="Rate"
+									type="select"
+									defaultValue="nr"
+									options={getRates()}
+								/>
+							</div>
+						</div>
 						{!isMovie && (
 							<div className="row">
 								<div className="col-3-2">
@@ -143,7 +156,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 											}
 										>
 											<FormField
-												name="show.episodes_no"
+												name="show.episodes"
 												label="Episodes No"
 												type="number"
 												placeholder="e.g. 12"
@@ -167,7 +180,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 										{isAnime && (
 											<div className="col-3">
 												<FormField
-													name="show.source_type"
+													name="show.source"
 													label="Source Type"
 													type="select"
 													defaultValue="manga"
@@ -180,7 +193,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 								<div className="col-3-1">
 									{isAnime ? (
 										<FormField
-											name="show.studios"
+											name="show.studio"
 											label="Studios"
 											type="select"
 											defaultValue="N/A"
@@ -196,6 +209,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 											className="date"
 											label="Release Date"
 											type="text"
+											dateType="date"
 											autoComplete="off"
 										/>
 									)}
@@ -222,6 +236,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 								<div className="col-3-1">
 									<FormField
 										name="show.release_date"
+										dateType="date"
 										className="date"
 										label="Release Date"
 										type="text"
@@ -307,7 +322,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 						faClass="far fa-images"
 						id="gallery"
 					>
-						<Gallery />
+						<Gallery onChange={onChange} />
 					</FormSection>
 
 					{isMovie && (
@@ -393,7 +408,7 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 							<div className="col-1">
 								<FormField
 									type="url"
-									name="show.trailer_url"
+									name="show.trailer_link"
 									placeholder="Enter YouTube Trailer Link here..."
 									unwrappedField
 									htmlAfterField={
@@ -417,13 +432,16 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 									options={[
 										{
 											label: "Best Anime 2016",
-											value: "1",
+											value: "Best Anime 2016",
 										},
 										{
 											label: "Summer Anime 2018",
-											value: "2",
+											value: "Summer Anime 2018",
 										},
-										{ label: "HBO Shows", value: "3" },
+										{
+											label: "HBO Shows",
+											value: "HBO Shows",
+										},
 									]}
 									multiple
 									tags
@@ -463,4 +481,5 @@ const ShowForm = ({ showType, data, onSubmit }) => {
 
 export default connect((state) => state.forms.show, {
 	onSubmit: showFormActions.onFormSubmit,
+	onChange: showFormActions.onFieldChanged,
 })(ShowForm);
