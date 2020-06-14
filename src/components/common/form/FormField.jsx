@@ -151,7 +151,9 @@ const FormField = ({
 			{label !== "" && !labelAfter && renderLabel()}
 			{renderField()}
 			{label !== "" && labelAfter && renderLabel()}
-			{htmlAfterField}
+			{typeof htmlAfterField === "function"
+				? htmlAfterField(fieldName)
+				: htmlAfterField}
 		</Fragment>
 	);
 

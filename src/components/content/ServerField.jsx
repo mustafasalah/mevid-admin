@@ -15,7 +15,7 @@ const ServerField = ({ serverNo, formName }) => {
 			<div className="col-5-3">
 				{serverNo === 0 ? (
 					<div className="row">
-						{["1440P", "1080P", "720P", "480P", "360P", "240P"].map(
+						{["2160P", "1080P", "720P", "480P", "360P", "240P"].map(
 							(res) => (
 								<div key={res} className="col-3">
 									<FormField

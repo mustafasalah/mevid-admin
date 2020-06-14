@@ -47,7 +47,7 @@ const initialState = {
 			list: [],
 		},
 		watching_servers: [
-			{ name: "", files: {} },
+			{ name: "", files: null },
 			{ name: "", code: "" },
 		],
 		video_files: [
@@ -60,7 +60,7 @@ const initialState = {
 				subtitle: "",
 				translator: "",
 				download_servers: [
-					{ name: "", link: "" },
+					{ name: "", file: null },
 					{ name: "", link: "" },
 				],
 			},
@@ -75,6 +75,38 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 	switch (type) {
 		case ACTIONS.SUBMIT_FORM:
 			const { error } = payload;
+			if (error) {
+				newState = deepCopy(state);
+				const fieldName = error.details[0].context.key;
+				if (fieldName in newState.data) {
+					newState["errors"][fieldName] = error.details[0];
+				}
+				return newState;
+			}
+			return state;
+
+		case ACTIONS.FORM_ADD:
+			const { error: fieldError, fieldName, fieldValue } = payload;
+			newState = deepCopy(state);
+			newState["errors"][fieldName] = fieldError && fieldError.details[0];
+			setNestedProperty(newState.data, fieldName, fieldValue);
+			return newState;
+
+		case ACTIONS.FORM_ADD_ITEM_LIST:
+			const { formName, listName } = payload;
+			if (formName === "show") {
+				newState = { errors: state.errors, data: deepCopy(state.data) };
+				setNestedProperty(newState.data, listName, [
+					...getNestedProperty(newState.data, listName),
+					{
+						...getNestedProperty(
+							initialState.data,
+							`${listName.replace(/\.[1-9][0-9]*\./g, ".0.")}.0`
+						),
+					},
+				]);
+				return newState;
+			}
 			return state;
 
 		case ACTIONS.DELETE_ARC:
@@ -128,30 +160,6 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 					arcs: { ...state.data.arcs, form: arc_data },
 				},
 			};
-
-		case ACTIONS.FORM_ADD:
-			const { error: fieldError, fieldName, fieldValue } = payload;
-			newState = deepCopy(state);
-			newState["errors"][fieldName] = fieldError && fieldError.details[0];
-			setNestedProperty(newState.data, fieldName, fieldValue);
-			return newState;
-
-		case ACTIONS.FORM_ADD_ITEM_LIST:
-			const { formName, listName } = payload;
-			if (formName === "show") {
-				newState = { errors: state.errors, data: deepCopy(state.data) };
-				setNestedProperty(newState.data, listName, [
-					...getNestedProperty(newState.data, listName),
-					{
-						...getNestedProperty(
-							initialState.data,
-							`${listName.replace(/\.[1-9][0-9]*\./g, ".0.")}.0`
-						),
-					},
-				]);
-				return newState;
-			}
-			return state;
 
 		default:
 			return state;

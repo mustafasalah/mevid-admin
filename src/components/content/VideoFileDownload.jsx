@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import FormField from "../common/form/FormField";
 
 const VideoFileDownload = ({ isUpload, formName, videoNo, serverNo }) => {
@@ -19,23 +19,15 @@ const VideoFileDownload = ({ isUpload, formName, videoNo, serverNo }) => {
 					<FormField
 						label="Upload Video"
 						type="file"
-						htmlAfterField={
-							<Fragment>
-								<label
-									htmlFor="upload-video-1"
-									className="primary-btn upload-btn radius-3 focus-shadow"
-								>
-									Upload
-								</label>
-								<a
-									href="#"
-									className="delete-link"
-									style={{ display: "none" }}
-								>
-									Delete Video
-								</a>
-							</Fragment>
-						}
+						name={`${fieldNamePrefix}.file`}
+						htmlAfterField={(id) => (
+							<label
+								htmlFor={id}
+								className="primary-btn upload-btn radius-3 focus-shadow"
+							>
+								Upload
+							</label>
+						)}
 					/>
 				) : (
 					<FormField

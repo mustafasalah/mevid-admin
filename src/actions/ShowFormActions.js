@@ -12,11 +12,23 @@ import {
 } from "../components/services/fakeShowsInfoServices";
 
 const schema = {
-	name: joi.string().required().empty(""),
+	name: joi.string().required().empty("").label("Show Name"),
 	another_name: joi.string().empty(""),
-	genres: joi.array().min(1).required(),
-	release_year: joi.number().integer().min(1800).required(),
-	score: joi.number().integer().min(1).max(10).required(),
+	genres: joi.array().min(1).required().label("Genres"),
+	release_year: joi
+		.number()
+		.integer()
+		.min(1800)
+		.required()
+		.label("Release Year"),
+	score: joi
+		.number()
+		.integer()
+		.min(1)
+		.max(10)
+		.empty("")
+		.required()
+		.label("Score"),
 	rate: joi
 		.any()
 		.allow(...getRates().map((rate) => rate.value))
@@ -24,9 +36,10 @@ const schema = {
 	duration: joi
 		.string()
 		.pattern(/^\s*\d+\s?min(ute)?s?(\s+\d+\s?hours?)?\s*$/)
-		.empty(""),
-	season_no: joi.number().integer().min(1).empty(""),
-	episodes: joi.number().integer().min(1).empty(""),
+		.empty("")
+		.label("Duration"),
+	season_no: joi.number().integer().min(1).empty("").label("Season No"),
+	episodes: joi.number().integer().min(1).empty("").label("Episodes No"),
 	status: joi
 		.any()
 		.allow(...getShowStatus().map((status) => status.value))
@@ -53,21 +66,22 @@ const schema = {
 	mal_link: joi.string().uri().empty(""),
 	poster: joi
 		.object({
-			url: joi.string().uri().empty(""),
-			file: joi.object().empty(null),
+			url: joi.string().uri().empty("").label("Image Url"),
+			file: joi.object().empty(null).label("Image File"),
 		})
-		.xor("url", "file"),
+		.xor("url", "file")
+		.label("Show Poster"),
 	background: joi
 		.object({
-			url: joi.string().uri().empty(""),
-			file: joi.object().empty(null),
+			url: joi.string().uri().empty("").label("Image Url"),
+			file: joi.object().empty(null).label("Image File"),
 		})
 		.xor("url", "file"),
 	square_image: joi.object({
-		url: joi.string().uri().empty(""),
-		file: joi.object().empty(null),
+		url: joi.string().uri().empty("").label("Image Url"),
+		file: joi.object().empty(null).label("Image File"),
 	}),
-	trailer_link: joi.string().uri().empty(""),
+	trailer_link: joi.string().uri().empty("").label("Trailer Link"),
 	tags: joi.array(),
 	publish_status: joi.allow("0", "1").required(),
 	reviews_enabled: joi.allow("0", "1").required(),
@@ -81,7 +95,7 @@ const schema = {
 			.object({
 				name: joi.string().empty(""),
 				code: joi.string().empty(""),
-				files: joi.object(),
+				files: joi.object().empty(null),
 			})
 			.with("code", "name")
 			.with("files", "name")
@@ -98,11 +112,17 @@ const schema = {
 			download_servers: joi.array().items(
 				joi
 					.object({
-						name: joi.string().empty(""),
-						link: joi.string().uri().empty(""),
+						name: joi.string().empty("").label("Server Name"),
+						link: joi
+							.string()
+							.uri()
+							.empty("")
+							.label("Download Link"),
+						file: joi.object().empty(null).label("Video File"),
 					})
 					.empty({})
-					.and("name", "link")
+					.with("link", "name")
+					.with("file", "name")
 			),
 		})
 	),
@@ -153,17 +173,30 @@ const handleGalleryUpload = ({ show_id, name }, images) => {
 	http.post(`/shows/upload/${show_id}`, formData);
 };
 
-const handleWatchingVideoUpload = ({ show_id, name }, videos) => {
+const handleVideoUpload = ({ show_id, name }, video) => {
 	const formData = new FormData();
 
 	formData.append("show_name", name);
-	formData.append("server_name", videos.name);
 
-	for (let res in videos.files) {
-		formData.append(res, videos.files[res]);
+	if ("download_servers" in video) {
+		const { name: serverName, file: videoFile } = video.download_servers[0];
+
+		formData.append(
+			"video_info",
+			JSON.stringify(video, (key, value) =>
+				key === "download_servers" ? undefined : value
+			)
+		);
+		formData.append("server_name", serverName);
+		formData.append("video_file", videoFile);
+	} else {
+		formData.append("server_name", video.name);
+		for (let res in video.files) {
+			formData.append(res, video.files[res]);
+		}
 	}
 
-	http.post(`/shows/upload/watching-videos/${show_id}`, formData);
+	http.post(`/shows/upload/videos/${show_id}`, formData);
 };
 
 const showFormActions = {
@@ -173,19 +206,27 @@ const showFormActions = {
 		if (!error) {
 			http.post(`/shows/${showType}/`, value)
 				.then((res) => {
-					toast.success("the data have been saved!");
+					toast.success("The show information have been saved!");
 
+					// handle poster, background and square images upload process
 					handleFileUpload(res.data, value);
 
+					// handle gallery images upload process
 					if (value.gallery.length) {
 						handleGalleryUpload(res.data, value.gallery);
 					}
 
-					if (Object.keys(value.watching_servers[0].files)) {
-						handleWatchingVideoUpload(
-							res.data,
-							value.watching_servers[0]
-						);
+					// handle watching videos upload process
+					if ("files" in value.watching_servers[0]) {
+						handleVideoUpload(res.data, value.watching_servers[0]);
+					}
+
+					// handle download videos upload process
+					for (let video_file of value.video_files) {
+						if (!("file" in video_file.download_servers[0]))
+							continue;
+
+						handleVideoUpload(res.data, video_file);
 					}
 
 					return { type: ACTIONS.SUBMIT_FORM, error: null };
@@ -200,11 +241,12 @@ const showFormActions = {
 				});
 		} else {
 			// alert validation error
-			toast.error(error.toString());
+			toast.error(error.message);
 		}
 
-		return { type: ACTIONS.SUBMIT_FORM };
+		return { type: ACTIONS.SUBMIT_FORM, error };
 	},
+
 	onFieldChanged: (fieldName, fieldValue) => {
 		let value, error;
 

@@ -9,6 +9,7 @@ const VideoFileField = ({ videoNo, formName, forms }) => {
 		<div className="row radius">
 			<div className="col-1">
 				<VideoFileInfo videoNo={videoNo} formName={formName} />
+
 				{forms[formName].data.video_files[videoNo].download_servers.map(
 					(server, i) => (
 						<VideoFileDownload
@@ -20,6 +21,7 @@ const VideoFileField = ({ videoNo, formName, forms }) => {
 						/>
 					)
 				)}
+
 				<AddMoreBtn
 					label="More Links"
 					formName={formName}
