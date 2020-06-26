@@ -1,7 +1,7 @@
 import React from "react";
 import FormField from "../common/form/FormField";
 
-const ServerField = ({ serverNo, formName }) => {
+const ServerField = ({ serverNo, formName, value, handleDelete }) => {
 	return (
 		<div className="row">
 			<div className="col-5-2">
@@ -25,13 +25,27 @@ const ServerField = ({ serverNo, formName }) => {
 										placeholder="e.g. MEVid Server"
 										disabled
 										htmlAfterField={
-											<FormField
-												label=" "
-												name={`${formName}.watching_servers.0.files.${res}`}
-												labelClass="primary-btn upload-btn focus-shadow radius-3"
-												type="file"
-												unwrappedField
-											/>
+											value.files[res] ? (
+												<button
+													type="button"
+													className="primary-btn upload-btn delete-btn focus-shadow radius-3"
+													onClick={() => {
+														const reply = window.confirm(
+															"Are you sure you want to delete the video file?"
+														);
+														reply &&
+															handleDelete(res);
+													}}
+												></button>
+											) : (
+												<FormField
+													label=" "
+													name={`${formName}.watching_servers.0.files.${res}`}
+													labelClass="primary-btn upload-btn focus-shadow radius-3"
+													type="file"
+													unwrappedField
+												/>
+											)
 										}
 									/>
 								</div>

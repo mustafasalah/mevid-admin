@@ -44,22 +44,9 @@ const Content = () => {
 				<Route path="/reviews" component={Reviews} />
 				<Route path="/comments" component={Comments} />
 
-				<Route
-					path="/shows/edit/:id"
-					children={(props) => <ShowForm showType="movie" />}
-				/>
-				<Route
-					path="/shows/anime/add"
-					children={(props) => <ShowForm showType="anime" />}
-				/>
-				<Route
-					path="/shows/tv-shows/add"
-					children={(props) => <ShowForm showType="tvshow" />}
-				/>
-				<Route
-					path="/shows/movies/add"
-					children={(props) => <ShowForm showType="movie" />}
-				/>
+				<Route path="/shows/:type/add" component={ShowForm} />
+				<Route path="/shows/:type/:id" component={ShowForm} />
+
 				<Route path="/shows/tv-shows" component={TVShows} />
 				<Route path="/shows/anime" component={Animes} />
 				<Route path="/shows/movies" component={Movies} />

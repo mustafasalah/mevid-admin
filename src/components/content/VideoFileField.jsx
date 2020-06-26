@@ -3,8 +3,14 @@ import VideoFileInfo from "./VideoFileInfo";
 import VideoFileDownload from "./VideoFileDownload";
 import AddMoreBtn from "./AddMoreBtn";
 import { connect } from "react-redux";
+import showFormActions from "./../../actions/ShowFormActions";
 
-const VideoFileField = ({ videoNo, formName, forms }) => {
+const VideoFileField = ({
+	videoNo,
+	formName,
+	forms,
+	handleVideoFileDelete,
+}) => {
 	return (
 		<div className="row radius">
 			<div className="col-1">
@@ -18,6 +24,8 @@ const VideoFileField = ({ videoNo, formName, forms }) => {
 							serverNo={i}
 							videoNo={videoNo}
 							isUpload={i === 0}
+							videoFile={server.file || undefined}
+							onVideoFileDelete={handleVideoFileDelete}
 						/>
 					)
 				)}
@@ -32,6 +40,11 @@ const VideoFileField = ({ videoNo, formName, forms }) => {
 	);
 };
 
-export default connect((state) => ({
-	forms: state.forms,
-}))(VideoFileField);
+export default connect(
+	(state) => ({
+		forms: state.forms,
+	}),
+	{
+		handleVideoFileDelete: showFormActions.onVideoFileDelete,
+	}
+)(VideoFileField);

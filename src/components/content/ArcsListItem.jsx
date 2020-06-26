@@ -3,7 +3,7 @@ import * as ACTIONS from "../../actions/ActionTypes";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-const ArcsListItem = ({ arcKey, arc, dispatch }) => {
+const ArcsListItem = ({ arc, dispatch }) => {
 	const { id, key, no, name } = arc;
 
 	return (
@@ -14,10 +14,11 @@ const ArcsListItem = ({ arcKey, arc, dispatch }) => {
 			</div>
 			<ul className="arc-actions">
 				<li>
-					<Link
-						to={`arc-{arcNo}/edit`}
+					<a
+						href="#edit-arc"
 						className="edit"
-						onClick={() => {
+						onClick={(e) => {
+							e.preventDefault();
 							dispatch({
 								type: ACTIONS.EDIT_ARC,
 								arc_data: {
@@ -31,12 +32,13 @@ const ArcsListItem = ({ arcKey, arc, dispatch }) => {
 					>
 						{" "}
 						edit
-					</Link>
+					</a>
 
-					<Link
-						to={`arc-{arcNo}/delete`}
+					<a
+						href="#delete-arc"
 						className="delete"
-						onClick={() => {
+						onClick={(e) => {
+							e.preventDefault();
 							dispatch({
 								type: ACTIONS.DELETE_ARC,
 								arc_id: id,
@@ -46,7 +48,7 @@ const ArcsListItem = ({ arcKey, arc, dispatch }) => {
 					>
 						{" "}
 						delete
-					</Link>
+					</a>
 				</li>
 			</ul>
 		</li>

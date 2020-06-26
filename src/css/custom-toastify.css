@@ -5,3 +5,10 @@
 	-moz-border-radius: 3px;
 	border-radius: 3px;
 }
+
+.Toastify__progress-bar--default {
+	-webkit-box-shadow: rgba(0, 0, 0, 0.16) 0 0 10px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.16) 0 0 10px;
+	box-shadow: rgba(0, 0, 0, 0.16) 0 0 10px;
+	background: #d90429;
+}

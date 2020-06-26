@@ -38,7 +38,7 @@ export function range(first, last) {
 export function getNestedProperty(object, property) {
 	property = property.split(".");
 	return property.reduce((obj, prop) => {
-		return obj[prop];
+		return obj[prop] === undefined ? "" : obj[prop];
 	}, object);
 }
 

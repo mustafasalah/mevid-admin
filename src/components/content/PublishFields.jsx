@@ -2,7 +2,6 @@ import React from "react";
 import { Fragment } from "react";
 import FormField from "./../common/form/FormField";
 import getAuthors from "./../services/fakeAuthorsServices";
-import propTypes from "prop-types";
 
 const PublishFields = ({ form, extraFields }) => {
 	return (
@@ -11,7 +10,7 @@ const PublishFields = ({ form, extraFields }) => {
 				<div className="col-3-1">
 					<FormField
 						label="Status"
-						name={`${form}.publish_status`}
+						name={`${form}.published`}
 						type="select"
 						defaultValue="publish"
 						options={[
@@ -69,9 +68,6 @@ const PublishFields = ({ form, extraFields }) => {
 
 			<button type="submit" className="primary-btn focus-shadow radius">
 				Publish
-			</button>
-			<button type="submit" className="dark-btn focus-shadow radius">
-				Save Draft
 			</button>
 		</Fragment>
 	);

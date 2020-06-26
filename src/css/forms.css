@@ -252,7 +252,7 @@
 }
 
 .widget.form label.switch-btn {
-	-webkit-display: inline-flex;
+	display: -webkit-inline-flex;
 	display: inline-flex;
 	align-items: center;
 	width: 65px;
@@ -608,6 +608,13 @@
 	width: 70px;
 }
 
+#watching .delete-btn,
+#watching .upload-btn {
+	width: 37px;
+	height: 35px;
+	text-align: center;
+}
+
 #watching .upload-btn {
 	float: right;
 	margin: 0;
@@ -616,6 +623,10 @@
 
 #watching .upload-btn::before {
 	margin: 0;
+}
+
+#watching .delete-btn::before {
+	font-size: 13px;
 }
 
 #watching .row + .row {
@@ -643,16 +654,26 @@
 	border-top: 2px solid #eee;
 }
 
-#video-files .delete-link {
-	position: relative;
-	bottom: 16px;
-	left: 15px;
+#video-files .upload-btn,
+#video-files .delete-btn {
+	height: 35px;
+	margin: 1.5px 0;
 }
 
-#video-files .delete-link::before {
-	content: "\f2ed";
-	font: 1em "Font Awesome 5 Free";
+#video-files .delete-btn::before {
 	margin-right: 5px;
+}
+
+#video-files .video-file-name {
+	font: bold 12px "nunito", serif;
+	display: inline-block;
+	margin-left: 10px;
+	background-color: #eee;
+	vertical-align: middle;
+	padding: 7px 10px;
+	max-width: -webkit-calc(100% - 133px);
+	max-width: -moz-calc(100% - 133px);
+	max-width: calc(100% - 133px);
 }
 
 /*===========================
@@ -751,19 +772,28 @@ ol#arcs-list .arc-actions a.delete::before {
 	display: block;
 	background-color: #fff;
 	background-position: center;
-	background-size: contain;
+	background-size: cover;
 	background-repeat: no-repeat;
 	position: relative;
 }
 
+#end-side p.note {
+	font: bold 12px "nunito", serif;
+	background-color: #eee;
+	padding: 7px 10px;
+	word-wrap: break-word;
+	text-align: center;
+	margin-top: 15px;
+}
+
 #end-side .show-image-uploader {
-	height: 100%;
 	display: -webkit-flex;
 	display: flex;
 	flex-flow: column;
 	align-items: center;
 	justify-content: space-around;
 	justify-content: space-evenly;
+	margin-top: 15px;
 }
 
 #end-side .show-image-uploader span {
@@ -801,7 +831,6 @@ ol#arcs-list .arc-actions a.delete::before {
 
 #show-background-widget .show-image-uploader {
 	margin: 25px 40px 0;
-	height: 120px;
 	justify-content: space-between;
 }
 
@@ -936,6 +965,70 @@ ol#arcs-list .arc-actions a.delete::before {
 	color: #8d99ae;
 	font-style: italic;
 	font-size: 0.9em;
+}
+
+#gallery-images-conatiner {
+	background-color: #f9f9f9;
+	margin-bottom: 25px;
+	overflow: hidden;
+	padding: 20px 25px;
+}
+
+#gallery-images-conatiner h4 {
+	margin-bottom: 15px;
+}
+
+#gallery-images {
+	overflow-x: scroll;
+	display: -webkit-flex;
+	display: flex;
+	background-color: transparent;
+	padding-bottom: 15px;
+}
+
+#gallery-images .image-wrapper {
+	position: relative;
+	min-width: 200px;
+	width: 200px;
+}
+
+#gallery-images .image-wrapper .delete-btn {
+	position: absolute;
+	top: -50px;
+	right: 10px;
+	padding: 5px 10px;
+	visibility: hidden;
+	transition: top 0.5s;
+	z-index: 2;
+}
+
+#gallery-images .image-wrapper:hover .delete-btn {
+	visibility: visible;
+	top: 10px;
+}
+
+#gallery-images .image-wrapper .delete-btn::before {
+	font-size: 10px;
+}
+
+#gallery-images .image-wrapper:hover::before {
+	content: "";
+	background-color: rgba(0, 0, 0, 0.25);
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 1;
+}
+
+#gallery-images .image-wrapper img {
+	display: block;
+	width: 100%;
+}
+
+#gallery-images .image-wrapper:not(:last-child) {
+	margin-right: 10px;
 }
 
 /*------------ Custom Page Editor Theme -------------*/

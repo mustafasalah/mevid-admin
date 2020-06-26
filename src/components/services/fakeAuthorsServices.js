@@ -1,9 +1,8 @@
-const authors = [
-	{ name: "mustafa_salah", id: 23 },
-	{ name: "aliosman", id: 2 },
-	{ name: "mohamed_mosa", id: 3 },
-];
+import store from "./../../store";
 
 export default function getAuthors() {
-	return authors;
+	return store
+		.getState()
+		.users.filter((user) => user.role !== "user")
+		.map((user) => ({ id: user.id, name: user.username }));
 }

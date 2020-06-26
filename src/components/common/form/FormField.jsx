@@ -182,5 +182,8 @@ export default connect(
 	(state) => ({
 		forms: state.forms,
 	}),
-	showFormActions
+	{
+		onFieldChanged: showFormActions.onFieldChanged,
+		onFormSubmit: showFormActions.onFormSubmit,
+	}
 )(FormField);

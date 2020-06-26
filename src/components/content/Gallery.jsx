@@ -1,7 +1,8 @@
 import React, { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
+import GalleryImages from "./GalleryImages";
 
-const Gallery = ({ onChange }) => {
+const Gallery = ({ gallery, showName, onChange }) => {
 	const onDrop = useCallback((acceptedFiles) => {
 		onChange("gallery", acceptedFiles);
 	}, []);
@@ -18,6 +19,10 @@ const Gallery = ({ onChange }) => {
 
 	return (
 		<section>
+			<GalleryImages
+				showName={showName}
+				images={gallery.filter((img) => img.url)}
+			/>
 			<div
 				{...getRootProps({
 					className: "dropzone gallery-dropzone radius",

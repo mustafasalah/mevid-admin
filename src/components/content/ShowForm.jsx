@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import SectionHeader from "../common/SectionHeader";
 import { upperFirst } from "./../../js/Utility";
 import FormSection from "../common/form/FormSection";
@@ -23,33 +24,95 @@ import Gallery from "./Gallery";
 import Arcs from "./Arcs";
 import { connect } from "react-redux";
 import showFormActions from "./../../actions/ShowFormActions";
+import { getShowData } from "../services/fakeShowDataService";
+import { toast } from "react-toastify";
 
-const ShowForm = ({ showType, data, onSubmit, onChange }) => {
-	const showTypeText = upperFirst(showType),
-		isMovie = showType === "movie",
-		isAnime = showType === "anime",
-		isTVShow = showType === "tvshow";
+const mapShowTypes = new Map([
+	["movies", "movie"],
+	["anime", "anime"],
+	["tv-shows", "tvshow"],
+	["movie", "movies"],
+	["tvshow", "tv-shows"],
+]);
+
+const mapShowTypeToLabel = new Map([
+	["movies", "Movie"],
+	["anime", "Anime"],
+	["tv-shows", "TV Show"],
+]);
+
+const ShowForm = ({
+	shows,
+	data,
+	onSubmit,
+	onChange,
+	onTypeChange,
+	onWatchVideoFileDelete,
+	onShowImageDelete,
+	onShowDataLoad,
+}) => {
+	const history = useHistory();
+	const params = useParams();
+	const showType = mapShowTypeToLabel.get(params.type);
+	const showId = params.id && Number(params.id);
+
+	if (
+		showType === undefined ||
+		(typeof showId === "number" && !Number.isInteger(showId))
+	) {
+		history.replace("/");
+	}
+
+	const isMovie = showType === "Movie",
+		isAnime = showType === "Anime",
+		isTVShow = showType === "TV Show";
+
+	useEffect(() => {
+		const currentShowType = mapShowTypes.get(params.type);
+		if (data.type !== currentShowType) onTypeChange(currentShowType);
+	}, [params.type]);
+
+	useEffect(() => {
+		(async () => {
+			if (showId === undefined) return;
+			try {
+				const showData = await getShowData(showId);
+				onShowDataLoad(showData);
+				if (showData.type !== mapShowTypes.get(params.type)) {
+					history.replace(
+						`/shows/${mapShowTypes.get(showData.type)}/${showId}`
+					);
+				}
+			} catch (ex) {
+				console.log(ex);
+				// toast.error("There is no show with this id: " + showId, {
+				// 	autoClose: 2500,
+				// 	onClose: () => history.goBack(),
+				// });
+			}
+		})();
+	}, []);
 
 	return (
 		<Fragment>
 			<SectionHeader
-				name={`New ${showTypeText}`}
+				name={`New ${showType}`}
 				faClass="fas fa-plus fa-sm"
 			/>
 			<form
 				method="POST"
 				onSubmit={(e) => {
 					e.preventDefault();
-					onSubmit(showType, data);
+					onSubmit(data);
 				}}
 			>
 				<div id="main-side">
-					<FormSection header={`${showTypeText} Information`}>
+					<FormSection header={`${showType} Information`}>
 						<div className="row">
 							<div className="col-3-2">
 								<FormField
 									name="show.name"
-									label={`${showTypeText} Name`}
+									label={`${showType} Name`}
 									type="text"
 									placeholder="e.g. The Pirates Of The Caribbean"
 									required
@@ -89,11 +152,11 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 										className="time"
 										label="Duration"
 										type="text"
-										placeholder="XXmin or XXmin XXhours"
+										placeholder="XX hours XX min or XX min"
 									/>
 								) : (
 									<FormField
-										name="show.season_no"
+										name="show.season"
 										label="Season No."
 										type="number"
 										min="1"
@@ -161,7 +224,6 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 												type="number"
 												placeholder="e.g. 12"
 												min="0"
-												required
 											/>
 										</div>
 										<div
@@ -174,7 +236,6 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 												label="Airing Status"
 												type="select"
 												options={getShowStatus()}
-												required
 											/>
 										</div>
 										{isAnime && (
@@ -224,7 +285,7 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 									label="Related Shows"
 									type="select"
 									placeholder="Enter Related Shows..."
-									options={getShows().map((show) => ({
+									options={shows.map((show) => ({
 										label: show.name,
 										value: show.id,
 									}))}
@@ -322,7 +383,11 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 						faClass="far fa-images"
 						id="gallery"
 					>
-						<Gallery onChange={onChange} />
+						<Gallery
+							gallery={data.gallery}
+							showName={data.name}
+							onChange={onChange}
+						/>
 					</FormSection>
 
 					{isMovie && (
@@ -337,6 +402,8 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 										key={i}
 										serverNo={i}
 										formName="show"
+										handleDelete={onWatchVideoFileDelete}
+										value={server}
 									/>
 								))}
 								<AddMoreBtn
@@ -385,7 +452,7 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 						id="show-poster-widget"
 						required
 					>
-						<PosterField />
+						<PosterField posterFile={data.poster} />
 					</FormSideSection>
 
 					<FormSideSection
@@ -393,14 +460,17 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 						id="show-background-widget"
 						required
 					>
-						<BackgroundField />
+						<BackgroundField backgroundFile={data.background} />
 					</FormSideSection>
 
 					<FormSideSection
 						label="Square Image"
 						id="show-square-image-widget"
 					>
-						<SquareImageField />
+						<SquareImageField
+							onDelete={onShowImageDelete}
+							squareImageFile={data.square_image}
+						/>
 					</FormSideSection>
 
 					<FormSideSection label="Trailer Link" id="trailer-link">
@@ -479,7 +549,14 @@ const ShowForm = ({ showType, data, onSubmit, onChange }) => {
 	);
 };
 
-export default connect((state) => state.forms.show, {
-	onSubmit: showFormActions.onFormSubmit,
-	onChange: showFormActions.onFieldChanged,
-})(ShowForm);
+export default connect(
+	(state) => ({ ...state.forms.show, shows: state.shows }),
+	{
+		onSubmit: showFormActions.onFormSubmit,
+		onChange: showFormActions.onFieldChanged,
+		onTypeChange: showFormActions.onFormTypeChange,
+		onWatchVideoFileDelete: showFormActions.onWatchVideoFileDelete,
+		onShowImageDelete: showFormActions.onShowImageDelete,
+		onShowDataLoad: showFormActions.onShowDataLoad,
+	}
+)(ShowForm);

@@ -1,163 +1,41 @@
+import React from "react";
 import * as ACTIONS from "./ActionTypes";
 import joi from "@hapi/joi";
 import { toast } from "react-toastify";
 import http from "./../components/services/httpServices";
-import {
-	getRates,
-	getShowStatus,
-	getAnimeSource,
-	getAnimeStudios,
-	getAudioType,
-	getRawTypes,
-} from "../components/services/fakeShowsInfoServices";
+import { schema, nestedSchema } from "./ValidationSchema";
 
-const schema = {
-	name: joi.string().required().empty("").label("Show Name"),
-	another_name: joi.string().empty(""),
-	genres: joi.array().min(1).required().label("Genres"),
-	release_year: joi
-		.number()
-		.integer()
-		.min(1800)
-		.required()
-		.label("Release Year"),
-	score: joi
-		.number()
-		.integer()
-		.min(1)
-		.max(10)
-		.empty("")
-		.required()
-		.label("Score"),
-	rate: joi
-		.any()
-		.allow(...getRates().map((rate) => rate.value))
-		.required(),
-	duration: joi
-		.string()
-		.pattern(/^\s*\d+\s?min(ute)?s?(\s+\d+\s?hours?)?\s*$/)
-		.empty("")
-		.label("Duration"),
-	season_no: joi.number().integer().min(1).empty("").label("Season No"),
-	episodes: joi.number().integer().min(1).empty("").label("Episodes No"),
-	status: joi
-		.any()
-		.allow(...getShowStatus().map((status) => status.value))
-		.required(),
-	source: joi.any().allow(...getAnimeSource().map((source) => source.value)),
-	studio: joi
-		.any()
-		.allow("n/a", ...getAnimeStudios().map((studio) => studio.value)),
-	related_shows: joi.array().items(joi.string()),
-	release_date: joi
-		.string()
-		.empty("")
-		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
-	aired_from: joi
-		.string()
-		.empty("")
-		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
-	aired_to: joi
-		.string()
-		.empty("")
-		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
-	story: joi.string().required(),
-	imdb_link: joi.string().uri().empty(""),
-	mal_link: joi.string().uri().empty(""),
-	poster: joi
-		.object({
-			url: joi.string().uri().empty("").label("Image Url"),
-			file: joi.object().empty(null).label("Image File"),
-		})
-		.xor("url", "file")
-		.label("Show Poster"),
-	background: joi
-		.object({
-			url: joi.string().uri().empty("").label("Image Url"),
-			file: joi.object().empty(null).label("Image File"),
-		})
-		.xor("url", "file"),
-	square_image: joi.object({
-		url: joi.string().uri().empty("").label("Image Url"),
-		file: joi.object().empty(null).label("Image File"),
-	}),
-	trailer_link: joi.string().uri().empty("").label("Trailer Link"),
-	tags: joi.array(),
-	publish_status: joi.allow("0", "1").required(),
-	reviews_enabled: joi.allow("0", "1").required(),
-	author: joi.number().integer().positive().required(),
-	keywords: joi.string().max(500).empty(""),
-	description: joi.string().max(255).empty(""),
-	gallery: joi.array(),
-	arcs: joi.object(),
-	watching_servers: joi.array().items(
-		joi
-			.object({
-				name: joi.string().empty(""),
-				code: joi.string().empty(""),
-				files: joi.object().empty(null),
-			})
-			.with("code", "name")
-			.with("files", "name")
-	),
-	video_files: joi.array().items(
-		joi.object({
-			raw_type: joi.allow(...getRawTypes().map((raw) => raw.value)),
-			resolution: joi.number().integer().positive(),
-			size: joi.string().empty(""),
-			audio: joi.allow(...getAudioType().map((audio) => audio.value)),
-			language: joi.string().empty("").default("English"),
-			subtitle: joi.string().empty(""),
-			translator: joi.string().empty(""),
-			download_servers: joi.array().items(
-				joi
-					.object({
-						name: joi.string().empty("").label("Server Name"),
-						link: joi
-							.string()
-							.uri()
-							.empty("")
-							.label("Download Link"),
-						file: joi.object().empty(null).label("Video File"),
-					})
-					.empty({})
-					.with("link", "name")
-					.with("file", "name")
-			),
-		})
-	),
-};
+const handleProgressUpload = (uploadMsg) => {
+	let toastId = React.createRef();
 
-const nestedSchema = {
-	poster_url: joi.string().uri().empty(""),
-	background_url: joi.string().uri().empty(""),
-	square_image_url: joi.string().uri().empty(""),
-	watching_servers_name: joi.string(),
-	watching_servers_code: joi.string(),
-	video_files_raw_type: joi.string(),
-	video_files_resolution: joi.number().integer().positive(),
-	video_files_size: joi.string().empty(""),
-	video_files_audio: joi.allow(...getAudioType().map((audio) => audio.value)),
-	video_files_language: joi.string().empty(""),
-	video_files_subtitle: joi.string().empty(""),
-	video_files_translator: joi.string().empty(""),
-	video_files_download_servers_name: joi.string(),
-	video_files_download_servers_link: joi.string().uri(),
-	arcs_form_no: joi.number().integer().positive().min(1),
-	arcs_form_name: joi.string().empty(""),
+	return {
+		toastId,
+		onUploadProgress: (p) => {
+			const progress = p.loaded / p.total;
+
+			// check if we already displayed a toast
+			if (toastId.current === null) {
+				toastId.current = toast(uploadMsg || "Upload in Progress", {
+					progress: progress,
+				});
+			} else {
+				toast.update(toastId.current, {
+					progress: progress,
+				});
+			}
+		},
+	};
 };
 
 const handleFileUpload = ({ show_id, name }, value) => {
 	const formData = new FormData();
 	formData.append("show_name", name);
 
-	value.poster.file && formData.append("poster_image", value.poster.file);
+	value.poster && formData.append("poster_image", value.poster);
 
-	value.background.file &&
-		formData.append("background_image", value.background.file);
+	value.background && formData.append("background_image", value.background);
 
-	value.square_image.file &&
-		formData.append("square_image", value.square_image.file);
+	value.square_image && formData.append("square_image", value.square_image);
 
 	http.post(`/shows/upload/${show_id}`, formData);
 };
@@ -170,41 +48,76 @@ const handleGalleryUpload = ({ show_id, name }, images) => {
 		formData.append("gallery_images[]", image);
 	}
 
-	http.post(`/shows/upload/${show_id}`, formData);
+	const { onUploadProgress, toastId } = handleProgressUpload(
+		"Uploading gallery images..."
+	);
+
+	http.post(`/shows/upload/${show_id}`, formData, {
+		onUploadProgress,
+	}).then(() => {
+		if (toastId.current) {
+			toast.done(toastId.current);
+		} else {
+			setTimeout(() => toast.done(toastId.current), 100);
+		}
+	});
 };
 
-const handleVideoUpload = ({ show_id, name }, video) => {
+const handleVideosFilesUpload = ({ show_id, name }, videosFiles) => {
 	const formData = new FormData();
+	let fileUploadFound = false;
 
 	formData.append("show_name", name);
 
-	if ("download_servers" in video) {
-		const { name: serverName, file: videoFile } = video.download_servers[0];
-
-		formData.append(
-			"video_info",
-			JSON.stringify(video, (key, value) =>
-				key === "download_servers" ? undefined : value
-			)
-		);
-		formData.append("server_name", serverName);
-		formData.append("video_file", videoFile);
-	} else {
-		formData.append("server_name", video.name);
-		for (let res in video.files) {
-			formData.append(res, video.files[res]);
+	for (let videoFile of videosFiles) {
+		formData.append("videos_info[]", JSON.stringify(videoFile));
+		if ("file" in videoFile.download_servers[0]) {
+			fileUploadFound = true;
+			formData.append(
+				"videos_files[]",
+				videoFile.download_servers[0].file
+			);
 		}
 	}
 
-	http.post(`/shows/upload/videos/${show_id}`, formData);
+	if (fileUploadFound) {
+		const { onUploadProgress, toastId } = handleProgressUpload(
+			"Uploading video files..."
+		);
+
+		http.post(`/shows/upload/videos/${show_id}`, formData, {
+			onUploadProgress,
+		}).then(() => toast.done(toastId.current));
+	} else {
+		http.post(`/shows/upload/videos/${show_id}`, formData);
+	}
+};
+
+const handleWatchingVideoUpload = ({ show_id, name }, video) => {
+	const formData = new FormData();
+
+	formData.append("show_name", name);
+	formData.append("server_name", video.name);
+
+	for (let res in video.files) {
+		formData.append(res, video.files[res]);
+	}
+
+	const { onUploadProgress, toastId } = handleProgressUpload(
+		"Uploading watch video files..."
+	);
+
+	http.post(`/shows/upload/watching-videos/${show_id}`, formData, {
+		onUploadProgress,
+	}).then(() => toast.done(toastId.current));
 };
 
 const showFormActions = {
-	onFormSubmit: (showType, data) => {
+	onFormSubmit: (data) => {
 		const { value, error } = joi.object(schema).validate(data);
 
 		if (!error) {
-			http.post(`/shows/${showType}/`, value)
+			http.post(`/shows/`, value)
 				.then((res) => {
 					toast.success("The show information have been saved!");
 
@@ -218,16 +131,14 @@ const showFormActions = {
 
 					// handle watching videos upload process
 					if ("files" in value.watching_servers[0]) {
-						handleVideoUpload(res.data, value.watching_servers[0]);
+						handleWatchingVideoUpload(
+							res.data,
+							value.watching_servers[0]
+						);
 					}
 
 					// handle download videos upload process
-					for (let video_file of value.video_files) {
-						if (!("file" in video_file.download_servers[0]))
-							continue;
-
-						handleVideoUpload(res.data, video_file);
-					}
+					handleVideosFilesUpload(res.data, value.video_files);
 
 					return { type: ACTIONS.SUBMIT_FORM, error: null };
 				})
@@ -250,18 +161,63 @@ const showFormActions = {
 	onFieldChanged: (fieldName, fieldValue) => {
 		let value, error;
 
-		if (!(fieldValue instanceof File)) {
+		const validateKey = fieldName
+			.replace(/\d+\.?/g, "")
+			.replace(/\./g, "_");
+
+		if (
+			!(fieldValue instanceof File) &&
+			!validateKey.match(
+				/^(watching_servers|video_files_download_servers_file)/
+			)
+		) {
 			({ value, error } = { ...schema, ...nestedSchema }[
-				fieldName.replace(/\d+\.?/g, "").replace(/\./g, "_")
+				validateKey
 			].validate(fieldValue));
 		} else {
 			value = fieldValue;
 		}
+
 		return {
 			type: ACTIONS.FORM_ADD,
 			fieldName,
 			fieldValue: value === undefined ? "" : value,
 			error,
+		};
+	},
+
+	onFormTypeChange: (showType) => {
+		return {
+			type: ACTIONS.CHANGE_FORM_TYPE,
+			showType: showType,
+		};
+	},
+
+	onWatchVideoFileDelete: (resolution) => {
+		return {
+			type: ACTIONS.DELETE_WATCH_VIDEO_FILE,
+			resolution,
+		};
+	},
+
+	onVideoFileDelete: (videoNo) => {
+		return {
+			type: ACTIONS.DELETE_VIDEO_FILE,
+			videoNo,
+		};
+	},
+
+	onShowImageDelete: (imageField) => {
+		return {
+			type: ACTIONS.DELETE_SHOW_IMAGE,
+			imageField,
+		};
+	},
+
+	onShowDataLoad: (data) => {
+		return {
+			type: ACTIONS.LOAD_SHOW_DATA,
+			data,
 		};
 	},
 };

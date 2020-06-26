@@ -1,16 +1,6 @@
-const users = [
-	{
-		id: 1,
-		profileImage: "/assets/images/slider1.jpg",
-		username: "mustafa_salah",
-		email: "mustafasalah99@gmail.com",
-		name: "Mustafa Salah",
-		role: "adminstrator",
-		status: "active",
-		showsNo: 23,
-	},
-];
+import http from "./httpServices";
 
-export default function getUsers() {
-	return users;
+export default async function getUsers() {
+	const users = await http.get("/users/");
+	return users.data;
 }

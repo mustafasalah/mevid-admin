@@ -4,75 +4,83 @@ import {
 	setNestedProperty,
 	deepCopy,
 } from "./../js/Utility";
-
-const initialState = {
-	data: {
-		name: "",
-		another_name: "",
-		genres: [],
-		release_year: "",
-		score: "",
-		rate: "nr",
-		duration: "",
-		season_no: "",
-		episodes: "",
-		status: "a",
-		source: "manga",
-		studio: "n/a",
-		related_shows: [],
-		release_date: "",
-		aired_from: "",
-		aired_to: "",
-		story: "",
-		imdb_link: "",
-		mal_link: "",
-		poster: { url: "", file: null },
-		background: { url: "", file: null },
-		square_image: { url: "", file: null },
-		trailer_link: "",
-		tags: [],
-		publish_status: 1,
-		reviews_enabled: 1,
-		author: 23,
-		keywords: "",
-		description: "",
-		gallery: [],
-		arcs: {
-			form: {
-				id: "",
-				key: "",
-				no: "",
-				name: "",
-			},
-			list: [],
-		},
-		watching_servers: [
-			{ name: "", files: null },
-			{ name: "", code: "" },
-		],
-		video_files: [
-			{
-				raw_type: "blu-ray",
-				resolution: "1080",
-				size: "",
-				audio: "AAC",
-				language: "",
-				subtitle: "",
-				translator: "",
-				download_servers: [
-					{ name: "", file: null },
-					{ name: "", link: "" },
-				],
-			},
-		],
-	},
-	errors: {},
-};
+import initialState from "./InitialShowState";
 
 const showFormReducer = (state = initialState, { type, ...payload }) => {
 	let newState;
 
 	switch (type) {
+		case ACTIONS.DELETE_GALLERY_IMAGE:
+			return {
+				errors: state.errors,
+				data: {
+					...state.data,
+					gallery: state.data.gallery.filter(
+						(img, i) => i !== payload.imageIndex
+					),
+				},
+			};
+
+		case ACTIONS.LOAD_SHOW_DATA:
+			const showData = { ...initialState.data, ...payload.data };
+
+			if (showData.watching_servers.length === 0) {
+				showData.watching_servers = initialState.data.watching_servers;
+			} else {
+				const haveFilesField = showData.watching_servers.some(
+					(server) => server.files !== undefined
+				);
+
+				const havePlayerField = showData.watching_servers.some(
+					(server) => server.code !== undefined
+				);
+
+				if (!haveFilesField) {
+					showData.watching_servers.unshift(
+						initialState.data.watching_servers[0]
+					);
+				}
+
+				if (!havePlayerField) {
+					showData.watching_servers.push(
+						initialState.data.watching_servers[1]
+					);
+				}
+			}
+
+			if (showData.video_files.length === 0) {
+				showData.video_files = initialState.data.video_files;
+			}
+
+			return {
+				errors: state.errors,
+				data: showData,
+			};
+
+		case ACTIONS.DELETE_SHOW_IMAGE:
+			return {
+				errors: state.errors,
+				data: { ...state.data, [payload.imageField]: "" },
+			};
+
+		case ACTIONS.DELETE_VIDEO_FILE:
+			newState = deepCopy(state);
+			newState.data.video_files[
+				payload.videoNo
+			].download_servers[0].file = null;
+			return newState;
+
+		case ACTIONS.DELETE_WATCH_VIDEO_FILE:
+			newState = deepCopy(state);
+			delete newState.data.watching_servers[0].files[payload.resolution];
+			return newState;
+
+		case ACTIONS.CHANGE_FORM_TYPE:
+			return {
+				errors: { ...initialState.errors },
+				data: { ...initialState.data, type: payload.showType },
+			};
+
 		case ACTIONS.SUBMIT_FORM:
 			const { error } = payload;
 			if (error) {
@@ -86,9 +94,13 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 			return state;
 
 		case ACTIONS.FORM_ADD:
-			const { error: fieldError, fieldName, fieldValue } = payload;
+			let { error: fieldError, fieldName, fieldValue } = payload;
 			newState = deepCopy(state);
 			newState["errors"][fieldName] = fieldError && fieldError.details[0];
+			if (fieldName === "gallery")
+				fieldValue = newState.data.gallery
+					.filter((img) => img.url)
+					.concat(fieldValue);
 			setNestedProperty(newState.data, fieldName, fieldValue);
 			return newState;
 
