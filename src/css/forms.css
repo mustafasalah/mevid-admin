@@ -54,6 +54,29 @@
 	overflow: visible;
 }
 
+.widget.form button.close-btn::before {
+	content: "\f00d";
+	font: bold 14px "Font Awesome 5 Free";
+}
+
+.widget.form button.delete-server-btn {
+	position: absolute;
+	top: 12px;
+	right: 0;
+	cursor: pointer;
+	background-color: #eee;
+	border: none;
+	font-size: 13px;
+	color: #8d99ae;
+	padding: 5px 9px;
+	z-index: 1;
+}
+
+.widget.form button.delete-server-btn:hover {
+	background-color: #ef233c;
+	color: #fff;
+}
+
 .widget.form .widget-content > button {
 	float: right;
 }
@@ -608,7 +631,7 @@
 	width: 70px;
 }
 
-#watching .delete-btn,
+#watching .delete-btn:not(.delete-server-btn),
 #watching .upload-btn {
 	width: 37px;
 	height: 35px;
@@ -625,8 +648,12 @@
 	margin: 0;
 }
 
-#watching .delete-btn::before {
+#watching .delete-btn:not(.delete-server-btn)::before {
 	font-size: 13px;
+}
+
+#watching .row {
+	position: relative;
 }
 
 #watching .row + .row {
@@ -643,6 +670,10 @@
 	background-color: transparent;
 }
 
+#video-files .widget-content .row {
+	position: relative;
+}
+
 #video-files .widget-content > .row {
 	background-color: #f9f9f9;
 	margin-bottom: 25px;
@@ -655,12 +686,12 @@
 }
 
 #video-files .upload-btn,
-#video-files .delete-btn {
+#video-files .file-delete-btn {
 	height: 35px;
 	margin: 1.5px 0;
 }
 
-#video-files .delete-btn::before {
+#video-files .file-delete-btn::before {
 	margin-right: 5px;
 }
 
@@ -674,6 +705,20 @@
 	max-width: -webkit-calc(100% - 133px);
 	max-width: -moz-calc(100% - 133px);
 	max-width: calc(100% - 133px);
+}
+
+#video-files .delete-server-btn {
+	right: 12px;
+}
+
+#video-files .have-delete-btn {
+	padding-right: 45px;
+}
+
+#video-files .delete-link-btn {
+	position: absolute;
+	right: 0;
+	top: 28px;
 }
 
 /*===========================

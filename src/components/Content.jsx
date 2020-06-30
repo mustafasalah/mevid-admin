@@ -44,12 +44,11 @@ const Content = () => {
 				<Route path="/reviews" component={Reviews} />
 				<Route path="/comments" component={Comments} />
 
+				<Route path="/shows/tv-shows" component={TVShows} exact />
+				<Route path="/shows/anime" component={Animes} exact />
+				<Route path="/shows/movies" component={Movies} exact />
 				<Route path="/shows/:type/add" component={ShowForm} />
-				<Route path="/shows/:type/:id" component={ShowForm} />
-
-				<Route path="/shows/tv-shows" component={TVShows} />
-				<Route path="/shows/anime" component={Animes} />
-				<Route path="/shows/movies" component={Movies} />
+				<Route path="/shows/:id" component={ShowForm} />
 				<Route path="/shows" component={Shows} />
 
 				<Route path={"/dashboard"} component={Dashboard} />

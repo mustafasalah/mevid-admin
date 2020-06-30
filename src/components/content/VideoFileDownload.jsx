@@ -7,9 +7,12 @@ const VideoFileDownload = ({
 	videoNo,
 	serverNo,
 	videoFile,
+	server,
 	onVideoFileDelete,
+	onVideoLinkDelete,
 }) => {
 	const fieldNamePrefix = `${formName}.video_files.${videoNo}.download_servers.${serverNo}`;
+	const haveDeleteBtn = server.id && !isUpload;
 
 	return (
 		<div className="row">
@@ -21,7 +24,9 @@ const VideoFileDownload = ({
 					placeholder="e.g. MEVid Server"
 				/>
 			</div>
-			<div className="col-4-3">
+			<div
+				className={`col-4-3${haveDeleteBtn ? " have-delete-btn" : ""}`}
+			>
 				{isUpload ? (
 					<FormField
 						label="Video File"
@@ -33,7 +38,7 @@ const VideoFileDownload = ({
 								<Fragment>
 									<button
 										type="button"
-										className="primary-btn delete-btn radius-3 focus-shadow"
+										className="primary-btn delete-btn file-delete-btn radius-3 focus-shadow"
 										onClick={() => {
 											const reply = window.confirm(
 												"Are you sure you want to delete the video file?"
@@ -71,6 +76,20 @@ const VideoFileDownload = ({
 					/>
 				)}
 			</div>
+			{server.id && !isUpload ? (
+				<button
+					type="button"
+					className="primary-btn delete-btn delete-link-btn focus-shadow radius-3"
+					onClick={() => {
+						const reply = window.confirm(
+							"Are you sure you want to delete this download link?"
+						);
+						reply && onVideoLinkDelete(videoNo, serverNo);
+					}}
+				></button>
+			) : (
+				""
+			)}
 		</div>
 	);
 };

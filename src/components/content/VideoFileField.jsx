@@ -10,9 +10,24 @@ const VideoFileField = ({
 	formName,
 	forms,
 	handleVideoFileDelete,
+	handleVideoInfoDelete,
+	handleVideoLinkDelete,
 }) => {
 	return (
 		<div className="row radius">
+			<button
+				title="Delete this video"
+				type="button"
+				className="close-btn delete-server-btn radius-3"
+				onClick={(e) => {
+					e.preventDefault();
+					const reply = window.confirm(
+						"Are you sure you want to delete this video?"
+					);
+					reply && handleVideoInfoDelete(videoNo);
+				}}
+			></button>
+
 			<div className="col-1">
 				<VideoFileInfo videoNo={videoNo} formName={formName} />
 
@@ -25,7 +40,9 @@ const VideoFileField = ({
 							videoNo={videoNo}
 							isUpload={i === 0}
 							videoFile={server.file || undefined}
+							server={server}
 							onVideoFileDelete={handleVideoFileDelete}
+							onVideoLinkDelete={handleVideoLinkDelete}
 						/>
 					)
 				)}
@@ -46,5 +63,7 @@ export default connect(
 	}),
 	{
 		handleVideoFileDelete: showFormActions.onVideoFileDelete,
+		handleVideoLinkDelete: showFormActions.onVideoLinkDelete,
+		handleVideoInfoDelete: showFormActions.onVideoInfoDelete,
 	}
 )(VideoFileField);

@@ -3,7 +3,7 @@ import { Fragment } from "react";
 import FormField from "./../common/form/FormField";
 import getAuthors from "./../services/fakeAuthorsServices";
 
-const PublishFields = ({ form, extraFields }) => {
+const PublishFields = ({ form, submitLabel = "Publish", extraFields }) => {
 	return (
 		<Fragment>
 			<div className="row">
@@ -67,7 +67,7 @@ const PublishFields = ({ form, extraFields }) => {
 			</div>
 
 			<button type="submit" className="primary-btn focus-shadow radius">
-				Publish
+				{submitLabel}
 			</button>
 		</Fragment>
 	);

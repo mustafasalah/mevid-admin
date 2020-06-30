@@ -91,6 +91,6 @@ const episodes = [
 	},
 ];
 
-export default function getEpisodes() {
+export default async function getEpisodes() {
 	return episodes;
 }

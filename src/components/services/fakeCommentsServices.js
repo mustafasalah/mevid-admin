@@ -44,6 +44,6 @@ const comments = [
 	},
 ];
 
-export default function getComments() {
+export default async function getComments() {
 	return comments;
 }

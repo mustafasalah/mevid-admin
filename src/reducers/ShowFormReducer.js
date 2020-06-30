@@ -4,12 +4,51 @@ import {
 	setNestedProperty,
 	deepCopy,
 } from "./../js/Utility";
-import initialState from "./InitialShowState";
+import initialState, { listItemsDefaults } from "./InitialShowState";
 
 const showFormReducer = (state = initialState, { type, ...payload }) => {
 	let newState;
 
 	switch (type) {
+		case ACTIONS.DELETE_VIDEO_INFO:
+			return {
+				errors: state.errors,
+				data: {
+					...state.data,
+					video_files: state.data.video_files.filter(
+						(video_file, i) => i !== payload.videoInfoNo
+					),
+				},
+			};
+
+		case ACTIONS.DELETE_VIDEO_LINK:
+			return {
+				errors: state.errors,
+				data: {
+					...state.data,
+					video_files: state.data.video_files.map((video_file, i) => {
+						if (i !== payload.videoInfoNo) return video_file;
+						return {
+							...video_file,
+							download_servers: video_file.download_servers.filter(
+								(server, i) => i !== payload.serverNo
+							),
+						};
+					}),
+				},
+			};
+
+		case ACTIONS.DELETE_WATCH_SERVER:
+			return {
+				errors: state.errors,
+				data: {
+					...state.data,
+					watching_servers: state.data.watching_servers.filter(
+						(server, i) => i !== payload.serverNo
+					),
+				},
+			};
+
 		case ACTIONS.DELETE_GALLERY_IMAGE:
 			return {
 				errors: state.errors,
@@ -83,7 +122,7 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 
 		case ACTIONS.SUBMIT_FORM:
 			const { error } = payload;
-			if (error) {
+			if (error && error.details) {
 				newState = deepCopy(state);
 				const fieldName = error.details[0].context.key;
 				if (fieldName in newState.data) {
@@ -106,15 +145,13 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 
 		case ACTIONS.FORM_ADD_ITEM_LIST:
 			const { formName, listName } = payload;
+
 			if (formName === "show") {
 				newState = { errors: state.errors, data: deepCopy(state.data) };
 				setNestedProperty(newState.data, listName, [
 					...getNestedProperty(newState.data, listName),
 					{
-						...getNestedProperty(
-							initialState.data,
-							`${listName.replace(/\.[1-9][0-9]*\./g, ".0.")}.0`
-						),
+						...listItemsDefaults[listName.replace(/\.\d*\./g, ".")],
 					},
 				]);
 				return newState;

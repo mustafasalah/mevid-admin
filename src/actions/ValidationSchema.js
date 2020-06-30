@@ -9,7 +9,7 @@ import {
 } from "../components/services/fakeShowsInfoServices";
 
 export const schema = {
-	id: joi.number().integer().min(1),
+	id: joi.number().integer().min(1).empty(""),
 	type: joi.allow("movie", "anime", "tvshow").empty("").required(),
 	name: joi.string().required().empty("").label("Show Name"),
 	another_name: joi.string().empty(""),
@@ -41,18 +41,9 @@ export const schema = {
 		.any()
 		.allow("n/a", ...getAnimeStudios().map((studio) => studio.value)),
 	related_shows: joi.array().items(joi.string()),
-	release_date: joi
-		.string()
-		.empty("")
-		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
-	aired_from: joi
-		.string()
-		.empty("")
-		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
-	aired_to: joi
-		.string()
-		.empty("")
-		.pattern(/^\s*\d{4}-\d{2}-\d{2}\s*$/),
+	release_date: joi.date().empty("").raw(true),
+	aired_from: joi.date().empty("").raw(true),
+	aired_to: joi.date().empty("").raw(true),
 	story: joi.string().required(),
 	imdb_link: joi.string().uri().empty(""),
 	mal_link: joi.string().uri().empty(""),

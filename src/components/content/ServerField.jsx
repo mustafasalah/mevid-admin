@@ -1,7 +1,13 @@
 import React from "react";
 import FormField from "../common/form/FormField";
 
-const ServerField = ({ serverNo, formName, value, handleDelete }) => {
+const ServerField = ({
+	serverNo,
+	formName,
+	value,
+	handleFileDelete,
+	handlePlayerDelete,
+}) => {
 	return (
 		<div className="row">
 			<div className="col-5-2">
@@ -12,6 +18,7 @@ const ServerField = ({ serverNo, formName, value, handleDelete }) => {
 					placeholder="e.g. MEVid Server"
 				/>
 			</div>
+
 			<div className="col-5-3">
 				{serverNo === 0 ? (
 					<div className="row">
@@ -34,7 +41,9 @@ const ServerField = ({ serverNo, formName, value, handleDelete }) => {
 															"Are you sure you want to delete the video file?"
 														);
 														reply &&
-															handleDelete(res);
+															handleFileDelete(
+																res
+															);
 													}}
 												></button>
 											) : (
@@ -61,6 +70,20 @@ const ServerField = ({ serverNo, formName, value, handleDelete }) => {
 					/>
 				)}
 			</div>
+			{serverNo !== 0 && (
+				<button
+					title="Delete this video player code"
+					type="button"
+					className="close-btn delete-server-btn radius-3"
+					onClick={(e) => {
+						e.preventDefault();
+						const reply = window.confirm(
+							"Are you sure you want to delete this video player code?"
+						);
+						reply && handlePlayerDelete(serverNo);
+					}}
+				></button>
+			)}
 		</div>
 	);
 };

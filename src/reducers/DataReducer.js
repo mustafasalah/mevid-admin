@@ -1,15 +1,24 @@
 import * as ACTIONS from "../actions/ActionTypes";
+import { toast } from "react-toastify";
 
-const dataReducer = (dataType) => (state = [], { type, ...payload }) => {
+const types = ["shows", "episodes", "comments", "reviews", "pages", "users"];
+
+const dataReducer = (dataType) => (state = [], { type, ...rest }) => {
 	if (type === ACTIONS.LOAD_APP_DATA) {
-		return payload.appData[dataType];
-	}
+		const { status, value, reason } = rest.payload[types.indexOf(dataType)];
 
-	if (dataType !== payload.dataType) return state;
+		if (status === "fulfilled") {
+			return value;
+		} else {
+			toast.error(reason.message + " in loading " + dataType + " data");
+			return state;
+		}
+	}
 
 	switch (type) {
 		case ACTIONS.LOAD_DATA:
-			return payload.data;
+			if (dataType !== rest.dataType) return state;
+			return rest.data;
 
 		default:
 			return state;

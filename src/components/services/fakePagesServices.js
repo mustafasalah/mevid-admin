@@ -10,6 +10,6 @@ const pages = [
 	},
 ];
 
-export default function getPages() {
+export default async function getPages() {
 	return pages;
 }

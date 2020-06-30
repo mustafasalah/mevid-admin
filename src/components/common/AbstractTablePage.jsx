@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import ItemsPage from "./../common/ItemsPage";
+import Loader from "./Loader";
 
 class AbstractTablePage extends Component {
 	componentDidMount() {
@@ -53,27 +54,31 @@ class AbstractTablePage extends Component {
 		return (
 			<Fragment>
 				{this.sectionHeader}
-				<ItemsPage
-					onActionApply={onActionApply}
-					onActionChange={onActionChange}
-					onSort={onSort}
-					onItemsSelect={onItemsSelect}
-					onItemSelect={onItemSelect}
-					onPageChange={onPageChange}
-					onItemsPerPageChange={onItemsPerPageChange}
-					onFilter={onFilter}
-					selectedAction={selectedAction}
-					actions={this.actions}
-					selectedItems={selectedItems}
-					tableColumns={this.tableColumns}
-					filtersData={this.filtersData}
-					filters={filters}
-					currentPage={currentPage}
-					itemsPerPage={itemsPerPage}
-					items={items}
-					sortColumn={sortColumn}
-					tableId={this.tableId}
-				/>
+				{items.length === 0 ? (
+					<Loader />
+				) : (
+					<ItemsPage
+						onActionApply={onActionApply}
+						onActionChange={onActionChange}
+						onSort={onSort}
+						onItemsSelect={onItemsSelect}
+						onItemSelect={onItemSelect}
+						onPageChange={onPageChange}
+						onItemsPerPageChange={onItemsPerPageChange}
+						onFilter={onFilter}
+						selectedAction={selectedAction}
+						actions={this.actions}
+						selectedItems={selectedItems}
+						tableColumns={this.tableColumns}
+						filtersData={this.filtersData}
+						filters={filters}
+						currentPage={currentPage}
+						itemsPerPage={itemsPerPage}
+						items={items}
+						sortColumn={sortColumn}
+						tableId={this.tableId}
+					/>
+				)}
 			</Fragment>
 		);
 	}

@@ -13,6 +13,6 @@ const reviews = [
 	},
 ];
 
-export default function getReviews() {
+export default async function getReviews() {
 	return reviews;
 }

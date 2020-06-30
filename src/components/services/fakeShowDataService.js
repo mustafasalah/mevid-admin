@@ -7,7 +7,7 @@
 // 	score: "7",
 // 	rate: "r+",
 // 	duration: "1 hour 45 minutes",
-// 	season_no: "",
+// 	season: "",
 // 	episodes: "",
 // 	status: "a",
 // 	source: "manga",
