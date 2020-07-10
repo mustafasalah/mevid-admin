@@ -2,7 +2,7 @@ import React from "react";
 import FormField from "../common/form/FormField";
 
 const SquareImageField = ({ squareImageFile, onDelete }) => {
-	const squareUrl = squareImageFile.url;
+	const squareUrl = squareImageFile.delete ? "" : squareImageFile.url;
 
 	return (
 		<div className="row">
@@ -21,7 +21,7 @@ const SquareImageField = ({ squareImageFile, onDelete }) => {
 			</div>
 			<div className="col-5-3">
 				<div className="show-image-uploader">
-					{squareImageFile ? (
+					{squareImageFile && !squareImageFile.delete ? (
 						<button
 							type="button"
 							className="primary-btn delete-btn radius-3 focus-shadow"
@@ -47,7 +47,7 @@ const SquareImageField = ({ squareImageFile, onDelete }) => {
 					)}
 				</div>
 				<p className="note radius">
-					{squareImageFile
+					{squareImageFile && !squareImageFile.delete
 						? `${squareImageFile.name} / ${(squareImageFile.size /
 								1e6,
 						  2).toFixed(2)}MB`

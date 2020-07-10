@@ -72,6 +72,8 @@ export const schema = {
 	),
 	video_files: joi.array().items(
 		joi.object({
+			delete: joi.bool().empty(""),
+			id: joi.number().integer().min(1).empty(""),
 			raw_type: joi.allow(...getRawTypes().map((raw) => raw.value)),
 			resolution: joi.number().integer().positive(),
 			size: joi.string().empty(""),
@@ -82,6 +84,7 @@ export const schema = {
 			download_servers: joi.array().items(
 				joi
 					.object({
+						id: joi.number().integer().min(1).empty(""),
 						name: joi.string().empty("").label("Server Name"),
 						link: joi
 							.string()
@@ -89,6 +92,7 @@ export const schema = {
 							.empty("")
 							.label("Download Link"),
 						file: joi.object().empty(null).label("Video File"),
+						delete: joi.bool().empty(""),
 					})
 					.empty({})
 					.with("link", "name")

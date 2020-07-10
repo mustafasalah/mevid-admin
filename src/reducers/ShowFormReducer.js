@@ -15,9 +15,12 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 				errors: state.errors,
 				data: {
 					...state.data,
-					video_files: state.data.video_files.filter(
-						(video_file, i) => i !== payload.videoInfoNo
-					),
+					video_files: state.data.video_files.map((video_file, i) => {
+						if (i === payload.videoInfoNo) {
+							video_file.delete = true;
+						}
+						return video_file;
+					}),
 				},
 			};
 
@@ -30,8 +33,13 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 						if (i !== payload.videoInfoNo) return video_file;
 						return {
 							...video_file,
-							download_servers: video_file.download_servers.filter(
-								(server, i) => i !== payload.serverNo
+							download_servers: video_file.download_servers.map(
+								(server, i) => {
+									if (i === payload.serverNo) {
+										server.delete = true;
+									}
+									return server;
+								}
 							),
 						};
 					}),
@@ -54,9 +62,12 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 				errors: state.errors,
 				data: {
 					...state.data,
-					gallery: state.data.gallery.filter(
-						(img, i) => i !== payload.imageIndex
-					),
+					gallery: state.data.gallery.map((img, i) => {
+						if (i === payload.imageIndex) {
+							img.delete = true;
+						}
+						return img;
+					}),
 				},
 			};
 
@@ -97,9 +108,13 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 			};
 
 		case ACTIONS.DELETE_SHOW_IMAGE:
+			const { imageField } = payload;
+			const deletedImage = state.data[imageField];
+			deletedImage.delete = true;
+
 			return {
 				errors: state.errors,
-				data: { ...state.data, [payload.imageField]: "" },
+				data: { ...state.data, [imageField]: deletedImage },
 			};
 
 		case ACTIONS.DELETE_VIDEO_FILE:
@@ -111,7 +126,9 @@ const showFormReducer = (state = initialState, { type, ...payload }) => {
 
 		case ACTIONS.DELETE_WATCH_VIDEO_FILE:
 			newState = deepCopy(state);
-			delete newState.data.watching_servers[0].files[payload.resolution];
+			newState.data.watching_servers[0].files[
+				payload.resolution
+			].delete = true;
 			return newState;
 
 		case ACTIONS.CHANGE_FORM_TYPE:

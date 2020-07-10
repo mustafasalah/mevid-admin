@@ -11,10 +11,12 @@ class App extends Component {
 		const { onUserLogin, loadAppData } = this.props;
 
 		onUserLogin({
-			id: 1,
-			name: "Mustafa Salah",
-			role: "adminstrator",
-			profileImage: "/assets/images/slider1.jpg",
+			id: 21,
+			profileImage:
+				"http://localhost/media/profile_images/profile_image_21.jpg",
+			username: "mustafa",
+			name: "Mustafa Admin",
+			role: "admin",
 		});
 
 		loadAppData();

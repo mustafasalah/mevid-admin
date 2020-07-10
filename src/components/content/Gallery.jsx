@@ -21,7 +21,7 @@ const Gallery = ({ gallery, showName, onChange }) => {
 		<section>
 			<GalleryImages
 				showName={showName}
-				images={gallery.filter((img) => img.url)}
+				images={gallery.filter((img) => img.url && !img.delete)}
 			/>
 			<div
 				{...getRootProps({

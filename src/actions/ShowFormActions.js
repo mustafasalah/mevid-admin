@@ -31,11 +31,27 @@ const handleFileUpload = async ({ show_id, name }, value) => {
 	const formData = new FormData();
 	formData.append("show_name", name);
 
-	value.poster && formData.append("poster_image", value.poster);
+	if (value.poster) formData.append("poster_image", value.poster);
 
-	value.background && formData.append("background_image", value.background);
+	if (value.background) formData.append("background_image", value.background);
 
-	value.square_image && formData.append("square_image", value.square_image);
+	if (value.square_image) {
+		if (value.square_image instanceof File) {
+			formData.append("square_image", value.square_image);
+		} else {
+			formData.append("deleted_square_image", "true");
+		}
+	}
+
+	return http.post(`/shows/upload/${show_id}`, formData);
+};
+
+const handleGalleryDelete = async ({ show_id }, images) => {
+	const formData = new FormData();
+
+	for (let image of images) {
+		formData.append("deleted_gallery_images[]", image.url);
+	}
 
 	return http.post(`/shows/upload/${show_id}`, formData);
 };
@@ -56,11 +72,7 @@ const handleGalleryUpload = async ({ show_id, name }, images) => {
 		onUploadProgress,
 	});
 
-	if (toastId.current) {
-		toast.done(toastId.current);
-	} else {
-		setTimeout(() => toast.done(toastId.current), 250);
-	}
+	setTimeout(() => toast.done(toastId.current), 250);
 
 	return Promise.resolve();
 };
@@ -72,11 +84,21 @@ const handleVideosFilesUpload = async ({ show_id, name }, videosFiles) => {
 	formData.append("show_name", name);
 
 	for (let videoFile of videosFiles) {
+		// Skip not saved deleted video files
+		if (videoFile.id === undefined && videoFile.delete) continue;
+
 		formData.append("videos_info[]", JSON.stringify(videoFile));
-		if ("file" in videoFile.download_servers[0]) {
+
+		if (
+			videoFile.download_servers[0].file &&
+			videoFile.download_servers[0].file instanceof File
+		) {
 			fileUploadFound = true;
+
 			formData.append(
-				"videos_files[]",
+				videoFile.download_servers[0].id
+					? "updated_videos_files[]"
+					: "videos_files[]",
 				videoFile.download_servers[0].file
 			);
 		}
@@ -91,7 +113,7 @@ const handleVideosFilesUpload = async ({ show_id, name }, videosFiles) => {
 			onUploadProgress,
 		});
 
-		toast.done(toastId.current);
+		setTimeout(() => toast.done(toastId.current), 250);
 
 		return Promise.resolve();
 	}
@@ -101,23 +123,48 @@ const handleVideosFilesUpload = async ({ show_id, name }, videosFiles) => {
 
 const handleWatchingVideoUpload = async ({ show_id, name }, video) => {
 	const formData = new FormData();
+	let uploadFile = false,
+		changeFound = false;
 
 	formData.append("show_name", name);
 	formData.append("server_name", video.name);
 
+	video.id && formData.append("server_id", video.id);
+
 	for (let res in video.files) {
-		formData.append(res, video.files[res]);
+		if (video.files[res].id) {
+			if (video.files[res].delete) {
+				formData.append(res + "_delete", video.files[res].id);
+				changeFound = true;
+			}
+		} else {
+			changeFound = uploadFile = true;
+			formData.append(res, video.files[res]);
+		}
 	}
 
-	const { onUploadProgress, toastId } = handleProgressUpload(
-		"Uploading watch video files..."
-	);
+	if (changeFound) {
+		if (uploadFile) {
+			const { onUploadProgress, toastId } = handleProgressUpload(
+				"Uploading watch video files..."
+			);
 
-	await http.post(`/shows/upload/watching-videos/${show_id}`, formData, {
-		onUploadProgress,
-	});
+			await http.post(
+				`/shows/upload/watching-videos/${show_id}`,
+				formData,
+				{
+					onUploadProgress,
+				}
+			);
 
-	toast.done(toastId.current);
+			setTimeout(() => toast.done(toastId.current), 250);
+		} else {
+			await http.post(
+				`/shows/upload/watching-videos/${show_id}`,
+				formData
+			);
+		}
+	}
 
 	return Promise.resolve();
 };
@@ -128,21 +175,42 @@ const onFormSubmit = async (data) => {
 	if (!error) {
 		try {
 			const http_method = value.id ? "put" : "post";
-			const res = await http[http_method](`/shows/`, value);
+			const { data } = await http[http_method](
+				`/shows/${value.id || ""}`,
+				value
+			);
 			toast.success("The show information have been saved!");
 
 			// handle poster, background and square images upload process
-			await handleFileUpload(res.data, value);
+			if (
+				value.poster instanceof File ||
+				value.background instanceof File ||
+				(value.square_image && value.square_image instanceof File) ||
+				(value.square_image && value.square_image.delete)
+			) {
+				await handleFileUpload(data, value);
+			}
 
 			// handle gallery images upload process
-			if (value.gallery.length) {
-				await handleGalleryUpload(res.data, value.gallery);
+			const uploadedGalleryImages = value.gallery.filter(
+				(image) => image.path
+			);
+			if (uploadedGalleryImages.length) {
+				await handleGalleryUpload(data, uploadedGalleryImages);
+			}
+
+			// handle gallery images delete process
+			const deletedGalleryImages = value.gallery.filter(
+				(image) => image.delete
+			);
+			if (deletedGalleryImages.length) {
+				await handleGalleryDelete(data, deletedGalleryImages);
 			}
 
 			// handle watching videos upload process
-			if ("files" in value.watching_servers[0]) {
+			if (value.watching_servers[0].files) {
 				await handleWatchingVideoUpload(
-					res.data,
+					data,
 					value.watching_servers[0]
 				);
 			}
@@ -155,8 +223,9 @@ const onFormSubmit = async (data) => {
 					);
 				})
 			) {
-				await handleVideosFilesUpload(res.data, value.video_files);
+				await handleVideosFilesUpload(data, value.video_files);
 			}
+
 			return { type: ACTIONS.SUBMIT_FORM, error: null };
 		} catch (ex) {
 			// alert the network error

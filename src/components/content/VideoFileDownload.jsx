@@ -11,6 +11,8 @@ const VideoFileDownload = ({
 	onVideoFileDelete,
 	onVideoLinkDelete,
 }) => {
+	if (server.delete && !isUpload) return null;
+
 	const fieldNamePrefix = `${formName}.video_files.${videoNo}.download_servers.${serverNo}`;
 	const haveDeleteBtn = server.id && !isUpload;
 

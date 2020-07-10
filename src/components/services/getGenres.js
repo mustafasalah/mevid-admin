@@ -63,11 +63,13 @@ const commonGenres = [
 	];
 
 export default function getGenres(showType = "shows") {
-	if (showType === "shows")
-		return [...commonGenres, ...movieGenres, ...animeGenres].sort();
-	else if (showType === "animes" || showType === "anime") {
+	showType = showType.toLowerCase();
+
+	if (showType === "tv show" || showType === "tvshows") {
+		return [...commonGenres, ...movieGenres].sort();
+	} else if (showType === "animes" || showType === "anime") {
 		return [...commonGenres, ...animeGenres].sort();
 	}
 
-	return [...commonGenres, ...movieGenres].sort();
+	return [...commonGenres, ...movieGenres, ...animeGenres].sort();
 }

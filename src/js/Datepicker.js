@@ -28,6 +28,7 @@ const runDatepicker = (input, datetype, onChange) => {
 		if (datetype === "date-from") {
 			$("input[datetype='date-to']").datepicker("setStartDate", e.date);
 		} else if (datetype === "year") {
+			e.date.setMonth(0, 1);
 			$("input[datetype='date-from'], input[datetype='date']").datepicker(
 				"setStartDate",
 				e.date

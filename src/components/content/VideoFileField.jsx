@@ -13,6 +13,8 @@ const VideoFileField = ({
 	handleVideoInfoDelete,
 	handleVideoLinkDelete,
 }) => {
+	if (forms[formName].data.video_files[videoNo].delete) return null;
+
 	return (
 		<div className="row radius">
 			<button

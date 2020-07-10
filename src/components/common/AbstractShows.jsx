@@ -55,7 +55,7 @@ class AbstractShows extends AbstractTablePage {
 	];
 
 	filtersData = {
-		genres: getGenres(this.constructor.name.toLowerCase()),
+		genres: getGenres(this.constructor.name),
 		author: getAuthors().map((author) => author.name),
 		status: ["published", "drafted"],
 	};
@@ -77,6 +77,10 @@ class AbstractShows extends AbstractTablePage {
 			handler: this.handleStatusChange.bind(this, "publish"),
 		},
 	];
+
+	componentWillUpdate() {
+		this.filtersData.author = getAuthors().map((author) => author.name);
+	}
 
 	handleDelete() {
 		console.log(this.props.selectedItems, " Deleted!");

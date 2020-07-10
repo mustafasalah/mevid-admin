@@ -32,7 +32,8 @@ const ServerField = ({
 										placeholder="e.g. MEVid Server"
 										disabled
 										htmlAfterField={
-											value.files[res] ? (
+											value.files[res] &&
+											!value.files[res].delete ? (
 												<button
 													type="button"
 													className="primary-btn upload-btn delete-btn focus-shadow radius-3"
