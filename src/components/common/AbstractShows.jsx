@@ -22,17 +22,24 @@ class AbstractShows extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: "/shows/:id",
+					href: "http://localhost/shows/:id",
+					absolute: true,
 				},
 				{
 					label: "Edit",
 					className: "edit-item",
-					href: "/shows/edit/:id",
+					href: "/shows/:id",
 				},
 				{
 					label: "Delete",
 					className: "delete-item",
 					href: "/shows/delete/:id",
+					onClick: ({ id }) => {
+						const isDelete = window.confirm(
+							"Are you sure to delete this show?"
+						);
+						isDelete && this.props.deleteData(id);
+					},
 				},
 			],
 		},
@@ -83,11 +90,15 @@ class AbstractShows extends AbstractTablePage {
 	}
 
 	handleDelete() {
-		console.log(this.props.selectedItems, " Deleted!");
+		// console.log(this.props.selectedItems, " Deleted!");
+		const deleteShows = window.confirm(
+			"Are you sure to delete the selected shows?"
+		);
+		deleteShows && this.props.deleteData(this.props.selectedItems);
 	}
 
 	handleStatusChange(status) {
-		console.log(this.props.selectedItems, " Changed to " + status + "!");
+		this.props.changeStatus(this.props.selectedItems, status);
 	}
 }
 

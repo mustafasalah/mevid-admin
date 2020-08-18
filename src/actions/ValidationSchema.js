@@ -8,57 +8,32 @@ import {
 	getRawTypes,
 } from "../components/services/fakeShowsInfoServices";
 
-export const schema = {
+const generalSchema = {
 	id: joi.number().integer().min(1).empty(""),
-	type: joi.allow("movie", "anime", "tvshow").empty("").required(),
-	name: joi.string().required().empty("").label("Show Name"),
-	another_name: joi.string().empty(""),
-	genres: joi.array().min(1).required().label("Genres"),
-	release_year: joi
-		.number()
-		.integer()
-		.min(1800)
-		.required()
-		.label("Release Year"),
-	score: joi.number().min(1).max(10).empty("").required().label("Score"),
-	rate: joi
-		.any()
-		.allow(...getRates().map((rate) => rate.value))
-		.required(),
+};
+
+const publishSchema = {
+	publish_date: joi.object({
+		date: joi.date().required().raw(true),
+		time: joi
+			.string()
+			.regex(/\d{1,2}:\d{1,2}:\d{1,2}/)
+			.message("Invalid time value syntax"),
+	}),
+	published: joi.allow("0", "1").required(),
+	author: joi.number().integer().positive().required(),
+	keywords: joi.string().max(500).empty(""),
+	description: joi.string().max(255).empty(""),
+};
+
+const mediaSchema = {
 	duration: joi
 		.string()
 		.pattern(/^\s*(\d+\s?hours?)?\s*\d+\s?min(ute)?s?\s*$/)
 		.empty("")
 		.label("Duration"),
-	season: joi.number().integer().min(1).empty("").label("Season No"),
-	episodes: joi.number().integer().min(1).empty("").label("Episodes No"),
-	status: joi
-		.any()
-		.allow(...getShowStatus().map((status) => status.value))
-		.required(),
-	source: joi.any().allow(...getAnimeSource().map((source) => source.value)),
-	studio: joi
-		.any()
-		.allow("n/a", ...getAnimeStudios().map((studio) => studio.value)),
-	related_shows: joi.array().items(joi.string()),
 	release_date: joi.date().empty("").raw(true),
-	aired_from: joi.date().empty("").raw(true),
-	aired_to: joi.date().empty("").raw(true),
 	story: joi.string().required(),
-	imdb_link: joi.string().uri().empty(""),
-	mal_link: joi.string().uri().empty(""),
-	poster: joi.object().empty("").label("Poster Image").required(),
-	background: joi.object().empty("").label("Background Image").required(),
-	square_image: joi.object().empty("").label("Square Image"),
-	trailer_link: joi.string().uri().empty("").label("Trailer Link"),
-	tags: joi.array(),
-	published: joi.allow("0", "1").required(),
-	reviews_enabled: joi.allow("0", "1").required(),
-	author: joi.number().integer().positive().required(),
-	keywords: joi.string().max(500).empty(""),
-	description: joi.string().max(255).empty(""),
-	gallery: joi.array(),
-	arcs: joi.object(),
 	watching_servers: joi.array().items(
 		joi
 			.object({
@@ -102,7 +77,75 @@ export const schema = {
 	),
 };
 
+export const episodeSchema = {
+	...generalSchema,
+	...publishSchema,
+	...mediaSchema,
+	showId: joi.number().integer().min(1).empty(""),
+	title: joi.string().empty("").label("Episode Title"),
+	episode_no: joi.number().min(0).required().label("Episode Number"),
+	episode_arc: joi.number().integer().min(1).empty("").label("Episode Arc"),
+	comments_enabled: joi.allow("0", "1").required(),
+};
+
+export const showSchema = {
+	...generalSchema,
+	...publishSchema,
+	...mediaSchema,
+	type: joi.allow("movie", "anime", "tvshow").empty("").required(),
+	name: joi.string().required().empty("").label("Show Name"),
+	another_name: joi.string().empty(""),
+	genres: joi.array().min(1).required().label("Genres"),
+	release_year: joi
+		.number()
+		.integer()
+		.min(1800)
+		.required()
+		.label("Release Year"),
+	score: joi.number().min(1).max(10).empty("").required().label("Score"),
+	rate: joi
+		.any()
+		.allow(...getRates().map((rate) => rate.value))
+		.required(),
+	season: joi.number().integer().min(1).empty("").label("Season No"),
+	episodes: joi.number().integer().min(1).empty("").label("Episodes No"),
+	status: joi
+		.any()
+		.allow(...getShowStatus().map((status) => status.value))
+		.required(),
+	source: joi.any().allow(...getAnimeSource().map((source) => source.value)),
+	studio: joi
+		.any()
+		.allow("n/a", ...getAnimeStudios().map((studio) => studio.value)),
+	related_shows: joi.array().items(joi.string()),
+	aired_from: joi.date().empty("").raw(true),
+	aired_to: joi.date().empty("").raw(true),
+	imdb_link: joi.string().uri().empty(""),
+	mal_link: joi.string().uri().empty(""),
+	poster: joi.object().empty("").label("Poster Image").required(),
+	background: joi.object().empty("").label("Background Image").required(),
+	square_image: joi.object().empty("").label("Square Image"),
+	trailer_link: joi.string().uri().empty("").label("Trailer Link"),
+	tags: joi.array(),
+	reviews_enabled: joi.allow("0", "1").required(),
+	gallery: joi.array(),
+	arcs: joi.object({
+		form: joi.object(),
+		list: joi
+			.array()
+			.unique((a, b) => a.no == b.no)
+			.message("Arc No. should not be duplicated"),
+	}),
+};
+
+export const schema = {
+	...episodeSchema,
+	...showSchema,
+};
+
 export const nestedSchema = {
+	publish_date_date: joi.date().required().raw(true),
+	publish_date_time: joi.string().regex(/\d{1,2}:\d{1,2}:\d{1,2}/),
 	watching_servers_name: joi.string(),
 	watching_servers_code: joi.string(),
 	video_files_raw_type: joi.string(),

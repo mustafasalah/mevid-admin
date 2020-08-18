@@ -23,7 +23,9 @@ import SquareImageField from "./SquareImageField";
 import PublishFields from "./PublishFields";
 import Gallery from "./Gallery";
 import Arcs from "./Arcs";
+import TagsField from "./TagsField";
 import showFormActions from "./../../actions/ShowFormActions";
+import formActions from "./../../actions/FormActions";
 import { getShowData } from "../services/fakeShowDataService";
 import Loader from "./../common/Loader";
 
@@ -87,7 +89,6 @@ const ShowForm = ({
 				const showData = await getShowData(showId);
 				onShowDataLoad(showData);
 			} catch (ex) {
-				// console.log(ex);
 				toast.error("There is no show with this id: " + showId, {
 					autoClose: 2500,
 					onClose: () => history.goBack(),
@@ -108,7 +109,9 @@ const ShowForm = ({
 				<form
 					onSubmit={(e) => {
 						e.preventDefault();
-						onSubmit(data);
+						onSubmit(data, () => {
+							history.push("/shows/");
+						});
 					}}
 				>
 					<div id="main-side">
@@ -508,24 +511,10 @@ const ShowForm = ({
 						<FormSideSection label="Tags" id="tags">
 							<div className="row">
 								<div className="col-1">
-									<FormField
+									<TagsField
 										type="select"
 										name="show.tags"
 										placeholder="Press 'enter' after any tag you write"
-										options={[
-											{
-												label: "Best Anime 2016",
-												value: "Best Anime 2016",
-											},
-											{
-												label: "Summer Anime 2018",
-												value: "Summer Anime 2018",
-											},
-											{
-												label: "HBO Shows",
-												value: "HBO Shows",
-											},
-										]}
 										multiple
 										tags
 										unwrappedField
@@ -571,7 +560,7 @@ export default connect(
 	(state) => ({ ...state.forms.show, shows: state.shows }),
 	{
 		onSubmit: showFormActions.onFormSubmit,
-		onChange: showFormActions.onFieldChanged,
+		onChange: formActions.onFieldChanged("show"),
 		onTypeChange: showFormActions.onFormTypeChange,
 		onWatchVideoPlayerDelete: showFormActions.onWatchVideoPlayerDelete,
 		onWatchVideoFileDelete: showFormActions.onWatchVideoFileDelete,

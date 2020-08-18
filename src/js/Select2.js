@@ -59,7 +59,7 @@ const Select2 = ({ data, options, value, onChange, ...attrs }) => {
 			$el.off("select2:select select2:unselect", handleChange);
 			$el.select2("destroy");
 		};
-	}, [value]);
+	}, [value, options]);
 
 	return (
 		<select {...attrs} ref={(elem) => (el = elem)}>

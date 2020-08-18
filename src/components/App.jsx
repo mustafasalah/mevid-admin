@@ -7,7 +7,7 @@ import Content from "./Content";
 import "promise-polyfill/src/polyfill";
 
 class App extends Component {
-	async componentDidMount() {
+	componentDidMount() {
 		const { onUserLogin, loadAppData } = this.props;
 
 		onUserLogin({

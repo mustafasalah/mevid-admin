@@ -13,18 +13,18 @@ import Layout from "./content/Layout";
 import MainMenu from "./content/MainMenu";
 import Settings from "./content/Settings";
 import Episodes from "./content/Episodes";
-import Episode from "./content/Episode";
 import Movies from "./content/Movies";
 import Animes from "./content/Animes";
 import TVShows from "./content/TVShows";
 import ShowForm from "./content/ShowForm";
+import EpisodeForm from "./content/EpisodeForm";
 
 const Content = () => {
 	return (
 		<section id="content-section">
 			<Switch>
-				<Route path="/episodes/:id" component={Episode} />
-				<Route path="/episodes/add" component={Episode} />
+				<Route path="/episodes/:id" component={EpisodeForm} />
+				<Route path="/episodes/add" component={EpisodeForm} />
 				<Route path="/episodes" component={Episodes} />
 
 				<Route path="/layout/main-menu" component={MainMenu} />

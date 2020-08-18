@@ -8,11 +8,12 @@ import usersTableReducer from "./UsersTableReducer";
 import loginReducer from "./LoginReducer";
 import dataReducer from "./DataReducer";
 import SchedulerReducer from "./SchedulerReducer";
-import showFormReducer from "./ShowFormReducer";
+import formReducer from "./FormReducer";
 
 const AppReducer = combineReducers({
 	forms: combineReducers({
-		show: showFormReducer,
+		show: formReducer("show"),
+		episode: formReducer("episode"),
 	}),
 	schedule: SchedulerReducer,
 	pages: dataReducer("pages"),

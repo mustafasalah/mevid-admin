@@ -3,7 +3,19 @@ import * as ACTIONS from "./ActionTypes";
 import joi from "@hapi/joi";
 import { toast } from "react-toastify";
 import http from "./../components/services/httpServices";
-import { schema, nestedSchema } from "./ValidationSchema";
+import { showSchema as schema } from "./ValidationSchema";
+import getShows from "../components/services/fakeShowsServices";
+import store from "./../store";
+
+const updateShowsList = async () => {
+	const shows = await getShows();
+
+	store.dispatch({
+		type: ACTIONS.LOAD_DATA,
+		dataType: "shows",
+		data: shows,
+	});
+};
 
 const handleProgressUpload = (uploadMsg) => {
 	let toastId = React.createRef();
@@ -169,7 +181,7 @@ const handleWatchingVideoUpload = async ({ show_id, name }, video) => {
 	return Promise.resolve();
 };
 
-const onFormSubmit = async (data) => {
+const onFormSubmit = async (data, callback) => {
 	const { value, error } = joi.object(schema).validate(data);
 
 	if (!error) {
@@ -226,7 +238,10 @@ const onFormSubmit = async (data) => {
 				await handleVideosFilesUpload(data, value.video_files);
 			}
 
-			return { type: ACTIONS.SUBMIT_FORM, error: null };
+			// reflect the updated show in shows list
+			updateShowsList();
+
+			return { type: ACTIONS.SUBMIT_FORM, error: null, callback };
 		} catch (ex) {
 			// alert the network error
 			toast.error(ex.message);
@@ -240,32 +255,6 @@ const onFormSubmit = async (data) => {
 		toast.error(error.message);
 		return { type: ACTIONS.SUBMIT_FORM, error };
 	}
-};
-
-const onFieldChanged = (fieldName, fieldValue) => {
-	let value, error;
-
-	const validateKey = fieldName.replace(/\d+\.?/g, "").replace(/\./g, "_");
-
-	if (
-		!(fieldValue instanceof File) &&
-		!validateKey.match(
-			/^(watching_servers|video_files_download_servers_file)/
-		)
-	) {
-		({ value, error } = { ...schema, ...nestedSchema }[
-			validateKey
-		].validate(fieldValue));
-	} else {
-		value = fieldValue;
-	}
-
-	return {
-		type: ACTIONS.FORM_ADD,
-		fieldName,
-		fieldValue: value === undefined ? "" : value,
-		error,
-	};
 };
 
 const onFormTypeChange = (showType) => {
@@ -321,7 +310,6 @@ const onVideoInfoDelete = (videoInfoNo) => ({
 
 export default {
 	onFormSubmit,
-	onFieldChanged,
 	onFormTypeChange,
 	onWatchVideoFileDelete,
 	onWatchVideoPlayerDelete,

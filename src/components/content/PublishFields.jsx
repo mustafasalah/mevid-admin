@@ -27,7 +27,7 @@ const PublishFields = ({ form, submitLabel = "Publish", extraFields }) => {
 						type="select"
 						options={getAuthors().map((author) => ({
 							label: author.name,
-							value: author.id,
+							value: +author.id,
 						}))}
 					/>
 				</div>
@@ -55,6 +55,26 @@ const PublishFields = ({ form, submitLabel = "Publish", extraFields }) => {
 								Shown in search engine results below show title
 							</small>
 						}
+					/>
+				</div>
+
+				<div className="col-3-2">
+					<FormField
+						label="Publish Date"
+						name={`${form}.publish_date.date`}
+						className="date"
+						type="text"
+						autoComplete="off"
+						dateType="date-from"
+					/>
+				</div>
+
+				<div className="col-3-1">
+					<FormField
+						label="Publish Time"
+						name={`${form}.publish_date.time`}
+						className="time"
+						type="text"
 					/>
 				</div>
 

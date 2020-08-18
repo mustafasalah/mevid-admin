@@ -3,6 +3,7 @@ import * as ACTIONS from "../../actions/ActionTypes";
 import ArcForm from "./ArcForm";
 import ArcsList from "./ArcsList";
 import { connect } from "react-redux";
+import { toast } from "react-toastify";
 
 const Arcs = ({ arcs, dispatch }) => {
 	return (
@@ -11,6 +12,13 @@ const Arcs = ({ arcs, dispatch }) => {
 				data={arcs.form}
 				onSubmit={(e) => {
 					e.preventDefault();
+
+					// handle arc no duplication error
+					if (arcs.list.some(({ no }) => no == arcs.form.no)) {
+						toast.error("Arc No. should not be duplicated");
+						return;
+					}
+
 					dispatch({
 						type: ACTIONS.UPDATE_ARC,
 						data: arcs.form,

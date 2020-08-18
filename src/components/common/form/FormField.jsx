@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import Select from "./Select";
-import showFormActions from "./../../../actions/ShowFormActions";
+import formActions from "./../../../actions/FormActions";
 import Input from "./Input";
 import { getNestedProperty } from "./../../../js/Utility";
 
@@ -15,8 +15,7 @@ const FormField = ({
 	htmlAfterField,
 	unwrappedField,
 	dateType,
-	onFieldChanged,
-	onFormSubmit,
+	dispatch,
 	forms,
 	labelAfter,
 	...props
@@ -24,12 +23,16 @@ const FormField = ({
 	const fieldName = label.replace(" ", "-").toLowerCase() + "-field-" + name;
 	const isControlled = name !== "" && type !== "file" ? true : undefined;
 
-	let formName, formField;
+	let formName, formField, onFieldChanged;
 
 	if (name !== "") {
 		const index = name.indexOf(".");
 		formName = name.slice(0, index);
 		formField = name.slice(index + 1);
+		const onChange = formActions.onFieldChanged(formName);
+		onFieldChanged = (...params) => {
+			return dispatch(onChange(...params));
+		};
 	}
 
 	const renderField = () => {
@@ -178,12 +181,6 @@ FormField.defaultProps = {
 	labelAfter: false,
 };
 
-export default connect(
-	(state) => ({
-		forms: state.forms,
-	}),
-	{
-		onFieldChanged: showFormActions.onFieldChanged,
-		onFormSubmit: showFormActions.onFormSubmit,
-	}
-)(FormField);
+export default connect((state) => ({
+	forms: state.forms,
+}))(FormField);

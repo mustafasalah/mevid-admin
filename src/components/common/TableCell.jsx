@@ -11,17 +11,46 @@ class TableCell extends Component {
 				<ul>
 					{linksNav.map((link, i) => {
 						if ((link.on && link.on(rowData)) || !link.on) {
+							const url = link.href.replace(
+								/:(\w+)/gi,
+								(match, prop) => rowData[prop]
+							);
 							return (
 								<li key={i}>
-									<Link
-										to={link.href.replace(
-											/:(\w+)/gi,
-											(match, prop) => rowData[prop]
-										)}
-										className={link.className}
-									>
-										<span>{link.label}</span>
-									</Link>
+									{link.absolute ? (
+										<a
+											href={url}
+											className={link.className}
+											target="_blank"
+											onClick={(e) => {
+												if (
+													typeof link.onClick ===
+													"function"
+												) {
+													e.preventDefault();
+													link.onClick(rowData);
+												}
+											}}
+										>
+											<span>{link.label}</span>
+										</a>
+									) : (
+										<Link
+											to={url}
+											className={link.className}
+											onClick={(e) => {
+												if (
+													typeof link.onClick ===
+													"function"
+												) {
+													e.preventDefault();
+													link.onClick(rowData);
+												}
+											}}
+										>
+											<span>{link.label}</span>
+										</Link>
+									)}
 								</li>
 							);
 						}
