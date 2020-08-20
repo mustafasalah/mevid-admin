@@ -10,6 +10,10 @@ const formReducer = (formType) => {
 	return (state = initialState, { type, ...payload }) => {
 		let newState;
 
+		if (formType !== payload.formType && payload.formType !== undefined) {
+			return state;
+		}
+
 		switch (type) {
 			case ACTIONS.LOGIN_USER:
 				return {
@@ -58,6 +62,13 @@ const formReducer = (formType) => {
 					},
 				};
 
+			case ACTIONS.DELETE_VIDEO_FILE:
+				newState = deepCopy(state);
+				newState.data.video_files[
+					payload.videoNo
+				].download_servers[0].file = null;
+				return newState;
+
 			case ACTIONS.DELETE_WATCH_SERVER:
 				return {
 					errors: state.errors,
@@ -69,7 +80,15 @@ const formReducer = (formType) => {
 					},
 				};
 
+			case ACTIONS.DELETE_WATCH_VIDEO_FILE:
+				newState = deepCopy(state);
+				newState.data.watching_servers[0].files[
+					payload.resolution
+				].delete = true;
+				return newState;
+
 			case ACTIONS.DELETE_GALLERY_IMAGE:
+				if (formType !== "show") return state;
 				return {
 					errors: state.errors,
 					data: {
@@ -84,6 +103,7 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.LOAD_SHOW_DATA:
+				if (formType !== "show") return state;
 				const showData = { ...initialState.data, ...payload.data };
 
 				if (showData.watching_servers.length === 0) {
@@ -121,6 +141,7 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.DELETE_SHOW_IMAGE:
+				if (formType !== "show") return state;
 				const { imageField } = payload;
 				const deletedImage = state.data[imageField];
 				deletedImage.delete = true;
@@ -130,21 +151,8 @@ const formReducer = (formType) => {
 					data: { ...state.data, [imageField]: deletedImage },
 				};
 
-			case ACTIONS.DELETE_VIDEO_FILE:
-				newState = deepCopy(state);
-				newState.data.video_files[
-					payload.videoNo
-				].download_servers[0].file = null;
-				return newState;
-
-			case ACTIONS.DELETE_WATCH_VIDEO_FILE:
-				newState = deepCopy(state);
-				newState.data.watching_servers[0].files[
-					payload.resolution
-				].delete = true;
-				return newState;
-
 			case ACTIONS.CHANGE_FORM_TYPE:
+				if (formType !== "show") return state;
 				return {
 					errors: { ...initialState.errors },
 					data: {
@@ -170,17 +178,18 @@ const formReducer = (formType) => {
 				typeof callback === "function" &&
 					window.setTimeout(callback, 500);
 
-				return initialState;
+				return {
+					errors: { ...initialState.errors },
+					data: {
+						...initialState.data,
+						author: payload.loggedUser
+							? payload.loggedUser.id
+							: state.data.author,
+					},
+				};
 
 			case ACTIONS.FORM_ADD:
-				let {
-					error: fieldError,
-					fieldName,
-					fieldValue,
-					formType: fieldForm,
-				} = payload;
-
-				if (fieldForm !== formType) return state;
+				let { error: fieldError, fieldName, fieldValue } = payload;
 
 				newState = deepCopy(state);
 				newState["errors"][fieldName] =
@@ -190,12 +199,13 @@ const formReducer = (formType) => {
 						.filter((img) => img.url)
 						.concat(fieldValue);
 				setNestedProperty(newState.data, fieldName, fieldValue);
+
 				return newState;
 
 			case ACTIONS.FORM_ADD_ITEM_LIST:
 				const { formName, listName } = payload;
 
-				if (formName === "show") {
+				if (formName === formType) {
 					newState = {
 						errors: state.errors,
 						data: deepCopy(state.data),
@@ -213,6 +223,7 @@ const formReducer = (formType) => {
 				return state;
 
 			case ACTIONS.DELETE_ARC:
+				if (formType !== "show") return state;
 				const { key } = payload;
 
 				// Get a Copy of the state
@@ -229,6 +240,7 @@ const formReducer = (formType) => {
 				return newState;
 
 			case ACTIONS.UPDATE_ARC:
+				if (formType !== "show") return state;
 				const { data } = payload;
 
 				// Get a Copy of the state
@@ -257,6 +269,7 @@ const formReducer = (formType) => {
 				return newState;
 
 			case ACTIONS.EDIT_ARC:
+				if (formType !== "show") return state;
 				const { arc_data } = payload;
 				return {
 					errors: state.errors,

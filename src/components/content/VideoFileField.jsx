@@ -3,7 +3,7 @@ import VideoFileInfo from "./VideoFileInfo";
 import VideoFileDownload from "./VideoFileDownload";
 import AddMoreBtn from "./AddMoreBtn";
 import { connect } from "react-redux";
-import showFormActions from "./../../actions/ShowFormActions";
+import * as mediaFormActions from "./../../actions/MediaFormActions";
 
 const VideoFileField = ({
 	videoNo,
@@ -26,7 +26,7 @@ const VideoFileField = ({
 					const reply = window.confirm(
 						"Are you sure you want to delete this video?"
 					);
-					reply && handleVideoInfoDelete(videoNo);
+					reply && handleVideoInfoDelete(formName, videoNo);
 				}}
 			></button>
 
@@ -64,8 +64,8 @@ export default connect(
 		forms: state.forms,
 	}),
 	{
-		handleVideoFileDelete: showFormActions.onVideoFileDelete,
-		handleVideoLinkDelete: showFormActions.onVideoLinkDelete,
-		handleVideoInfoDelete: showFormActions.onVideoInfoDelete,
+		handleVideoFileDelete: mediaFormActions.onVideoFileDelete,
+		handleVideoLinkDelete: mediaFormActions.onVideoLinkDelete,
+		handleVideoInfoDelete: mediaFormActions.onVideoInfoDelete,
 	}
 )(VideoFileField);

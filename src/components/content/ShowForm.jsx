@@ -53,8 +53,6 @@ const ShowForm = ({
 	onSubmit,
 	onChange,
 	onTypeChange,
-	onWatchVideoFileDelete,
-	onWatchVideoPlayerDelete,
 	onShowImageDelete,
 	onShowDataLoad,
 }) => {
@@ -413,12 +411,6 @@ const ShowForm = ({
 											key={i}
 											serverNo={i}
 											formName="show"
-											handleFileDelete={
-												onWatchVideoFileDelete
-											}
-											handlePlayerDelete={
-												onWatchVideoPlayerDelete
-											}
 											value={server}
 										/>
 									))}
@@ -562,8 +554,6 @@ export default connect(
 		onSubmit: showFormActions.onFormSubmit,
 		onChange: formActions.onFieldChanged("show"),
 		onTypeChange: showFormActions.onFormTypeChange,
-		onWatchVideoPlayerDelete: showFormActions.onWatchVideoPlayerDelete,
-		onWatchVideoFileDelete: showFormActions.onWatchVideoFileDelete,
 		onShowImageDelete: showFormActions.onShowImageDelete,
 		onShowDataLoad: showFormActions.onShowDataLoad,
 	}

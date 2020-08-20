@@ -10,9 +10,10 @@ import ServerField from "./ServerField";
 import VideoFileField from "./VideoFileField";
 import FormSideSection from "./../common/form/FormSideSection";
 import PublishFields from "./PublishFields";
+import episodeFormActions from "./../../actions/EpisodeFormActions";
 //import Loader from "./../common/Loader";
 
-const EpisodeForm = ({ data, shows }) => {
+const EpisodeForm = ({ data, shows, onSubmit }) => {
 	const history = useHistory();
 	const params = useParams();
 	const episodeId = params.id && Number(params.id);
@@ -38,10 +39,10 @@ const EpisodeForm = ({ data, shows }) => {
 
 			<form
 				onSubmit={(e) => {
-					// e.preventDefault();
-					// onSubmit(data, () => {
-					// 	history.push("/shows/");
-					// });
+					e.preventDefault();
+					onSubmit(data, () => {
+						history.push("/episodes/");
+					});
 				}}
 			>
 				<div id="main-side">
@@ -49,7 +50,7 @@ const EpisodeForm = ({ data, shows }) => {
 						<div className="row">
 							<div className="col-1">
 								<FormField
-									name="episode.showId"
+									name="episode.show_id"
 									label="Select Show"
 									type="select"
 									placeholder="Select Episode Show"
@@ -57,6 +58,7 @@ const EpisodeForm = ({ data, shows }) => {
 										label: show.name,
 										value: show.id,
 									}))}
+									required
 								/>
 							</div>
 						</div>
@@ -67,7 +69,6 @@ const EpisodeForm = ({ data, shows }) => {
 									label="Episode Title"
 									type="text"
 									placeholder="e.g. The Pirates Of The Caribbean"
-									required
 								/>
 							</div>
 							<div className="col-3-1">
@@ -82,24 +83,28 @@ const EpisodeForm = ({ data, shows }) => {
 						</div>
 
 						<div className="row">
-							<div className="col-3-1">
-								<FormField
-									name="episode.duration"
-									className="time"
-									label="Duration"
-									type="text"
-									placeholder="XX hours XX min OR XX min"
-								/>
-							</div>
-							<div className="col-3-1">
-								<FormField
-									name="episode.release_date"
-									className="date"
-									label="Release Date"
-									type="text"
-									dateType="date"
-									autoComplete="off"
-								/>
+							<div className="col-3-2">
+								<div className="row">
+									<div className="col-2">
+										<FormField
+											name="episode.duration"
+											className="time"
+											label="Duration"
+											type="text"
+											placeholder="XX hours XX min OR XX min"
+										/>
+									</div>
+									<div className="col-2">
+										<FormField
+											name="episode.release_date"
+											className="date"
+											label="Release Date"
+											type="text"
+											dateType="date"
+											autoComplete="off"
+										/>
+									</div>
+								</div>
 							</div>
 							<div className="col-3-1">
 								<FormField
@@ -128,7 +133,6 @@ const EpisodeForm = ({ data, shows }) => {
 									label="Story"
 									type="textarea"
 									placeholder="Something about episode story here..."
-									required
 								/>
 							</div>
 						</div>
@@ -144,8 +148,6 @@ const EpisodeForm = ({ data, shows }) => {
 								key={i}
 								serverNo={i}
 								formName="episode"
-								//handleFileDelete={onWatchVideoFileDelete}
-								//handlePlayerDelete={onWatchVideoPlayerDelete}
 								value={server}
 							/>
 						))}
@@ -204,12 +206,9 @@ const EpisodeForm = ({ data, shows }) => {
 export default connect(
 	(state) => ({ ...state.forms.episode, shows: state.shows }),
 	{
-		// onSubmit: showFormActions.onFormSubmit,
-		// onChange: showFormActions.onFieldChanged("episode"),
-		// onTypeChange: showFormActions.onFormTypeChange,
-		// onWatchVideoPlayerDelete: showFormActions.onWatchVideoPlayerDelete,
-		// onWatchVideoFileDelete: showFormActions.onWatchVideoFileDelete,
-		// onShowImageDelete: showFormActions.onShowImageDelete,
+		onSubmit: episodeFormActions.onFormSubmit,
+		onWatchVideoPlayerDelete: episodeFormActions.onWatchVideoPlayerDelete,
+		onWatchVideoFileDelete: episodeFormActions.onWatchVideoFileDelete,
 		// onShowDataLoad: showFormActions.onShowDataLoad,
 	}
 )(EpisodeForm);

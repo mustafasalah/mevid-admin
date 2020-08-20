@@ -13,13 +13,16 @@ const generalSchema = {
 };
 
 const publishSchema = {
-	publish_date: joi.object({
-		date: joi.date().required().raw(true),
-		time: joi
-			.string()
-			.regex(/\d{1,2}:\d{1,2}:\d{1,2}/)
-			.message("Invalid time value syntax"),
-	}),
+	publish_date: joi
+		.object({
+			date: joi.date().raw(true),
+			time: joi
+				.string()
+				.regex(/\d{1,2}:\d{1,2}:\d{1,2}/)
+				.message("Invalid time value syntax"),
+		})
+		.with("date", "time")
+		.empty({ date: "", time: "" }),
 	published: joi.allow("0", "1").required(),
 	author: joi.number().integer().positive().required(),
 	keywords: joi.string().max(500).empty(""),
@@ -81,10 +84,11 @@ export const episodeSchema = {
 	...generalSchema,
 	...publishSchema,
 	...mediaSchema,
-	showId: joi.number().integer().min(1).empty(""),
+	story: joi.string().empty(""),
+	show_id: joi.number().integer().min(1).empty("").required(),
 	title: joi.string().empty("").label("Episode Title"),
 	episode_no: joi.number().min(0).required().label("Episode Number"),
-	episode_arc: joi.number().integer().min(1).empty("").label("Episode Arc"),
+	episode_arc: joi.number().integer().min(1).label("Episode Arc").empty(""),
 	comments_enabled: joi.allow("0", "1").required(),
 };
 

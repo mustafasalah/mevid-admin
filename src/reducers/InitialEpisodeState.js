@@ -19,14 +19,18 @@ export const listItemsDefaults = {
 export default {
 	data: {
 		id: "",
-		showId: "",
+		show_id: "",
 		title: "",
 		episode_no: "",
-		episode_arc: "none",
+		episode_arc: "",
 		duration: "",
 		release_date: "",
 		story: "",
 		published: 1,
+		publish_date: {
+			date: "",
+			time: "",
+		},
 		comments_enabled: 1,
 		author: "",
 		keywords: "",

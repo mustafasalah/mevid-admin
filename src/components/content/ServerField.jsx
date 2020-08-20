@@ -1,5 +1,7 @@
 import React from "react";
 import FormField from "../common/form/FormField";
+import * as mediaFormActions from "./../../actions/MediaFormActions";
+import { connect } from "react-redux";
 
 const ServerField = ({
 	serverNo,
@@ -43,6 +45,7 @@ const ServerField = ({
 														);
 														reply &&
 															handleFileDelete(
+																formName,
 																res
 															);
 													}}
@@ -81,7 +84,7 @@ const ServerField = ({
 						const reply = window.confirm(
 							"Are you sure you want to delete this video player code?"
 						);
-						reply && handlePlayerDelete(serverNo);
+						reply && handlePlayerDelete(formName, serverNo);
 					}}
 				></button>
 			)}
@@ -89,4 +92,7 @@ const ServerField = ({
 	);
 };
 
-export default ServerField;
+export default connect(null, {
+	handleFileDelete: mediaFormActions.onWatchVideoFileDelete,
+	handlePlayerDelete: mediaFormActions.onWatchVideoPlayerDelete,
+})(ServerField);

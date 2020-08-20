@@ -45,7 +45,11 @@ const VideoFileDownload = ({
 											const reply = window.confirm(
 												"Are you sure you want to delete the video file?"
 											);
-											reply && onVideoFileDelete(videoNo);
+											reply &&
+												onVideoFileDelete(
+													formName,
+													videoNo
+												);
 										}}
 									>
 										Delete Video
@@ -86,7 +90,7 @@ const VideoFileDownload = ({
 						const reply = window.confirm(
 							"Are you sure you want to delete this download link?"
 						);
-						reply && onVideoLinkDelete(videoNo, serverNo);
+						reply && onVideoLinkDelete(formName, videoNo, serverNo);
 					}}
 				></button>
 			) : (

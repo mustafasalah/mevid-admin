@@ -45,6 +45,10 @@ export default {
 		trailer_link: "",
 		tags: [],
 		published: 1,
+		publish_date: {
+			date: "",
+			time: "",
+		},
 		reviews_enabled: 1,
 		author: "",
 		keywords: "",
