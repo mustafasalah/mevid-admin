@@ -120,6 +120,11 @@
 
 import http from "./httpServices";
 
+export async function getShowArcs(show_id) {
+	const repsonse = await http.get(`/arcs/${show_id}`);
+	return repsonse.data;
+}
+
 export async function getShowData(id) {
 	const response = await http.get(`/shows/${id}`);
 	return response.data;

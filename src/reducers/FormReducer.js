@@ -15,6 +15,15 @@ const formReducer = (formType) => {
 		}
 
 		switch (type) {
+			case ACTIONS.RESET_FORM:
+				return {
+					errors: { ...initialState.errors },
+					data: {
+						...initialState.data,
+						author: state.data.author,
+					},
+				};
+
 			case ACTIONS.LOGIN_USER:
 				return {
 					errors: { ...state.errors },
@@ -102,8 +111,8 @@ const formReducer = (formType) => {
 					},
 				};
 
+			case ACTIONS.LOAD_EPISODE_DATA:
 			case ACTIONS.LOAD_SHOW_DATA:
-				if (formType !== "show") return state;
 				const showData = { ...initialState.data, ...payload.data };
 
 				if (showData.watching_servers.length === 0) {
@@ -277,6 +286,13 @@ const formReducer = (formType) => {
 						...state.data,
 						arcs: { ...state.data.arcs, form: arc_data },
 					},
+				};
+
+			case ACTIONS.RESET_EPISODE_ARC:
+				if (formType !== "episode") return state;
+				return {
+					data: { ...state.data, episode_arc: "" },
+					errors: state.errors,
 				};
 
 			default:

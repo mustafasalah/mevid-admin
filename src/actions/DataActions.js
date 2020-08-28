@@ -16,7 +16,7 @@ const getDataActions = (dataType) => ({
 	changeStatus: (id, status) => ({
 		type: ACTIONS.CHANGE_STATUS,
 		payload: http.put(`/${dataType}/`, {
-			shows_id: id,
+			[dataType + "_id"]: id,
 			status: status,
 		}),
 		meta: {
@@ -31,7 +31,7 @@ const getDataActions = (dataType) => ({
 		if (id instanceof Array) {
 			payload = http.delete(`/${dataType}/`, {
 				data: {
-					deleted_shows_id: id,
+					["deleted_" + dataType + "_id"]: id,
 				},
 			});
 		} else {

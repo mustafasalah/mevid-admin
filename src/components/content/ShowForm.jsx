@@ -51,6 +51,7 @@ const ShowForm = ({
 	shows,
 	data,
 	onSubmit,
+	onReset,
 	onChange,
 	onTypeChange,
 	onShowImageDelete,
@@ -63,6 +64,7 @@ const ShowForm = ({
 	const showId = params.id && Number(params.id);
 	let isMovie, isAnime, isTVShow;
 
+	// validate the show id is integer number
 	if (typeof showId === "number" && !Number.isInteger(showId)) {
 		history.replace("/");
 	}
@@ -73,6 +75,7 @@ const ShowForm = ({
 		isTVShow = showType === "TV Show";
 	}
 
+	// change the show type in status according to type in url
 	useEffect(() => {
 		if (params.type) {
 			const currentShowType = paramTypeToDataType.get(params.type);
@@ -82,7 +85,7 @@ const ShowForm = ({
 
 	useEffect(() => {
 		(async () => {
-			if (showId === undefined) return;
+			if (showId === undefined) return onReset();
 			try {
 				const showData = await getShowData(showId);
 				onShowDataLoad(showData);
@@ -553,6 +556,7 @@ export default connect(
 	{
 		onSubmit: showFormActions.onFormSubmit,
 		onChange: formActions.onFieldChanged("show"),
+		onReset: formActions.onFormReset("show"),
 		onTypeChange: showFormActions.onFormTypeChange,
 		onShowImageDelete: showFormActions.onShowImageDelete,
 		onShowDataLoad: showFormActions.onShowDataLoad,

@@ -13,7 +13,10 @@ import {
 	onVideoLinkDelete,
 	onVideoInfoDelete,
 } from "./MediaFormActions";
-import { handleWatchingVideoUpload } from "./UploadHandlers";
+import {
+	handleWatchingVideoUpload,
+	handleVideosFilesUpload,
+} from "./UploadHandlers";
 
 const onFormSubmit = async (data, callback) => {
 	const { value, error } = joi.object(episodeSchema).validate(data);
@@ -30,16 +33,8 @@ const onFormSubmit = async (data, callback) => {
 			// handle watching videos upload process
 			await handleWatchingVideoUpload(data, value.watching_servers[0]);
 
-			// // handle download videos upload process
-			// if (
-			// 	value.video_files.some((video_file) => {
-			// 		return video_file.download_servers.some(
-			// 			(server) => server.file || server.link
-			// 		);
-			// 	})
-			// ) {
-			// 	await handleVideosFilesUpload(data, value.video_files);
-			// }
+			// handle download videos upload process
+			await handleVideosFilesUpload(data, value.video_files);
 
 			// reflect the updated show in shows list
 			updateList("episodes");
@@ -67,6 +62,16 @@ const onFormSubmit = async (data, callback) => {
 	}
 };
 
+const onEpisodeDataLoad = (data) => ({
+	type: ACTIONS.LOAD_EPISODE_DATA,
+	data,
+	formType: "episode",
+});
+
+const onShowIdChange = () => ({
+	type: ACTIONS.RESET_EPISODE_ARC,
+});
+
 export default {
 	onFormSubmit,
 	onFieldChange: FormActions.onFieldChanged("episode"),
@@ -75,4 +80,6 @@ export default {
 	onVideoFileDelete,
 	onVideoLinkDelete,
 	onVideoInfoDelete,
+	onEpisodeDataLoad,
+	onShowIdChange,
 };

@@ -8,6 +8,8 @@ const SchedulerShow = ({
 	onShowDeleted,
 	onShowUpdate,
 }) => {
+	if (show === undefined) return null;
+
 	return (
 		<li className={isGray ? "gray" : ""}>
 			<div className="show-poster">

@@ -1,13 +1,25 @@
 import * as ACTIONS from "./ActionTypes";
+import http from "./../components/services/httpServices";
 
 const SchedulerActions = {
+	onSchedulerLoad(callback) {
+		return {
+			type: ACTIONS.SCHEDULER_LOAD_DATA,
+			payload: http.get("/scheduler"),
+			meta: {
+				callback,
+			},
+		};
+	},
+
 	onShowAdded(showId, day, time) {
 		return {
 			type: ACTIONS.SCHEDULER_ADD_SHOW,
-			id: Math.trunc(Math.random() * 1000),
-			showId: Number(showId),
-			day,
-			time,
+			payload: http.post("/scheduler", {
+				showId,
+				day,
+				time,
+			}),
 		};
 	},
 
@@ -22,9 +34,10 @@ const SchedulerActions = {
 	onShowUpdated(id, day, time) {
 		return {
 			type: ACTIONS.SCHEDULER_UPDATED_SHOW,
-			id: Number(id),
-			day,
-			time,
+			payload: http.put(`/scheduler/${id}`, {
+				day,
+				time,
+			}),
 		};
 	},
 
@@ -38,7 +51,7 @@ const SchedulerActions = {
 	onShowDeleted(id) {
 		return {
 			type: ACTIONS.SCHEDULER_DELETE_SHOW,
-			id: Number(id),
+			payload: http.delete(`/scheduler/${id}`),
 		};
 	},
 };

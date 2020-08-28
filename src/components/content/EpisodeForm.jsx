@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { useHistory, useParams } from "react-router-dom";
@@ -11,19 +11,35 @@ import VideoFileField from "./VideoFileField";
 import FormSideSection from "./../common/form/FormSideSection";
 import PublishFields from "./PublishFields";
 import episodeFormActions from "./../../actions/EpisodeFormActions";
-//import Loader from "./../common/Loader";
+import getEpisodeData from "../services/episodeDataService";
+import formActions from "./../../actions/FormActions";
+import { getShowArcs } from "../services/fakeShowDataService";
+import Loader from "./../common/Loader";
 
-const EpisodeForm = ({ data, shows, onSubmit }) => {
+const EpisodeForm = ({
+	data,
+	shows,
+	onSubmit,
+	onReset,
+	onEpisodeDataLoad,
+	onShowIdChange,
+}) => {
 	const history = useHistory();
 	const params = useParams();
+	const [showArcs, setShowArcs] = useState([]);
 	const episodeId = params.id && Number(params.id);
+
+	// validate the show id format
+	if (typeof episodeId === "number" && !Number.isInteger(episodeId)) {
+		history.replace("/");
+	}
 
 	useEffect(() => {
 		(async () => {
-			if (episodeId === undefined) return;
+			if (episodeId === undefined) return onReset();
 			try {
-				//const episodeData = await getShowData(episodeId);
-				//onEpisodeDataLoad(episodeData);
+				const episodeData = await getEpisodeData(episodeId);
+				onEpisodeDataLoad(episodeData);
 			} catch (ex) {
 				toast.error("There is no episode with this id: " + episodeId, {
 					autoClose: 2500,
@@ -33,172 +49,196 @@ const EpisodeForm = ({ data, shows, onSubmit }) => {
 		})();
 	}, []);
 
+	useEffect(() => {
+		// to reset episode arc field to nothing when episode show changed
+		onShowIdChange();
+
+		(async () => {
+			if (data.show_id === "") return;
+			try {
+				setShowArcs(await getShowArcs(data.show_id));
+			} catch (ex) {
+				toast.error("There is no show with this id: " + data.show_id, {
+					autoClose: 2500,
+					onClose: () => history.goBack(),
+				});
+			}
+		})();
+	}, [data.show_id]);
+
 	return (
 		<Fragment>
 			<SectionHeader name="New Episode" faClass="fas fa-plus fa-sm" />
 
-			<form
-				onSubmit={(e) => {
-					e.preventDefault();
-					onSubmit(data, () => {
-						history.push("/episodes/");
-					});
-				}}
-			>
-				<div id="main-side">
-					<FormSection header="Episode Information">
-						<div className="row">
-							<div className="col-1">
-								<FormField
-									name="episode.show_id"
-									label="Select Show"
-									type="select"
-									placeholder="Select Episode Show"
-									options={shows.map((show) => ({
-										label: show.name,
-										value: show.id,
-									}))}
-									required
-								/>
-							</div>
-						</div>
-						<div className="row">
-							<div className="col-3-2">
-								<FormField
-									name="episode.title"
-									label="Episode Title"
-									type="text"
-									placeholder="e.g. The Pirates Of The Caribbean"
-								/>
-							</div>
-							<div className="col-3-1">
-								<FormField
-									name="episode.episode_no"
-									label="Episode No"
-									type="number"
-									min="0"
-									required
-								/>
-							</div>
-						</div>
-
-						<div className="row">
-							<div className="col-3-2">
-								<div className="row">
-									<div className="col-2">
-										<FormField
-											name="episode.duration"
-											className="time"
-											label="Duration"
-											type="text"
-											placeholder="XX hours XX min OR XX min"
-										/>
-									</div>
-									<div className="col-2">
-										<FormField
-											name="episode.release_date"
-											className="date"
-											label="Release Date"
-											type="text"
-											dateType="date"
-											autoComplete="off"
-										/>
-									</div>
+			{episodeId && data.id === "" ? (
+				<Loader />
+			) : (
+				<form
+					onSubmit={(e) => {
+						e.preventDefault();
+						onSubmit(data, () => {
+							history.push("/episodes/");
+						});
+					}}
+				>
+					<div id="main-side">
+						<FormSection header="Episode Information">
+							<div className="row">
+								<div className="col-1">
+									<FormField
+										name="episode.show_id"
+										label="Select Show"
+										type="select"
+										placeholder="Select Episode Show"
+										options={shows
+											.filter(
+												(show) =>
+													show.category !== "movie"
+											)
+											.map((show) => ({
+												label: show.name,
+												value: show.id,
+											}))}
+										required
+									/>
 								</div>
 							</div>
-							<div className="col-3-1">
-								<FormField
-									name="episode.episode_arc"
-									label="Arc of Episode"
-									type="select"
-									placeholder="The arc of episode, if it have"
-									options={[
-										{
-											label: "The Great island",
-											value: "1",
-										},
-										{
-											label: "The beign of the end",
-											value: "2",
-										},
-									]}
-								/>
+							<div className="row">
+								<div className="col-3-2">
+									<FormField
+										name="episode.title"
+										label="Episode Title"
+										type="text"
+										placeholder="e.g. The Pirates Of The Caribbean"
+									/>
+								</div>
+								<div className="col-3-1">
+									<FormField
+										name="episode.episode_no"
+										label="Episode No"
+										type="number"
+										min="0"
+										required
+									/>
+								</div>
 							</div>
-						</div>
 
-						<div className="row">
-							<div className="col-1">
-								<FormField
-									name="episode.story"
-									label="Story"
-									type="textarea"
-									placeholder="Something about episode story here..."
-								/>
+							<div className="row">
+								<div className="col-3-2">
+									<div className="row">
+										<div className="col-2">
+											<FormField
+												name="episode.duration"
+												className="time"
+												label="Duration"
+												type="text"
+												placeholder="XX hours XX min OR XX min"
+											/>
+										</div>
+										<div className="col-2">
+											<FormField
+												name="episode.release_date"
+												className="date"
+												label="Release Date"
+												type="text"
+												dateType="date"
+												autoComplete="off"
+											/>
+										</div>
+									</div>
+								</div>
+								<div className="col-3-1">
+									<FormField
+										name="episode.episode_arc"
+										label="Arc of Episode"
+										type="select"
+										placeholder="The arc of episode, if it have"
+										options={showArcs.map((arc) => {
+											return {
+												label: arc.arc_name,
+												value: arc.id,
+											};
+										})}
+									/>
+								</div>
 							</div>
-						</div>
-					</FormSection>
 
-					<FormSection
-						header="Watching Servers"
-						faClass="fas fa-video"
-						id="watching"
-					>
-						{data.watching_servers.map((server, i) => (
-							<ServerField
-								key={i}
-								serverNo={i}
+							<div className="row">
+								<div className="col-1">
+									<FormField
+										name="episode.story"
+										label="Story"
+										type="textarea"
+										placeholder="Something about episode story here..."
+									/>
+								</div>
+							</div>
+						</FormSection>
+
+						<FormSection
+							header="Watching Servers"
+							faClass="fas fa-video"
+							id="watching"
+						>
+							{data.watching_servers.map((server, i) => (
+								<ServerField
+									key={i}
+									serverNo={i}
+									formName="episode"
+									value={server}
+								/>
+							))}
+							<AddMoreBtn
+								label="Add More Servers"
 								formName="episode"
-								value={server}
+								listName="watching_servers"
 							/>
-						))}
-						<AddMoreBtn
-							label="Add More Servers"
-							formName="episode"
-							listName="watching_servers"
-						/>
-					</FormSection>
+						</FormSection>
 
-					<FormSection
-						header="Video Files and Download Link"
-						faClass="far fa-file-video"
-						id="video-files"
-					>
-						{data.video_files.map((video_file, i) => (
-							<VideoFileField
-								key={i}
-								videoNo={i}
+						<FormSection
+							header="Video Files and Download Link"
+							faClass="far fa-file-video"
+							id="video-files"
+						>
+							{data.video_files.map((video_file, i) => (
+								<VideoFileField
+									key={i}
+									videoNo={i}
+									formName="episode"
+								/>
+							))}
+
+							<AddMoreBtn
+								label="Add More Videos"
 								formName="episode"
+								listName="video_files"
 							/>
-						))}
+						</FormSection>
+					</div>
 
-						<AddMoreBtn
-							label="Add More Videos"
-							formName="episode"
-							listName="video_files"
-						/>
-					</FormSection>
-				</div>
-
-				<div id="end-side">
-					<FormSideSection label="Publish" id="publish">
-						<PublishFields
-							form="episode"
-							submitLabel={data.id ? "Save Changes" : "Create"}
-							extraFields={[
-								<FormField
-									type="select"
-									label="Comments"
-									name="episode.comments_enabled"
-									options={[
-										{ label: "Enable", value: 1 },
-										{ label: "Disable", value: 0 },
-									]}
-								/>,
-							]}
-						/>
-					</FormSideSection>
-				</div>
-			</form>
+					<div id="end-side">
+						<FormSideSection label="Publish" id="publish">
+							<PublishFields
+								form="episode"
+								submitLabel={
+									data.id ? "Save Changes" : "Create"
+								}
+								extraFields={[
+									<FormField
+										type="select"
+										label="Comments"
+										name="episode.comments_enabled"
+										options={[
+											{ label: "Enable", value: 1 },
+											{ label: "Disable", value: 0 },
+										]}
+									/>,
+								]}
+							/>
+						</FormSideSection>
+					</div>
+				</form>
+			)}
 		</Fragment>
 	);
 };
@@ -207,8 +247,10 @@ export default connect(
 	(state) => ({ ...state.forms.episode, shows: state.shows }),
 	{
 		onSubmit: episodeFormActions.onFormSubmit,
+		onReset: formActions.onFormReset("episode"),
 		onWatchVideoPlayerDelete: episodeFormActions.onWatchVideoPlayerDelete,
 		onWatchVideoFileDelete: episodeFormActions.onWatchVideoFileDelete,
-		// onShowDataLoad: showFormActions.onShowDataLoad,
+		onEpisodeDataLoad: episodeFormActions.onEpisodeDataLoad,
+		onShowIdChange: episodeFormActions.onShowIdChange,
 	}
 )(EpisodeForm);

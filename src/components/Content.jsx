@@ -23,8 +23,8 @@ const Content = () => {
 	return (
 		<section id="content-section">
 			<Switch>
-				<Route path="/episodes/:id" component={EpisodeForm} />
 				<Route path="/episodes/add" component={EpisodeForm} />
+				<Route path="/episodes/:id" component={EpisodeForm} />
 				<Route path="/episodes" component={Episodes} />
 
 				<Route path="/layout/main-menu" component={MainMenu} />

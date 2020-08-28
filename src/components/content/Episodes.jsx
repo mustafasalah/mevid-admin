@@ -8,6 +8,8 @@ import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 
 class Episodes extends AbstractTablePage {
+	tableId = "episodes-table";
+
 	tableColumns = [
 		{
 			dataProp: "showName",
@@ -25,7 +27,7 @@ class Episodes extends AbstractTablePage {
 					></span>
 					<div className="episode">
 						<dl className="episode-info">
-							<dt>Episode Title:</dt>
+							<dt>Episode No:</dt>
 							<dd>
 								<Link to={`/episodes/${rowData.id}`}>
 									{`Episode ${rowData.episodeNo
@@ -52,7 +54,8 @@ class Episodes extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: "/episodes/view/:id",
+					href: "http://localhost/shows/:showId/episodes/:episodeNo",
+					absolute: true,
 				},
 				{
 					label: "Edit",
@@ -62,7 +65,13 @@ class Episodes extends AbstractTablePage {
 				{
 					label: "Delete",
 					className: "delete-item",
-					href: "/episodes/delete/:id",
+					href: "#delete-id",
+					onClick: ({ id }) => {
+						const isDelete = window.confirm(
+							"Are you sure to delete this episode?"
+						);
+						isDelete && this.props.deleteData(id);
+					},
 				},
 			],
 		},
@@ -96,7 +105,7 @@ class Episodes extends AbstractTablePage {
 	];
 
 	filtersData = {
-		category: ["tv show", "anime"],
+		category: ["tvshow", "anime"],
 		author: getAuthors().map((author) => author.name),
 		status: ["published", "drafted"],
 	};
@@ -127,11 +136,14 @@ class Episodes extends AbstractTablePage {
 	);
 
 	handleDelete() {
-		console.log(this.props.selectedItems, " Deleted!");
+		const deleteEpisodes = window.confirm(
+			"Are you sure to delete the selected shows?"
+		);
+		deleteEpisodes && this.props.deleteData(this.props.selectedItems);
 	}
 
 	handleStatusChange(status) {
-		console.log(this.props.selectedItems, " Changed to " + status + "!");
+		this.props.changeStatus(this.props.selectedItems, status);
 	}
 }
 

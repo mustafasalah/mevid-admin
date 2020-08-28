@@ -1,4 +1,5 @@
 import * as ACTIONS from "../actions/ActionTypes";
+import { toast } from "react-toastify";
 
 const SchedulerReducer = (
 	state = {
@@ -7,11 +8,28 @@ const SchedulerReducer = (
 	},
 	{ type, ...payload }
 ) => {
+	// handle http server errors
+	if (payload.error) {
+		toast.error(payload.payload.message);
+		return state;
+	}
+
 	switch (type) {
-		case ACTIONS.SCHEDULER_ADD_SHOW:
+		case ACTIONS.SCHEDULER_LOAD_DATA:
+			if (typeof payload.meta.callback === "function")
+				payload.meta.callback();
+
 			return {
-				schedulerForm: payload,
-				schedulers: [...state.schedulers, payload],
+				schedulerForm: { ...state.schedulerForm },
+				schedulers: [...payload.payload.data],
+			};
+
+		case ACTIONS.SCHEDULER_ADD_SHOW:
+			payload = payload.payload;
+
+			return {
+				schedulerForm: payload.data,
+				schedulers: [...state.schedulers, payload.data],
 			};
 
 		case ACTIONS.SCHEDULER_UPDATE_SHOW:
@@ -25,9 +43,10 @@ const SchedulerReducer = (
 			};
 
 		case ACTIONS.SCHEDULER_UPDATED_SHOW:
+			payload = payload.payload;
 			const updatedSchedulers = state.schedulers.map((scheduler) => {
-				if (scheduler.id !== payload.id) return scheduler;
-				return { ...scheduler, ...payload };
+				if (scheduler.id !== payload.data.id) return scheduler;
+				return { ...payload.data };
 			});
 
 			return {
@@ -36,8 +55,9 @@ const SchedulerReducer = (
 			};
 
 		case ACTIONS.SCHEDULER_DELETE_SHOW:
+			payload = payload.payload;
 			const filteredSchedulers = state.schedulers.filter(
-				(scheduler) => scheduler.id !== payload.id
+				(scheduler) => scheduler.id !== payload.data.id
 			);
 			return {
 				schedulerForm: state.schedulerForm,

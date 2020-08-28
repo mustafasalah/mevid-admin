@@ -273,6 +273,10 @@ table td i {
 	color: #8d99ae;
 }
 
+table#episodes-table td.primary-col {
+	min-width: 350px;
+}
+
 table td.primary-col > a {
 	font-weight: bold;
 	color: #2b2d42;

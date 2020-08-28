@@ -27,6 +27,12 @@ const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 	};
 };
 
+const onFormReset = (formType) => () => ({
+	type: ACTIONS.RESET_FORM,
+	formType,
+});
+
 export default {
 	onFieldChanged,
+	onFormReset,
 };

@@ -62,15 +62,7 @@ const onFormSubmit = async (data, callback) => {
 			await handleWatchingVideoUpload(data, value.watching_servers[0]);
 
 			// handle download videos upload process
-			if (
-				value.video_files.some((video_file) => {
-					return video_file.download_servers.some(
-						(server) => server.file || server.link
-					);
-				})
-			) {
-				await handleVideosFilesUpload(data, value.video_files);
-			}
+			await handleVideosFilesUpload(data, value.video_files);
 
 			// reflect the updated show in shows list
 			updateList("shows");
@@ -115,6 +107,7 @@ const onShowImageDelete = (imageField) => {
 const onShowDataLoad = (data) => ({
 	type: ACTIONS.LOAD_SHOW_DATA,
 	data,
+	formType: "show",
 });
 
 export default {

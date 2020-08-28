@@ -33,7 +33,7 @@ class AbstractShows extends AbstractTablePage {
 				{
 					label: "Delete",
 					className: "delete-item",
-					href: "/shows/delete/:id",
+					href: "#delete-:id",
 					onClick: ({ id }) => {
 						const isDelete = window.confirm(
 							"Are you sure to delete this show?"
@@ -90,7 +90,6 @@ class AbstractShows extends AbstractTablePage {
 	}
 
 	handleDelete() {
-		// console.log(this.props.selectedItems, " Deleted!");
 		const deleteShows = window.confirm(
 			"Are you sure to delete the selected shows?"
 		);

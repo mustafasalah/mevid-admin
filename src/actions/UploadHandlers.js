@@ -75,13 +75,25 @@ export const handleGalleryUpload = async ({ show_id, name }, images) => {
 };
 
 export const handleVideosFilesUpload = async (
-	{ show_id, name },
+	{ show_id, name, episode_no },
 	videosFiles
 ) => {
+	// if there are no download servers for video files, do nothing
+	if (
+		!videosFiles.some((video_file) => {
+			return video_file.download_servers.some(
+				(server) => server.file || server.link
+			);
+		})
+	) {
+		return;
+	}
+
 	const formData = new FormData();
 	let fileUploadFound = false;
 
 	formData.append("show_name", name);
+	episode_no && formData.append("episode_no", episode_no);
 
 	for (let videoFile of videosFiles) {
 		// Skip not saved deleted video files
@@ -118,7 +130,7 @@ export const handleVideosFilesUpload = async (
 		return Promise.resolve();
 	}
 
-	return http.post(`/shows/upload/videos/${show_id}`, formData);
+	return http.post(`/upload/videos/${show_id}`, formData);
 };
 
 export const handleWatchingVideoUpload = async (
