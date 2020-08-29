@@ -50,11 +50,15 @@ const EpisodeForm = ({
 	}, []);
 
 	useEffect(() => {
-		// to reset episode arc field to nothing when episode show changed
+		// to reset episode arc field to nothing when the show of episode was changed
 		onShowIdChange();
 
 		(async () => {
+			// if there is no show selected do nothing
 			if (data.show_id === "") return;
+
+			// if there is show selected then get arcs
+			// list for that shows and set it in form state
 			try {
 				setShowArcs(await getShowArcs(data.show_id));
 			} catch (ex) {
@@ -68,7 +72,10 @@ const EpisodeForm = ({
 
 	return (
 		<Fragment>
-			<SectionHeader name="New Episode" faClass="fas fa-plus fa-sm" />
+			<SectionHeader
+				name={`${episodeId ? "Edit" : "New"} Episode`}
+				faClass={`fas ${episodeId ? "fa-edit" : "fa-plus fa-sm"}`}
+			/>
 
 			{episodeId && data.id === "" ? (
 				<Loader />

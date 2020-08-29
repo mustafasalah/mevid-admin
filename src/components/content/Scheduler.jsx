@@ -19,8 +19,10 @@ const Scheduler = ({
 	shows,
 	schedulerForm,
 }) => {
+	// loaded state is state used to show and hide loader
 	const [loaded, setLoaded] = useState(false);
 
+	// load scheduler data from server side and set loaded state to true
 	useEffect(() => {
 		onSchedulerLoad(() => {
 			setLoaded(true);
@@ -61,6 +63,9 @@ const Scheduler = ({
 };
 
 export default connect(
-	(state) => ({ ...state.schedule, shows: state.shows }),
+	(state) => ({
+		...state.schedule,
+		shows: state.shows.filter((show) => show.category !== "movie"),
+	}),
 	SchedulerActions
 )(Scheduler);

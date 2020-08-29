@@ -28,24 +28,38 @@ class Comments extends AbstractTablePage {
 				{
 					label: "Approve",
 					className: "approve-item",
-					href: "#",
+					href: "#approve-comment-:id",
 					on: ({ status }) => status !== "approved",
+					onClick: ({ id }) => {
+						this.props.changeStatus([id], "approve");
+					},
 				},
 				{
 					label: "Unapprove",
 					className: "unapprove-item",
-					href: "#",
+					href: "#unapprove-comment-:id",
 					on: ({ status }) => status === "approved",
+					onClick: ({ id }) => {
+						this.props.changeStatus([id], "unapprove");
+					},
 				},
 				{
 					label: "Reply",
 					className: "reply-item",
-					href: "#",
+					href:
+						"http://localhost/shows/:showId/episodes/:episodeNo#comments",
+					absolute: true,
 				},
 				{
 					label: "Delete",
 					className: "delete-item",
-					href: "/comments/delete/:id",
+					href: "#delete-comment-:id",
+					onClick: ({ id }) => {
+						const isDelete = window.confirm(
+							"Are you sure to delete this comment?"
+						);
+						isDelete && this.props.deleteData(id);
+					},
 				},
 			],
 		},
@@ -58,24 +72,34 @@ class Comments extends AbstractTablePage {
 			render: (rowData) => (
 				<Fragment>
 					<p>
-						{rowData.reply && (
+						{rowData.replyAuthorId && (
 							<Fragment>
-								<Link to={`/users/${rowData.reply.authorId}`}>
-									{rowData.reply.author}
-								</Link>
+								<a
+									href={`http://localhost/user/${rowData.replyAuthorId}`}
+									target="_blank"
+								>
+									{
+										this.props.authors.find(
+											(author) =>
+												author.id ==
+												rowData.replyAuthorId
+										).username
+									}
+								</a>
 								<i> Comments on:</i>
 								<br />
 							</Fragment>
 						)}
-						<Link
-							className={rowData.reply ? "mg-top" : ""}
-							to={`/episodes/${rowData.episodeId}`}
+						<a
+							className={rowData.replyAuthorId ? "mg-top" : ""}
+							href={`http://localhost/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
+							target="_blank"
 						>
 							Episode
 							{` ${rowData.episodeNo
 								.toString()
 								.padStart(2, "0")}: ${rowData.showName}`}
-						</Link>
+						</a>
 					</p>
 				</Fragment>
 			),
@@ -116,17 +140,19 @@ class Comments extends AbstractTablePage {
 	);
 
 	handleDelete() {
-		console.log(this.state.selectedItems, " Deleted!");
+		const isDelete = window.confirm("Are you sure to delete this comment?");
+		isDelete && this.props.deleteData(this.props.selectedItems);
 	}
 
 	handleStatusChange(status) {
-		console.log(this.state.selectedItems, " Changed to " + status + "!");
+		this.props.changeStatus(this.props.selectedItems, status);
 	}
 }
 
 const mapStateToProps = (state) => ({
 	...state.tables.comments,
 	items: state.comments,
+	authors: state.users,
 });
 
 const mapDispatchToProps = {

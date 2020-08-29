@@ -86,7 +86,7 @@ class Episodes extends AbstractTablePage {
 			label: "Author",
 			haveSort: true,
 			type: "link",
-			href: "/users/:authorId",
+			href: "http://localhost/user/:authorId",
 		},
 		{
 			dataProp: "comments",

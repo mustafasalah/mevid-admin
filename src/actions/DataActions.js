@@ -4,6 +4,8 @@ import http from "./../components/services/httpServices";
 const mapStatus = new Map([
 	["publish", "published"],
 	["draft", "drafted"],
+	["approve", "approved"],
+	["unapprove", "unapproved"],
 ]);
 
 const getDataActions = (dataType) => ({

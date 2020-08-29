@@ -85,7 +85,11 @@ const ShowForm = ({
 
 	useEffect(() => {
 		(async () => {
+			// To reset form fields to its default value
+			// (if the user edit show and then go to new one this will delete edited show state)
 			if (showId === undefined) return onReset();
+
+			// loading show data from server side and set it in form state
 			try {
 				const showData = await getShowData(showId);
 				onShowDataLoad(showData);
@@ -101,8 +105,8 @@ const ShowForm = ({
 	return (
 		<Fragment>
 			<SectionHeader
-				name={`New ${showType || "Show"}`}
-				faClass="fas fa-plus fa-sm"
+				name={`${showId ? "Edit" : "New"} ${showType || "Show"}`}
+				faClass={`fas ${showId ? "fa-edit" : "fa-plus fa-sm"}`}
 			/>
 			{showType === undefined ? (
 				<Loader />
