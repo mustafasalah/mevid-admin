@@ -1,6 +1,9 @@
+import React from "react";
 import getAuthors from "../services/fakeAuthorsServices";
 import AbstractTablePage from "./AbstractTablePage";
 import getGenres from "./../services/getGenres";
+
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
 class AbstractShows extends AbstractTablePage {
 	tableColumns = [
@@ -22,7 +25,7 @@ class AbstractShows extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: "http://localhost/shows/:id",
+					href: `${HOSTNAME}/shows/:id`,
 					absolute: true,
 				},
 				{
@@ -47,8 +50,10 @@ class AbstractShows extends AbstractTablePage {
 			dataProp: "author",
 			label: "Author",
 			haveSort: true,
-			type: "link",
-			href: "/users/:authorId",
+			type: "custom",
+			render: ({ author, authorId }) => (
+				<a href={`${HOSTNAME}/user/${authorId}`}>{author}</a>
+			),
 		},
 		{ dataProp: "reviews", label: "Reviews", haveSort: true, type: "text" },
 		{ dataProp: "status", label: "Status", haveSort: true, type: "text" },

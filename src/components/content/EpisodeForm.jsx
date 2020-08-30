@@ -12,7 +12,6 @@ import FormSideSection from "./../common/form/FormSideSection";
 import PublishFields from "./PublishFields";
 import episodeFormActions from "./../../actions/EpisodeFormActions";
 import getEpisodeData from "../services/episodeDataService";
-import formActions from "./../../actions/FormActions";
 import { getShowArcs } from "../services/fakeShowDataService";
 import Loader from "./../common/Loader";
 
@@ -254,7 +253,7 @@ export default connect(
 	(state) => ({ ...state.forms.episode, shows: state.shows }),
 	{
 		onSubmit: episodeFormActions.onFormSubmit,
-		onReset: formActions.onFormReset("episode"),
+		onReset: episodeFormActions.onFormReset,
 		onWatchVideoPlayerDelete: episodeFormActions.onWatchVideoPlayerDelete,
 		onWatchVideoFileDelete: episodeFormActions.onWatchVideoFileDelete,
 		onEpisodeDataLoad: episodeFormActions.onEpisodeDataLoad,

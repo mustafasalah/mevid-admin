@@ -2,10 +2,27 @@ import * as ACTIONS from "../actions/ActionTypes";
 import { getNestedProperty, setNestedProperty, deepCopy } from "../js/Utility";
 import initialShowState, { listItemsDefaults } from "./InitialShowState";
 import initialEpisodeState from "./InitialEpisodeState";
+import initialPageState from "./InitialPageState";
 
 const formReducer = (formType) => {
-	const initialState =
-		formType === "show" ? initialShowState : initialEpisodeState;
+	let initialState;
+
+	switch (formType) {
+		case "show":
+			initialState = initialShowState;
+			break;
+
+		case "episode":
+			initialState = initialEpisodeState;
+			break;
+
+		case "page":
+			initialState = initialPageState;
+			break;
+
+		default:
+			initialState = { data: {}, errors: {} };
+	}
 
 	return (state = initialState, { type, ...payload }) => {
 		let newState;
@@ -147,6 +164,12 @@ const formReducer = (formType) => {
 				return {
 					errors: state.errors,
 					data: showData,
+				};
+
+			case ACTIONS.LOAD_PAGE_DATA:
+				return {
+					data: payload.data,
+					errors: state.errors,
 				};
 
 			case ACTIONS.DELETE_SHOW_IMAGE:

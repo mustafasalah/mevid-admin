@@ -12,13 +12,13 @@ import {
 	handleVideosFilesUpload,
 } from "./UploadHandlers";
 import {
-	updateList,
 	onWatchVideoFileDelete,
 	onWatchVideoPlayerDelete,
 	onVideoFileDelete,
 	onVideoLinkDelete,
 	onVideoInfoDelete,
 } from "./MediaFormActions";
+import FormActions from "./FormActions";
 
 const onFormSubmit = async (data, callback) => {
 	const { value, error } = joi.object(showSchema).validate(data);
@@ -65,7 +65,7 @@ const onFormSubmit = async (data, callback) => {
 			await handleVideosFilesUpload(data, value.video_files);
 
 			// reflect the updated show in shows list
-			updateList("shows");
+			FormActions.updateList("shows");
 
 			return {
 				type: ACTIONS.SUBMIT_FORM,
@@ -112,6 +112,8 @@ const onShowDataLoad = (data) => ({
 
 export default {
 	onFormSubmit,
+	onFieldChanged: FormActions.onFieldChanged("show"),
+	onFormReset: FormActions.onFormReset("show"),
 	onFormTypeChange,
 	onWatchVideoFileDelete,
 	onWatchVideoPlayerDelete,

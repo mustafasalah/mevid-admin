@@ -96,6 +96,7 @@ class TableCell extends Component {
 			default:
 				return (
 					<Fragment>
+						{column.render && column.render(rowData)}
 						{data}
 						{this.renderLinksNav()}
 					</Fragment>

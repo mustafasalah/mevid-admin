@@ -7,6 +7,8 @@ import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
+
 class Episodes extends AbstractTablePage {
 	tableId = "episodes-table";
 
@@ -54,7 +56,7 @@ class Episodes extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: "http://localhost/shows/:showId/episodes/:episodeNo",
+					href: `${HOSTNAME}/shows/:showId/episodes/:episodeNo`,
 					absolute: true,
 				},
 				{
@@ -85,8 +87,10 @@ class Episodes extends AbstractTablePage {
 			dataProp: "author",
 			label: "Author",
 			haveSort: true,
-			type: "link",
-			href: "http://localhost/user/:authorId",
+			type: "custom",
+			render: ({ author, authorId }) => (
+				<a href={`${HOSTNAME}/user/${authorId}`}>{author}</a>
+			),
 		},
 		{
 			dataProp: "comments",

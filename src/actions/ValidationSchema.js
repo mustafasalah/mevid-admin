@@ -29,6 +29,13 @@ const publishSchema = {
 	description: joi.string().max(255).empty(""),
 };
 
+export const pageSchema = {
+	...generalSchema,
+	...publishSchema,
+	title: joi.string().required().empty("").label("Page Title"),
+	content: joi.string().required().empty("").label("Page Content"),
+};
+
 const mediaSchema = {
 	duration: joi
 		.string()

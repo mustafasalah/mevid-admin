@@ -1,10 +1,11 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
+
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
 class Comments extends AbstractTablePage {
 	tableId = "comments-table";
@@ -46,8 +47,7 @@ class Comments extends AbstractTablePage {
 				{
 					label: "Reply",
 					className: "reply-item",
-					href:
-						"http://localhost/shows/:showId/episodes/:episodeNo#comments",
+					href: `${HOSTNAME}/shows/:showId/episodes/:episodeNo#comments`,
 					absolute: true,
 				},
 				{
@@ -75,7 +75,7 @@ class Comments extends AbstractTablePage {
 						{rowData.replyAuthorId && (
 							<Fragment>
 								<a
-									href={`http://localhost/user/${rowData.replyAuthorId}`}
+									href={`${HOSTNAME}/user/${rowData.replyAuthorId}`}
 									target="_blank"
 								>
 									{
@@ -92,7 +92,7 @@ class Comments extends AbstractTablePage {
 						)}
 						<a
 							className={rowData.replyAuthorId ? "mg-top" : ""}
-							href={`http://localhost/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
+							href={`${HOSTNAME}/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
 							target="_blank"
 						>
 							Episode
@@ -140,7 +140,9 @@ class Comments extends AbstractTablePage {
 	);
 
 	handleDelete() {
-		const isDelete = window.confirm("Are you sure to delete this comment?");
+		const isDelete = window.confirm(
+			"Are you sure to delete the selected comments?"
+		);
 		isDelete && this.props.deleteData(this.props.selectedItems);
 	}
 
@@ -159,4 +161,5 @@ const mapDispatchToProps = {
 	...getTableActions("comments"),
 	...getDataActions("comments"),
 };
+
 export default connect(mapStateToProps, mapDispatchToProps)(Comments);

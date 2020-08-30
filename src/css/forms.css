@@ -980,8 +980,12 @@ ol#arcs-list .arc-actions a.delete::before {
 
 #page-html-editor {
 	min-height: 350px;
-	max-height: 500px;
+	max-height: 450px;
 	overflow-y: auto;
+}
+
+#page-html-editor .ql-editor {
+	min-height: 350px;
 }
 
 /*------------ Gallery dropzone style sheet -----------*/

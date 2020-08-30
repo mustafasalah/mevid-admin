@@ -25,7 +25,6 @@ import Gallery from "./Gallery";
 import Arcs from "./Arcs";
 import TagsField from "./TagsField";
 import showFormActions from "./../../actions/ShowFormActions";
-import formActions from "./../../actions/FormActions";
 import { getShowData } from "../services/fakeShowDataService";
 import Loader from "./../common/Loader";
 
@@ -559,8 +558,8 @@ export default connect(
 	(state) => ({ ...state.forms.show, shows: state.shows }),
 	{
 		onSubmit: showFormActions.onFormSubmit,
-		onChange: formActions.onFieldChanged("show"),
-		onReset: formActions.onFormReset("show"),
+		onChange: showFormActions.onFieldChanged,
+		onReset: showFormActions.onFormReset,
 		onTypeChange: showFormActions.onFormTypeChange,
 		onShowImageDelete: showFormActions.onShowImageDelete,
 		onShowDataLoad: showFormActions.onShowDataLoad,

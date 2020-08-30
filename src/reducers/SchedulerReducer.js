@@ -9,7 +9,7 @@ const SchedulerReducer = (
 	{ type, ...payload }
 ) => {
 	// handle http server errors
-	if (payload.error) {
+	if (type.startsWith("SCHEDULER") && payload.error) {
 		toast.error(payload.payload.message);
 		return state;
 	}

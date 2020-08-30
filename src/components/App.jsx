@@ -12,8 +12,7 @@ class App extends Component {
 
 		onUserLogin({
 			id: 21,
-			profileImage:
-				"http://localhost/media/profile_images/profile_image_21.jpg",
+			profileImage: `${process.env.HOSTNAME}/media/profile_images/profile_image_21.jpg`,
 			username: "mustafa",
 			name: "Mustafa Admin",
 			role: "admin",

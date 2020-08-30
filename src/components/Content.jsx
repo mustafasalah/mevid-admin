@@ -37,9 +37,9 @@ const Content = () => {
 
 				<Route path="/scheduler" component={Scheduler} />
 
-				<Route path="/pages/edit/:id" component={Page} />
 				<Route path="/pages/new" component={Page} />
-				<Route path="/pages" component={Pages} />
+				<Route path="/pages/:id" component={Page} />
+				<Route path="/pages" component={Pages} exact />
 
 				<Route path="/reviews" component={Reviews} />
 				<Route path="/comments" component={Comments} />

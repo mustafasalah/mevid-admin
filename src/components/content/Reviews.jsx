@@ -6,6 +6,8 @@ import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 import getReviews from "./../services/fakeReviewsServices";
 
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
+
 class Reviews extends AbstractTablePage {
 	tableId = "reviews-table";
 
@@ -24,23 +26,38 @@ class Reviews extends AbstractTablePage {
 			classNames: "align-start",
 			haveSort: false,
 			type: "text",
+			render: ({ title }) => {
+				return <h4>{title}</h4>;
+			},
 			linksNav: [
 				{
 					label: "Approve",
 					className: "approve-item",
-					href: "#",
+					href: "#approve-review-:id",
 					on: ({ status }) => status !== "approved",
+					onClick: ({ id }) => {
+						this.props.changeStatus([id], "approve");
+					},
 				},
 				{
 					label: "Unapprove",
 					className: "unapprove-item",
-					href: "#",
+					href: "#unapprove-review-:id",
 					on: ({ status }) => status === "approved",
+					onClick: ({ id }) => {
+						this.props.changeStatus([id], "unapprove");
+					},
 				},
 				{
 					label: "Delete",
 					className: "delete-item",
-					href: "/reviews/delete/:id",
+					href: "#delete-review-:id",
+					onClick: ({ id }) => {
+						const isDelete = window.confirm(
+							"Are you sure to delete this review?"
+						);
+						isDelete && this.props.deleteData(id);
+					},
 				},
 			],
 		},
@@ -70,8 +87,10 @@ class Reviews extends AbstractTablePage {
 			label: "Show",
 			haveSort: true,
 			classNames: "align-start primary-col",
-			type: "link",
-			href: "/shows/:showId",
+			type: "custom",
+			render: ({ showName, showId }) => (
+				<a href={`${HOSTNAME}/shows/${showId}`}>{showName}</a>
+			),
 		},
 		{
 			dataProp: "publishDate",
@@ -115,11 +134,14 @@ class Reviews extends AbstractTablePage {
 	}
 
 	handleDelete() {
-		console.log(this.state.selectedItems, " Deleted!");
+		const isDelete = window.confirm(
+			"Are you sure to delete the selected reviews?"
+		);
+		isDelete && this.props.deleteData(this.props.selectedItems);
 	}
 
 	handleStatusChange(status) {
-		console.log(this.state.selectedItems, " Changed to " + status + "!");
+		this.props.changeStatus(this.props.selectedItems, status);
 	}
 }
 

@@ -6,6 +6,8 @@ import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 import getPages from "./../services/fakePagesServices";
 
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
+
 class Pages extends AbstractTablePage {
 	tableId = "pages-table";
 
@@ -21,17 +23,24 @@ class Pages extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: "/pages/:id",
+					href: `${HOSTNAME}/pages/:title`,
+					absolute: true,
 				},
 				{
 					label: "Edit",
 					className: "edit-item",
-					href: "/pages/edit/:id",
+					href: "/pages/:id",
 				},
 				{
 					label: "Delete",
 					className: "delete-item",
-					href: "/pages/delete/:id",
+					href: "#delete-page-:id",
+					onClick: ({ id }) => {
+						const isDelete = window.confirm(
+							"Are you sure to delete this page?"
+						);
+						isDelete && this.props.deleteData(id);
+					},
 				},
 			],
 		},
@@ -40,8 +49,10 @@ class Pages extends AbstractTablePage {
 			label: "Author",
 			classNames: "more-padding",
 			haveSort: true,
-			type: "link",
-			href: "/users/:authorId",
+			type: "custom",
+			render: ({ author, authorId }) => (
+				<a href={`${HOSTNAME}/user/${authorId}`}>{author}</a>
+			),
 		},
 		{ dataProp: "status", label: "Status", haveSort: true, type: "text" },
 		{
@@ -94,11 +105,14 @@ class Pages extends AbstractTablePage {
 	}
 
 	handleDelete() {
-		console.log(this.state.selectedItems, " Deleted!");
+		const isDelete = window.confirm(
+			"Are you sure to delete the selected pages?"
+		);
+		isDelete && this.props.deleteData(this.props.selectedItems);
 	}
 
 	handleStatusChange(status) {
-		console.log(this.state.selectedItems, " Changed to " + status + "!");
+		this.props.changeStatus(this.props.selectedItems, status);
 	}
 }
 

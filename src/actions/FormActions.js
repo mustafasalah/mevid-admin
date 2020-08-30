@@ -1,5 +1,36 @@
 import * as ACTIONS from "./ActionTypes";
-import { schema, nestedSchema } from "./ValidationSchema";
+import { schema, nestedSchema, pageSchema } from "./ValidationSchema";
+import getEpisodes from "../components/services/fakeEpisodesServices";
+import getShows from "../components/services/fakeShowsServices";
+import getPages from "../components/services/fakePagesServices";
+import store from "../store";
+
+const updateList = async (listType) => {
+	let items;
+
+	switch (listType) {
+		case "shows":
+			items = await getShows();
+			break;
+
+		case "episodes":
+			items = await getEpisodes();
+			break;
+
+		case "pages":
+			items = await getPages();
+			break;
+
+		default:
+			items = [];
+	}
+
+	store.dispatch({
+		type: ACTIONS.LOAD_DATA,
+		dataType: listType,
+		data: items,
+	});
+};
 
 const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 	let value, error;
@@ -11,9 +42,15 @@ const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 			/^(watching_servers|video_files_download_servers_file)/
 		)
 	) {
-		({ value, error } = { ...schema, ...nestedSchema }[
-			validateKey
-		].validate(fieldValue));
+		if (formType === "page") {
+			({ value, error } = { ...pageSchema, ...nestedSchema }[
+				validateKey
+			].validate(fieldValue));
+		} else {
+			({ value, error } = { ...schema, ...nestedSchema }[
+				validateKey
+			].validate(fieldValue));
+		}
 	} else {
 		value = fieldValue;
 	}
@@ -35,4 +72,5 @@ const onFormReset = (formType) => () => ({
 export default {
 	onFieldChanged,
 	onFormReset,
+	updateList,
 };

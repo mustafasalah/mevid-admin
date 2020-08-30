@@ -1,30 +1,4 @@
 import * as ACTIONS from "./ActionTypes";
-import getEpisodes from "../components/services/fakeEpisodesServices";
-import getShows from "../components/services/fakeShowsServices";
-import store from "../store";
-
-export const updateList = async (listType) => {
-	let items;
-
-	switch (listType) {
-		case "shows":
-			items = await getShows();
-			break;
-
-		case "episodes":
-			items = await getEpisodes();
-			break;
-
-		default:
-			items = [];
-	}
-
-	store.dispatch({
-		type: ACTIONS.LOAD_DATA,
-		dataType: listType,
-		data: items,
-	});
-};
 
 export const onWatchVideoFileDelete = (formType, resolution) => {
 	return {

@@ -6,7 +6,6 @@ import http from "../components/services/httpServices";
 import { episodeSchema } from "./ValidationSchema";
 import FormActions from "./FormActions";
 import {
-	updateList,
 	onWatchVideoFileDelete,
 	onWatchVideoPlayerDelete,
 	onVideoFileDelete,
@@ -37,7 +36,7 @@ const onFormSubmit = async (data, callback) => {
 			await handleVideosFilesUpload(data, value.video_files);
 
 			// reflect the updated show in shows list
-			updateList("episodes");
+			FormActions.updateList("episodes");
 
 			return {
 				type: ACTIONS.SUBMIT_FORM,
@@ -75,6 +74,7 @@ const onShowIdChange = () => ({
 export default {
 	onFormSubmit,
 	onFieldChange: FormActions.onFieldChanged("episode"),
+	onFormReset: FormActions.onFormReset("episode"),
 	onWatchVideoFileDelete,
 	onWatchVideoPlayerDelete,
 	onVideoFileDelete,
