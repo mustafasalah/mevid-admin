@@ -6,6 +6,8 @@ import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 import getUsers from "./../services/fakeUsersServices";
 
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
+
 class Users extends AbstractTablePage {
 	tableId = "users-table";
 
@@ -35,12 +37,29 @@ class Users extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: "/users/:id",
+					href: `${HOSTNAME}/user/:id`,
+					absolute: true,
 				},
 				{
 					label: "Edit",
 					className: "edit-item",
-					href: "/users/edit/:id",
+					href: "/users/:id",
+				},
+				{
+					label: "Activate",
+					href: "#activate-user-:id",
+					on: ({ status }) => status !== "active",
+					onClick: ({ id }) => {
+						this.props.changeStatus([id], "active");
+					},
+				},
+				{
+					label: "Ban",
+					href: "#ban-user-:id",
+					on: ({ status }) => status === "active",
+					onClick: ({ id }) => {
+						this.props.changeStatus([id], "ban");
+					},
 				},
 			],
 		},
@@ -98,11 +117,14 @@ class Users extends AbstractTablePage {
 	}
 
 	handleDelete() {
-		console.log(this.props.selectedItems, " Deleted!");
+		const isDelete = window.confirm(
+			"Are you sure to delete the selected users?"
+		);
+		isDelete && this.props.deleteData(this.props.selectedItems);
 	}
 
 	handleStatusChange(status) {
-		console.log(this.props.selectedItems, " Changed to " + status + "!");
+		this.props.changeStatus(this.props.selectedItems, status);
 	}
 }
 

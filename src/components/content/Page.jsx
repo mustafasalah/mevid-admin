@@ -8,6 +8,7 @@ import SectionHeader from "./../common/SectionHeader";
 import FormSideSection from "./../common/form/FormSideSection";
 import PublishFields from "./PublishFields";
 import PageFormActions from "../../actions/PageFormActions";
+import getPages from "../services/pagesServices";
 
 const Page = ({
 	data,
@@ -19,29 +20,38 @@ const Page = ({
 	const history = useHistory();
 	const params = useParams();
 	const pageId = params.id && Number(params.id);
-
-	// useEffect(() => {
-	// 	(async () => {
-	// 		if (pageId === undefined) return onReset();
-	// 		try {
-	// 			const episodeData = await getPageData(pageId);
-	// 			onPageDataLoad(episodeData);
-	// 		} catch (ex) {
-	// 			toast.error("There is no page with this id: " + pageId, {
-	// 				autoClose: 2500,
-	// 				onClose: () => history.goBack(),
-	// 			});
-	// 		}
-	// 	})();
-	// }, []);
+	let editor;
 
 	useEffect(() => {
 		// initialize Qill Editor
 		const quill = QuillEditor();
+		editor = $(quill.container).children(".ql-editor");
 		quill.on("text-change", (delta, oldContent) => {
-			const content = $(quill.container).children(".ql-editor").html();
+			const content = editor.html();
 			onChange("content", content);
 		});
+	}, []);
+
+	useEffect(() => {
+		(async () => {
+			if (pageId === undefined) {
+				onReset();
+				editor.html("");
+				return;
+			}
+
+			try {
+				const pageData = await getPages(pageId);
+				onPageDataLoad(pageData, ({ content }) => {
+					editor.html(content);
+				});
+			} catch (ex) {
+				toast.error("There is no page with this id: " + pageId, {
+					autoClose: 2500,
+					onClose: () => history.goBack(),
+				});
+			}
+		})();
 	}, []);
 
 	return (

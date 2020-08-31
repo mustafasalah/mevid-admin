@@ -6,6 +6,8 @@ const mapStatus = new Map([
 	["draft", "drafted"],
 	["approve", "approved"],
 	["unapprove", "unapproved"],
+	["active", "active"],
+	["ban", "banned"],
 ]);
 
 const getDataActions = (dataType) => ({

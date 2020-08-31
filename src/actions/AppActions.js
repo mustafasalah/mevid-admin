@@ -1,10 +1,10 @@
 import * as ACTIONS from "./ActionTypes";
-import getShows from "./../components/services/fakeShowsServices";
+import getShows from "./../components/services/showsServices";
 import getComments from "./../components/services/fakeCommentsServices";
 import getReviews from "./../components/services/fakeReviewsServices";
-import getPages from "./../components/services/fakePagesServices";
+import getPages from "../components/services/pagesServices";
 import getUsers from "./../components/services/fakeUsersServices";
-import getEpisodes from "./../components/services/fakeEpisodesServices";
+import getEpisodes from "./../components/services/episodesServices";
 
 const onUserLogin = (loggedUser) => ({
 	type: ACTIONS.LOGIN_USER,

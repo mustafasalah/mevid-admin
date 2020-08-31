@@ -1,8 +1,8 @@
 import * as ACTIONS from "./ActionTypes";
 import { schema, nestedSchema, pageSchema } from "./ValidationSchema";
-import getEpisodes from "../components/services/fakeEpisodesServices";
-import getShows from "../components/services/fakeShowsServices";
-import getPages from "../components/services/fakePagesServices";
+import getEpisodes from "../components/services/episodesServices";
+import getShows from "../components/services/showsServices";
+import getPages from "../components/services/pagesServices";
 import store from "../store";
 
 const updateList = async (listType) => {

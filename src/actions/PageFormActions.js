@@ -42,10 +42,11 @@ const onFormSubmit = async (data, callback) => {
 	}
 };
 
-const onPageDataLoad = (data) => ({
+const onPageDataLoad = (data, callback) => ({
 	type: ACTIONS.LOAD_PAGE_DATA,
 	data,
 	formType: "page",
+	callback,
 });
 
 export default {

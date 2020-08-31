@@ -93,7 +93,7 @@ import http from "./httpServices";
 // 	},
 // ];
 
-export default async function getEpisodes() {
-	const episodes = await http.get("/episodes");
+export default async function getEpisodes(id) {
+	const episodes = await http.get(`/episodes/${id || ""}`);
 	return episodes.data;
 }

@@ -167,6 +167,9 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.LOAD_PAGE_DATA:
+				if (typeof payload.callback === "function") {
+					payload.callback(payload.data);
+				}
 				return {
 					data: payload.data,
 					errors: state.errors,

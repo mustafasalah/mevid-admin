@@ -25,7 +25,7 @@ import Gallery from "./Gallery";
 import Arcs from "./Arcs";
 import TagsField from "./TagsField";
 import showFormActions from "./../../actions/ShowFormActions";
-import { getShowData } from "../services/fakeShowDataService";
+import getShows from "../services/showsServices";
 import Loader from "./../common/Loader";
 
 const paramTypeToDataType = new Map([
@@ -90,7 +90,7 @@ const ShowForm = ({
 
 			// loading show data from server side and set it in form state
 			try {
-				const showData = await getShowData(showId);
+				const showData = await getShows(showId);
 				onShowDataLoad(showData);
 			} catch (ex) {
 				toast.error("There is no show with this id: " + showId, {

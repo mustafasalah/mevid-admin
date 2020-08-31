@@ -11,8 +11,8 @@ import VideoFileField from "./VideoFileField";
 import FormSideSection from "./../common/form/FormSideSection";
 import PublishFields from "./PublishFields";
 import episodeFormActions from "./../../actions/EpisodeFormActions";
-import getEpisodeData from "../services/episodeDataService";
-import { getShowArcs } from "../services/fakeShowDataService";
+import getEpisodes from "../services/episodesServices";
+import { getShowArcs } from "../services/showsServices";
 import Loader from "./../common/Loader";
 
 const EpisodeForm = ({
@@ -37,7 +37,7 @@ const EpisodeForm = ({
 		(async () => {
 			if (episodeId === undefined) return onReset();
 			try {
-				const episodeData = await getEpisodeData(episodeId);
+				const episodeData = await getEpisodes(episodeId);
 				onEpisodeDataLoad(episodeData);
 			} catch (ex) {
 				toast.error("There is no episode with this id: " + episodeId, {

@@ -51,13 +51,12 @@ const Content = () => {
 				<Route path="/shows/:id" component={ShowForm} />
 				<Route path="/shows" component={Shows} />
 
-				<Route path={"/dashboard"} component={Dashboard} />
+				<Route path="/dashboard" component={Dashboard} />
 
 				<Redirect from="/tv-shows" to="/shows/tv-shows" />
 				<Redirect from="/anime" to="/shows/anime" />
 				<Redirect from="/movies" to="/shows/movies" />
-
-				<Redirect to="/dashboard" />
+				<Redirect from="/" to="/dashboard" />
 			</Switch>
 		</section>
 	);

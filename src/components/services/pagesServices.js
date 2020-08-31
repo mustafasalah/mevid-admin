@@ -11,7 +11,7 @@ import http from "./httpServices";
 // 	},
 // ];
 
-export default async function getPages() {
-	const pages = await http.get("/pages");
+export default async function getPages(id) {
+	const pages = await http.get(`/pages/${id || ""}`);
 	return pages.data;
 }
