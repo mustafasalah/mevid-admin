@@ -7,6 +7,7 @@ import {
 	getAudioType,
 	getRawTypes,
 } from "../components/services/fakeShowsInfoServices";
+import countires from "./../components/services/getCountries";
 
 const generalSchema = {
 	id: joi.number().integer().min(1).empty(""),
@@ -19,7 +20,9 @@ const publishSchema = {
 			time: joi
 				.string()
 				.regex(/\d{1,2}:\d{1,2}:\d{1,2}/)
-				.message("Invalid time value syntax"),
+				.messages({
+					"string.pattern.base": "Invalid time value syntax",
+				}),
 		})
 		.with("date", "time")
 		.empty({ date: "", time: "" }),
@@ -34,6 +37,41 @@ export const pageSchema = {
 	...publishSchema,
 	title: joi.string().required().empty("").label("Page Title"),
 	content: joi.string().required().empty("").label("Page Content"),
+};
+
+export const userSchema = {
+	...generalSchema,
+	username: joi
+		.string()
+		.regex(/^[a-zA-Z]\w+$/)
+		.empty("")
+		.required()
+		.messages({
+			"string.pattern.base":
+				"The username can contain only english letters, digits and underscore(_), and must start with english letter.",
+		}),
+	email: joi
+		.string()
+		.email({ tlds: { allow: false } })
+		.empty("")
+		.required(),
+	password: joi.string().min(6).max(20).empty("").required(),
+	confirm_password: joi.ref("password"),
+	first_name: joi.string().min(2).empty("").required(),
+	last_name: joi.string().min(2).empty("").required(),
+	age: joi.number().integer().min(10).max(100).empty(""),
+	gender: joi.allow("m", "f").empty(""),
+	country: joi.string().empty(""),
+	avatar: joi.object().empty(""),
+	role: joi.allow("user", "supervisor", "admin").required(),
+	banned: joi.allow("1", "0").required(),
+	email_verification: joi.allow("1", "0").required(),
+	social_accounts: joi.object({
+		facebook: joi.string().uri().empty(""),
+		twitter: joi.string().uri().empty(""),
+		instagram: joi.string().uri().empty(""),
+		youtube: joi.string().uri().empty(""),
+	}),
 };
 
 const mediaSchema = {
@@ -145,16 +183,21 @@ export const showSchema = {
 		list: joi
 			.array()
 			.unique((a, b) => a.no == b.no)
-			.message("Arc No. should not be duplicated"),
+			.messages({ "array.unique": "Arc No. should not be duplicated" }),
 	}),
 };
 
 export const schema = {
 	...episodeSchema,
 	...showSchema,
+	...userSchema,
 };
 
 export const nestedSchema = {
+	social_accounts_facebook: joi.string().uri().empty(""),
+	social_accounts_twitter: joi.string().uri().empty(""),
+	social_accounts_instagram: joi.string().uri().empty(""),
+	social_accounts_youtube: joi.string().uri().empty(""),
 	publish_date_date: joi.date().required().raw(true),
 	publish_date_time: joi.string().regex(/\d{1,2}:\d{1,2}:\d{1,2}/),
 	watching_servers_name: joi.string(),

@@ -3,6 +3,7 @@ import { getNestedProperty, setNestedProperty, deepCopy } from "../js/Utility";
 import initialShowState, { listItemsDefaults } from "./InitialShowState";
 import initialEpisodeState from "./InitialEpisodeState";
 import initialPageState from "./InitialPageState";
+import initialUserState from "./InitialUserState";
 
 const formReducer = (formType) => {
 	let initialState;
@@ -20,6 +21,10 @@ const formReducer = (formType) => {
 			initialState = initialPageState;
 			break;
 
+		case "user":
+			initialState = initialUserState;
+			break;
+
 		default:
 			initialState = { data: {}, errors: {} };
 	}
@@ -33,18 +38,39 @@ const formReducer = (formType) => {
 
 		switch (type) {
 			case ACTIONS.RESET_FORM:
-				return {
+				newState = {
 					errors: { ...initialState.errors },
 					data: {
 						...initialState.data,
-						author: state.data.author,
 					},
 				};
 
+				if (state.data.author !== undefined) {
+					newState.data.author = state.data.author;
+				}
+
+				return newState;
+
 			case ACTIONS.LOGIN_USER:
-				return {
+				newState = {
 					errors: { ...state.errors },
-					data: { ...state.data, author: payload.loggedUser.id },
+					data: { ...state.data },
+				};
+
+				// if the form have author field property then set it to logged user
+				if (state.data.author !== undefined) {
+					newState.data.author = payload.loggedUser.id;
+				}
+
+				return newState;
+
+			case ACTIONS.DELETE_USER_AVATAR:
+				return {
+					errors: state.errors,
+					data: {
+						...state.data,
+						avatar: { delete: true },
+					},
 				};
 
 			case ACTIONS.DELETE_VIDEO_INFO:
@@ -167,6 +193,7 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.LOAD_PAGE_DATA:
+			case ACTIONS.LOAD_USER_DATA:
 				if (typeof payload.callback === "function") {
 					payload.callback(payload.data);
 				}
@@ -201,26 +228,34 @@ const formReducer = (formType) => {
 				const { error, callback } = payload;
 
 				// if there is error, show it to the user
-				if (error && error.details) {
+				if (error) {
 					newState = deepCopy(state);
-					const fieldName = error.details[0].context.key;
-					if (fieldName in newState.data) {
-						newState["errors"][fieldName] = error.details[0];
+					if (error.details) {
+						const fieldName = error.details[0].context.key;
+						if (fieldName in newState.data) {
+							newState["errors"][fieldName] = error.details[0];
+						}
 					}
 					return newState;
 				}
 
+				// if there is  callback then schedule it to be called after 0.5s
 				typeof callback === "function" &&
 					window.setTimeout(callback, 500);
 
+				const submitedData = { ...initialState.data };
+
+				// if the form have author field property then set it to logged user
+				if (state.data.author !== undefined) {
+					const { loggedUser } = payload;
+					submitedData.author = loggedUser
+						? loggedUser.id
+						: state.data.author;
+				}
+
 				return {
 					errors: { ...initialState.errors },
-					data: {
-						...initialState.data,
-						author: payload.loggedUser
-							? payload.loggedUser.id
-							: state.data.author,
-					},
+					data: submitedData,
 				};
 
 			case ACTIONS.FORM_ADD:
@@ -229,11 +264,16 @@ const formReducer = (formType) => {
 				newState = deepCopy(state);
 				newState["errors"][fieldName] =
 					fieldError && fieldError.details[0];
-				if (fieldName === "gallery")
+
+				if (fieldName === "gallery") {
 					fieldValue = newState.data.gallery
 						.filter((img) => img.url)
 						.concat(fieldValue);
+				}
 				setNestedProperty(newState.data, fieldName, fieldValue);
+
+				// remove error when field value is empty
+				if (fieldValue === "") delete newState["errors"][fieldName];
 
 				return newState;
 

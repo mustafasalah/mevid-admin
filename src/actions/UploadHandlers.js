@@ -24,6 +24,30 @@ const handleProgressUpload = (uploadMsg) => {
 	};
 };
 
+export const handleProfileImageUpload = async (user_id, avatar) => {
+	const formData = new FormData();
+
+	if (avatar instanceof File) {
+		const { onUploadProgress, toastId } = handleProgressUpload(
+			"Uploading profile image..."
+		);
+
+		formData.append("profile_image", avatar);
+
+		await http.post(`/upload/profile-image/${user_id}`, formData, {
+			onUploadProgress,
+		});
+
+		setTimeout(() => toast.done(toastId.current), 250);
+	} else if (avatar.delete) {
+		formData.append("profile_image_delete", "true");
+
+		await http.post(`/upload/profile-image/${user_id}`, formData);
+	}
+
+	return Promise.resolve();
+};
+
 export const handleFileUpload = async ({ show_id, name }, value) => {
 	const formData = new FormData();
 	formData.append("show_name", name);

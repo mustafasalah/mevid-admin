@@ -1,9 +1,10 @@
 import * as ACTIONS from "./ActionTypes";
+import store from "../store";
 import { schema, nestedSchema, pageSchema } from "./ValidationSchema";
 import getEpisodes from "../components/services/episodesServices";
 import getShows from "../components/services/showsServices";
 import getPages from "../components/services/pagesServices";
-import store from "../store";
+import getUsers from "../components/services/usersServices";
 
 const updateList = async (listType) => {
 	let items;
@@ -21,6 +22,10 @@ const updateList = async (listType) => {
 			items = await getPages();
 			break;
 
+		case "users":
+			items = await getUsers();
+			break;
+
 		default:
 			items = [];
 	}
@@ -34,7 +39,7 @@ const updateList = async (listType) => {
 
 const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 	let value, error;
-	const validateKey = fieldName.replace(/\d+\.?/g, "").replace(/\./g, "_");
+	let validateKey = fieldName.replace(/\d+\.?/g, "").replace(/\./g, "_");
 
 	if (
 		!(fieldValue instanceof File) &&
@@ -47,9 +52,25 @@ const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 				validateKey
 			].validate(fieldValue));
 		} else {
-			({ value, error } = { ...schema, ...nestedSchema }[
-				validateKey
-			].validate(fieldValue));
+			const validationSchema = { ...schema, ...nestedSchema };
+
+			if (validateKey === "confirm_password") {
+				if (store.getState().forms.user.data.password !== fieldValue) {
+					error = {
+						details: [
+							{
+								message:
+									"The confirm password doesn't match the password",
+							},
+						],
+					};
+				}
+				value = fieldValue;
+			} else {
+				({ value, error } = validationSchema[validateKey].validate(
+					fieldValue
+				));
+			}
 		}
 	} else {
 		value = fieldValue;

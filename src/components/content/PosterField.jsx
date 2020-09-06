@@ -33,8 +33,9 @@ const PosterField = ({ posterFile }) => {
 
 				<p className="note radius">
 					{posterFile
-						? `${posterFile.name} / ${(posterFile.size / 1e6,
-						  2).toFixed(2)}MB`
+						? `${posterFile.name} / ${(
+								posterFile.size / 1e6
+						  ).toFixed(2)}MB`
 						: `The official poster of the show, make sure that the
 						image is of high quality.`}
 				</p>

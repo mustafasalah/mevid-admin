@@ -3,7 +3,7 @@ import getShows from "./../components/services/showsServices";
 import getComments from "./../components/services/fakeCommentsServices";
 import getReviews from "./../components/services/fakeReviewsServices";
 import getPages from "../components/services/pagesServices";
-import getUsers from "./../components/services/fakeUsersServices";
+import getUsers from "./../components/services/usersServices";
 import getEpisodes from "./../components/services/episodesServices";
 
 const onUserLogin = (loggedUser) => ({

@@ -8,7 +8,7 @@ import Pages from "./content/Pages";
 import Page from "./content/Page";
 import Scheduler from "./content/Scheduler";
 import Users from "./content/Users";
-import User from "./content/User";
+import UserForm from "./content/UserForm";
 import Layout from "./content/Layout";
 import MainMenu from "./content/MainMenu";
 import Settings from "./content/Settings";
@@ -31,8 +31,8 @@ const Content = () => {
 				<Route path="/layout" component={Layout} />
 				<Route path="/settings" component={Settings} />
 
-				<Route path="/users/new" component={User} />
-				<Route path="/users/:id" component={User} />
+				<Route path="/users/new" component={UserForm} />
+				<Route path="/users/:id" component={UserForm} />
 				<Route path="/users" component={Users} />
 
 				<Route path="/scheduler" component={Scheduler} />

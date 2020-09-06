@@ -4,7 +4,7 @@ import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
-import getUsers from "./../services/fakeUsersServices";
+import getUsers from "./../services/usersServices";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
