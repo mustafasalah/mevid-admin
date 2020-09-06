@@ -146,6 +146,16 @@ const UserForm = ({
 								/>
 							</div>
 						</div>
+						<div className="row">
+							<div className="col-1">
+								<FormField
+									name="user.about"
+									label="About"
+									type="textarea"
+									placeholder="Something about user here..."
+								/>
+							</div>
+						</div>
 					</FormSection>
 
 					<FormSection

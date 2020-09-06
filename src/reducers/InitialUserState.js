@@ -14,6 +14,7 @@ export default {
 		role: "user",
 		email_verification: "0",
 		banned: "0",
+		about: "",
 		social_accounts: {
 			facebook: "",
 			twitter: "",

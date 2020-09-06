@@ -66,6 +66,7 @@ export const userSchema = {
 	role: joi.allow("user", "supervisor", "admin").required(),
 	banned: joi.allow("1", "0").required(),
 	email_verification: joi.allow("1", "0").required(),
+	about: joi.string().empty(""),
 	social_accounts: joi.object({
 		facebook: joi.string().uri().empty(""),
 		twitter: joi.string().uri().empty(""),

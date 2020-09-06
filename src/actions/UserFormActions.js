@@ -22,13 +22,18 @@ const onFormSubmit = async (data, callback) => {
 
 			toast.success("The user information have been saved!");
 
+			if (value.email_verification === "0") {
+				toast.info(
+					"The activation code has been sent to the user's email"
+				);
+			}
 			// avatar image upload handling
 			if (
 				value.avatar !== undefined &&
 				(value.avatar instanceof File || value.avatar.delete)
 			) {
 				// handle upload request here
-				handleProfileImageUpload(data.id, value.avatar);
+				await handleProfileImageUpload(data.id, value.avatar);
 			}
 
 			// reflect the updated page in pages list
@@ -42,7 +47,11 @@ const onFormSubmit = async (data, callback) => {
 			};
 		} catch (ex) {
 			// alert the network error
-			toast.error(ex.response.data);
+			if (ex.response) toast.error(ex.response.data);
+			else {
+				toast.error(ex);
+			}
+
 			return {
 				type: ACTIONS.SUBMIT_FORM,
 				error: ex,
