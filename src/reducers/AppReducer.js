@@ -9,6 +9,7 @@ import loginReducer from "./LoginReducer";
 import dataReducer from "./DataReducer";
 import SchedulerReducer from "./SchedulerReducer";
 import formReducer from "./FormReducer";
+import notificationsReducer from "./NotificationsReducer";
 
 const AppReducer = combineReducers({
 	forms: combineReducers({
@@ -18,6 +19,7 @@ const AppReducer = combineReducers({
 		user: formReducer("user"),
 	}),
 	schedule: SchedulerReducer,
+	notifications: notificationsReducer,
 	pages: dataReducer("pages"),
 	episodes: dataReducer("episodes"),
 	users: dataReducer("users"),

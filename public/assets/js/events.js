@@ -1,9 +1,9 @@
 (function ($) {
 	// event for top bar admin buttons
-	$("#admin-btns button").on("click", function () {
-		$("#admin-btns button").not(this).removeClass("active");
-		$(this).toggleClass("active");
-	});
+	// $("#admin-btns button:not(.disable)").on("click", function () {
+	// 	$("#admin-btns button").not(this).removeClass("active");
+	// 	$(this).toggleClass("active");
+	// });
 
 	// Event for sliding forms up and down
 	$("#content-section").on("click", ".form > h3", function () {

@@ -1,10 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const AddMenu = () => {
+const AddMenu = ({ active, onClick }) => {
 	return (
 		<div className="top-bar-btn" id="add-btn" title="Add Shows and Pages">
-			<button>
+			<button
+				className={active ? "active" : ""}
+				onClick={() => {
+					onClick(active ? "" : "addMenu");
+				}}
+			>
 				<i className="fas fa-plus"></i>
 			</button>
 			<ul className="sub-menu blur-shadow">

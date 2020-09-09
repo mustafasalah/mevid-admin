@@ -1,6 +1,6 @@
 import React from "react";
 
-const UserProfile = ({ user }) => {
+const UserProfile = ({ user, active, onClick }) => {
 	return (
 		<div id="admin-profile">
 			<div
@@ -9,7 +9,12 @@ const UserProfile = ({ user }) => {
 				style={{ backgroundImage: `url('${user.profileImage}')` }}
 			></div>
 
-			<button className="radius">
+			<button
+				className={active ? "radius active" : "radius"}
+				onClick={() => {
+					onClick(active ? "" : "userProfile");
+				}}
+			>
 				<strong>{user.name}</strong>
 				<small>{user.role}</small>
 			</button>

@@ -57,6 +57,12 @@ const dataReducer = (dataType) => (state = [], { type, ...rest }) => {
 			];
 
 			if (status === "fulfilled") {
+				if (typeof rest.meta.callback === "function") {
+					rest.meta.callback();
+
+					// to prevent calling the callback more than once
+					delete rest.meta.callback;
+				}
 				return value;
 			} else {
 				toast.error(

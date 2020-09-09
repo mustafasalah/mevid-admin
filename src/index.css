@@ -239,6 +239,13 @@ ol {
 	margin-top: 5px;
 }
 
+#notify-btn p.no-notifications {
+	margin: 15px 0;
+	text-align: center;
+	font-style: italic;
+	color: #8d99ae;
+}
+
 .notify-label {
 	display: inline-block;
 	font-weight: bold;

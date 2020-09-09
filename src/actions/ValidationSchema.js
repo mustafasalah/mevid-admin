@@ -7,7 +7,6 @@ import {
 	getAudioType,
 	getRawTypes,
 } from "../components/services/fakeShowsInfoServices";
-import countires from "./../components/services/getCountries";
 
 const generalSchema = {
 	id: joi.number().integer().min(1).empty(""),

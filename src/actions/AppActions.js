@@ -11,7 +11,7 @@ const onUserLogin = (loggedUser) => ({
 	loggedUser,
 });
 
-const loadAppData = () => ({
+const loadAppData = (callback) => ({
 	type: ACTIONS.LOAD_APP_DATA,
 	payload: Promise.allSettled([
 		getShows(),
@@ -21,6 +21,9 @@ const loadAppData = () => ({
 		getPages(),
 		getUsers(),
 	]),
+	meta: {
+		callback,
+	},
 });
 
 export const appActions = {

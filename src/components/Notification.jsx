@@ -1,44 +1,109 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { deleteNotification } from "../actions/NotificationsActions";
+import { upperFirst } from "../js/Utility";
 
-const Notification = () => {
+const countNotifications = (notifications) => {
+	let counter = 0;
+	console.log(notifications);
+	notifications.forEach((notification) => {
+		counter += +notification.counter;
+	});
+	return counter;
+};
+
+const Notification = ({
+	active,
+	onClick,
+	notifications,
+	shows,
+	episodes,
+	deleteNotification,
+}) => {
+	const notificationsCount = countNotifications(notifications);
+
+	const getNotificationMessage = (notification) => {
+		if (notification.episode_id) {
+			const episode = episodes.find(
+				(episode) => episode.id === +notification.episode_id
+			);
+
+			const show = shows.find((show) => show.id === episode.showId);
+
+			return `${show.name} - Episode ${
+				episode.episodeNo +
+				(episode.episodeTitle ? ": " + episode.episodeTitle : "")
+			}`;
+		} else {
+			const show = shows.find(
+				(show) => show.id === +notification.show_id
+			);
+			return show.name;
+		}
+	};
+
 	return (
 		<div className="top-bar-btn" id="notify-btn" title="notification panel">
-			<button>
+			<button
+				className={active ? "active" : ""}
+				onClick={(e) => {
+					e.preventDefault();
+					console.log(onClick);
+					onClick(active ? "" : "notification");
+				}}
+			>
 				<i className="fas fa-bell">
-					<span className="counter">6</span>
+					{notificationsCount ? (
+						<span className="counter">{notificationsCount}</span>
+					) : (
+						""
+					)}
 				</i>
 			</button>
 			<ul className="sub-menu blur-shadow">
-				<li>
-					<Link to="#">
-						<span className="notify-label comment">Comment</span>
-						<span className="counter">2</span>
-						<p>Epsiode 02: Death Parade</p>
-					</Link>
-				</li>
-				<li>
-					<Link to="#">
-						<span className="notify-label review">Review</span>
-						<span className="counter">3</span>
-						<p>Spider-Man: Into the Spider-Verse</p>
-					</Link>
-				</li>
-				<li>
-					<Link to="#">
-						<span className="notify-label user">User</span>
-						<p>ahmed_salem</p>
-					</Link>
-				</li>
-				<li>
-					<Link to="#">
-						<span className="notify-label report">Report</span>
-						<p>Hunter X Hunter - Episode 22</p>
-					</Link>
-				</li>
+				{notifications.length !== 0 ? (
+					notifications.map((notification) => {
+						return (
+							<li>
+								<Link
+									to={`/${notification.type}s`}
+									onClick={() =>
+										deleteNotification(notification.id)
+									}
+								>
+									<span
+										className={`notify-label ${notification.type}`}
+									>
+										{`New ${upperFirst(notification.type)}`}
+									</span>
+									<span className="counter">
+										{notification.counter}
+									</span>
+									<p>
+										{getNotificationMessage(notification)}
+									</p>
+								</Link>
+							</li>
+						);
+					})
+				) : (
+					<p className="no-notifications">
+						There are no new notifications yet
+					</p>
+				)}
 			</ul>
 		</div>
 	);
 };
 
-export default Notification;
+export default connect(
+	(state) => ({
+		notifications: state.notifications,
+		shows: state.shows,
+		episodes: state.episodes,
+	}),
+	{
+		deleteNotification,
+	}
+)(Notification);
