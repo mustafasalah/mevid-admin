@@ -3,6 +3,7 @@ import showsTableReducer from "./ShowsTableReducer";
 import episodesTableReducer from "./EpisodesTableReducer";
 import commentsTableReducer from "./CommentsTableReducer";
 import reviewsTableReducer from "./ReviewsTableReducer";
+import reportsTableReducer from "./ReportsTableReducer";
 import pagesTableReducer from "./PagesTableReducer";
 import usersTableReducer from "./UsersTableReducer";
 import loginReducer from "./LoginReducer";
@@ -25,6 +26,7 @@ const AppReducer = combineReducers({
 	users: dataReducer("users"),
 	comments: dataReducer("comments"),
 	reviews: dataReducer("reviews"),
+	reports: dataReducer("reports"),
 	shows: dataReducer("shows"),
 	loggedUser: loginReducer,
 	tables: combineReducers({
@@ -35,6 +37,7 @@ const AppReducer = combineReducers({
 		episodes: episodesTableReducer,
 		comments: commentsTableReducer,
 		reviews: reviewsTableReducer,
+		reports: reportsTableReducer,
 		pages: pagesTableReducer,
 		users: usersTableReducer,
 	}),

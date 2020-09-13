@@ -343,6 +343,10 @@ a.delete-item::before {
 	content: "\f2ed";
 }
 
+a.fix-item::before {
+	content: "\f7d9";
+}
+
 a.view-item::before {
 	content: "\f06e";
 }

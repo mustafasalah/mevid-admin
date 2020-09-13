@@ -2,9 +2,21 @@ import * as ACTIONS from "../actions/ActionTypes";
 import { toast } from "react-toastify";
 import { deepCopy } from "./../js/Utility";
 
-const types = ["shows", "episodes", "comments", "reviews", "pages", "users"];
+const types = [
+	"shows",
+	"episodes",
+	"comments",
+	"reviews",
+	"reports",
+	"pages",
+	"users",
+];
 
-const dataReducer = (dataType) => (state = [], { type, ...rest }) => {
+const initialState = [];
+// set loading property in initial state to show loading state in UI
+initialState.loading = true;
+
+const dataReducer = (dataType) => (state = initialState, { type, ...rest }) => {
 	switch (type) {
 		case ACTIONS.CHANGE_STATUS:
 			let { meta } = rest;
@@ -65,9 +77,7 @@ const dataReducer = (dataType) => (state = [], { type, ...rest }) => {
 				}
 				return value;
 			} else {
-				toast.error(
-					reason.message + " in loading " + dataType + " data"
-				);
+				toast.error(`${reason.message} in loading ${dataType} data`);
 				return state;
 			}
 

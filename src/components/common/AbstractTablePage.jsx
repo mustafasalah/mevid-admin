@@ -54,7 +54,7 @@ class AbstractTablePage extends Component {
 		return (
 			<Fragment>
 				{this.sectionHeader}
-				{items.length === 0 ? (
+				{items.loading ? (
 					<Loader />
 				) : (
 					<ItemsPage

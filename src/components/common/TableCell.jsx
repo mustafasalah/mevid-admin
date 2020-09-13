@@ -91,13 +91,16 @@ class TableCell extends Component {
 				);
 
 			case "custom":
-				return column.render(rowData, this.renderLinksNav.bind(this));
-
+				return (
+					<Fragment>
+						{column.render(rowData, this.renderLinksNav.bind(this))}
+					</Fragment>
+				);
 			default:
 				return (
 					<Fragment>
 						{column.render && column.render(rowData)}
-						{data}
+						{data ? data : column.default || ""}
 						{this.renderLinksNav()}
 					</Fragment>
 				);

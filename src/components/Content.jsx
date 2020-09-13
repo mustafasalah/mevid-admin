@@ -4,6 +4,7 @@ import Dashboard from "./content/Dashboard";
 import Shows from "./content/Shows";
 import Comments from "./content/Comments";
 import Reviews from "./content/Reviews";
+import Reports from "./content/Reports";
 import Pages from "./content/Pages";
 import Page from "./content/Page";
 import Scheduler from "./content/Scheduler";
@@ -41,8 +42,9 @@ const Content = () => {
 				<Route path="/pages/:id" component={Page} />
 				<Route path="/pages" component={Pages} exact />
 
-				<Route path="/reviews" component={Reviews} />
 				<Route path="/comments" component={Comments} />
+				<Route path="/reports" component={Reports} />
+				<Route path="/reviews" component={Reviews} />
 
 				<Route path="/shows/tv-shows" component={TVShows} exact />
 				<Route path="/shows/anime" component={Animes} exact />

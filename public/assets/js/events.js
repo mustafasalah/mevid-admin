@@ -6,12 +6,12 @@
 	// });
 
 	// Event for sliding forms up and down
-	$("#content-section").on("click", ".form > h3", function () {
-		$(this)
-			.toggleClass("closed blur-shadow")
-			.next(".widget-content")
-			.slideToggle(400);
-	});
+	// $("#content-section").on("click", ".form > h3", function () {
+	// 	$(this)
+	// 		.toggleClass("closed blur-shadow")
+	// 		.next(".widget-content")
+	// 		.slideToggle(400);
+	// });
 
 	// Show more items when more btn clicked
 	// $("#content-section *:not(#scheduler-container) .more-btn").on(

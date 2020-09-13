@@ -435,7 +435,7 @@ ol {
 #side-bar nav > ul > li > a > i {
 	color: #d90429;
 	width: 20px;
-	margin-right: 5px;
+	margin-right: 7px;
 	text-align: center;
 }
 
@@ -489,8 +489,7 @@ ol {
 #development-rights {
 	line-height: 1.6;
 	text-align: center;
-	margin: auto 0 30px;
-	padding-top: 50px;
+	padding-top: 30px;
 	font-size: 0.8125em;
 }
 

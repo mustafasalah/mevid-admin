@@ -56,16 +56,25 @@ const NavBar = (props) => {
 						<i className="fas fa-comments"></i> Comments
 					</NavLink>
 				</li>
+
 				<li>
 					<NavLink to="/reviews" className="radius">
 						<i className="fas fa-star-half-alt"></i> Reviews
 					</NavLink>
 				</li>
+
+				<li>
+					<NavLink to="/reports" className="radius">
+						<i class="fas fa-bug"></i> Reports
+					</NavLink>
+				</li>
+
 				<li>
 					<NavLink to="/scheduler" className="radius">
 						<i className="fas fa-calendar-alt"></i> Scheduler
 					</NavLink>
 				</li>
+
 				<li>
 					<NavLink to="/users" className="radius">
 						<i className="fas fa-users"></i> Users
@@ -83,6 +92,7 @@ const NavBar = (props) => {
 						</li>
 					</ul>
 				</li>
+
 				<li>
 					<NavLink to="/pages" className="radius">
 						<i className="fas fa-copy"></i> Pages
@@ -100,6 +110,7 @@ const NavBar = (props) => {
 						</li>
 					</ul>
 				</li>
+
 				<li>
 					<NavLink to="/layout" className="radius">
 						<i className="fas fa-brush"></i> Layout and View
@@ -119,6 +130,7 @@ const NavBar = (props) => {
 						</li>
 					</ul>
 				</li>
+
 				<li>
 					<NavLink to="/settings" className="radius">
 						<i className="fas fa-cogs"></i> General Settings
