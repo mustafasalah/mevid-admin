@@ -100,42 +100,50 @@ const FormField = ({
 
 			default:
 				return (
-					<Input
-						id={fieldName}
-						name={fieldName}
-						value={
-							isControlled &&
-							getNestedProperty(
-								forms[formName]["data"],
-								formField
-							)
-						}
-						data-error={
-							isControlled &&
-							!!forms[formName]["errors"][formField]
-						}
-						type={type}
-						className={className}
-						datetype={className === "date" ? dateType : ""}
-						onChange={
-							(isControlled || type === "file"
-								? true
-								: undefined) &&
-							(({ currentTarget: input }) => {
-								if (type !== "file") {
-									onFieldChanged(formField, input.value);
-								} else {
-									onFieldChanged(
-										formField,
-										props.multiple
-											? input.files
-											: input.files[0]
-									);
-								}
-							})
-						}
-						{...props}
-					/>
+					<Fragment>
+						<Input
+							id={fieldName}
+							name={fieldName}
+							value={
+								isControlled &&
+								getNestedProperty(
+									forms[formName]["data"],
+									formField
+								)
+							}
+							data-error={
+								isControlled &&
+								!!forms[formName]["errors"][formField]
+							}
+							type={type}
+							className={className}
+							datetype={className === "date" ? dateType : ""}
+							onChange={
+								(isControlled || type === "file"
+									? true
+									: undefined) &&
+								(({ currentTarget: input }) => {
+									if (type !== "file") {
+										onFieldChanged(formField, input.value);
+									} else {
+										onFieldChanged(
+											formField,
+											props.multiple
+												? input.files
+												: input.files[0]
+										);
+									}
+								})
+							}
+							{...props}
+						/>
+						{type === "radio" && (
+							<label
+								htmlFor={fieldName}
+								className="switch-btn"
+							></label>
+						)}
+					</Fragment>
 				);
 		}
 	};
