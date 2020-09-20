@@ -2,13 +2,12 @@ import * as ACTIONS from "../actions/ActionTypes";
 import { toast } from "react-toastify";
 
 const notificationsReducer = (state = [], { type, payload, error }) => {
-	if (error) {
-		toast.error(payload.message + " in loading notifications");
-		return state;
-	}
-
 	switch (type) {
 		case ACTIONS.LOAD_NOTIFICATIONS:
+			if (error && payload) {
+				toast.error(payload.message + " in loading notifications");
+				return state;
+			}
 			return payload.data;
 
 		case ACTIONS.DELETE_NOTIFICATION:

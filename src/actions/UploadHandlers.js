@@ -24,6 +24,80 @@ const handleProgressUpload = (uploadMsg) => {
 	};
 };
 
+export const handleLogoImageUpload = async (logo, darkLogo) => {
+	const formData = new FormData();
+
+	if (logo instanceof File || darkLogo instanceof File) {
+		const { onUploadProgress, toastId } = handleProgressUpload(
+			"Uploading site logo images..."
+		);
+
+		logo instanceof File && formData.append("logo", logo);
+		darkLogo instanceof File && formData.append("dark_logo", darkLogo);
+
+		await http.post(`/upload/logo`, formData, {
+			onUploadProgress,
+		});
+
+		setTimeout(() => toast.done(toastId.current), 250);
+	}
+
+	return Promise.resolve();
+};
+
+export const handleSiteBackgroundImageUpload = async (bg, darkBg) => {
+	const formData = new FormData();
+
+	if (bg instanceof File || darkBg instanceof File) {
+		const { onUploadProgress, toastId } = handleProgressUpload(
+			"Uploading site background images..."
+		);
+
+		bg instanceof File && formData.append("background", bg);
+		darkBg instanceof File && formData.append("dark_background", darkBg);
+
+		await http.post(`/upload/site_background`, formData, {
+			onUploadProgress,
+		});
+
+		setTimeout(() => toast.done(toastId.current), 250);
+	}
+
+	if (bg.delete || darkBg.delete) {
+		bg.delete && formData.append("delete_bg", "true");
+		darkBg.delete && formData.append("delete_dark_bg", "true");
+
+		await http.post("/upload/site_background", formData);
+	}
+
+	return Promise.resolve();
+};
+
+export const handleFaviconImageUpload = async (favicon) => {
+	const formData = new FormData();
+
+	if (favicon instanceof File) {
+		const { onUploadProgress, toastId } = handleProgressUpload(
+			"Uploading favicon image..."
+		);
+
+		formData.append("favicon", favicon);
+
+		await http.post(`/upload/favicon`, formData, {
+			onUploadProgress,
+		});
+
+		setTimeout(() => toast.done(toastId.current), 250);
+	}
+
+	if (favicon.delete) {
+		formData.append("delete_favicon", "true");
+		await http.post("/upload/favicon", formData);
+	}
+
+	return Promise.resolve();
+};
+
 export const handleProfileImageUpload = async (user_id, avatar) => {
 	const formData = new FormData();
 

@@ -99,6 +99,13 @@ const FormField = ({
 				);
 
 			default:
+				let inputValue;
+				if (type === "radio") {
+					inputValue = getNestedProperty(
+						forms[formName]["data"],
+						formField
+					);
+				}
 				return (
 					<Fragment>
 						<Input
@@ -106,10 +113,12 @@ const FormField = ({
 							name={fieldName}
 							value={
 								isControlled &&
-								getNestedProperty(
-									forms[formName]["data"],
-									formField
-								)
+								(inputValue
+									? inputValue
+									: getNestedProperty(
+											forms[formName]["data"],
+											formField
+									  ))
 							}
 							data-error={
 								isControlled &&
@@ -123,6 +132,7 @@ const FormField = ({
 									? true
 									: undefined) &&
 								(({ currentTarget: input }) => {
+									if (type === "radio") return;
 									if (type !== "file") {
 										onFieldChanged(formField, input.value);
 									} else {
@@ -135,12 +145,25 @@ const FormField = ({
 									}
 								})
 							}
+							checked={
+								type === "radio"
+									? inputValue === "1"
+										? true
+										: false
+									: null
+							}
 							{...props}
 						/>
 						{type === "radio" && (
 							<label
 								htmlFor={fieldName}
 								className="switch-btn"
+								onClick={() => {
+									onFieldChanged(
+										formField,
+										inputValue === "1" ? "0" : "1"
+									);
+								}}
 							></label>
 						)}
 					</Fragment>

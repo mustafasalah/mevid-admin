@@ -1,7 +1,9 @@
 import React, { Fragment } from "react";
 import FormField from "../common/form/FormField";
+import { connect } from "react-redux";
+import { toFileSize } from "./../../js/Utility";
 
-const LogoField = () => {
+const LogoField = ({ logo, dark_logo }) => {
 	return (
 		<Fragment>
 			<div className="row">
@@ -9,12 +11,24 @@ const LogoField = () => {
 					<span className="version">Light Version</span>
 				</div>
 				<div className="col-1">
-					<span className="image blur-shadow radius"></span>
+					<span
+						className="image blur-shadow radius"
+						style={{
+							backgroundImage: `${
+								logo.url ? `url("${logo.url}")` : "none"
+							}`,
+						}}
+					></span>
+
+					<p className="note radius">{`${logo.name}${
+						logo.size ? " / " + toFileSize(logo.size) : ""
+					}`}</p>
 				</div>
+
 				<div className="col-1 center">
 					<FormField
 						type="file"
-						name="show.poster"
+						name="settings.logo"
 						label="Upload Logo"
 						labelClass="primary-btn upload-btn radius focus-shadow"
 						accept="image/*"
@@ -29,12 +43,29 @@ const LogoField = () => {
 					<span className="version">Dark Version</span>
 				</div>
 				<div className="col-1">
-					<span className="image blur-shadow radius"></span>
+					<span
+						className="image blur-shadow radius"
+						style={{
+							backgroundImage: `${
+								dark_logo.url
+									? `url("${dark_logo.url}")`
+									: "none"
+							}`,
+						}}
+					></span>
+					{!!dark_logo.name && (
+						<p className="note radius">{`${dark_logo.name}${
+							dark_logo.size
+								? " / " + toFileSize(dark_logo.size)
+								: ""
+						}`}</p>
+					)}
 				</div>
+
 				<div className="col-1 center">
 					<FormField
 						type="file"
-						name="show.poster"
+						name="settings.dark_logo"
 						label="Upload Logo"
 						labelClass="primary-btn upload-btn radius focus-shadow"
 						accept="image/*"
@@ -55,4 +86,7 @@ const LogoField = () => {
 	);
 };
 
-export default LogoField;
+export default connect((state) => ({
+	logo: state.forms.settings.data.logo,
+	dark_logo: state.forms.settings.data.dark_logo,
+}))(LogoField);

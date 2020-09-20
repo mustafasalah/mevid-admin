@@ -1,3 +1,7 @@
+export function toFileSize(bytes) {
+	return (bytes / 1000).toFixed(2) + "KB";
+}
+
 export function deepCopy(inObject) {
 	let outObject, value, key;
 

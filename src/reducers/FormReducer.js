@@ -4,6 +4,8 @@ import initialShowState, { listItemsDefaults } from "./InitialShowState";
 import initialEpisodeState from "./InitialEpisodeState";
 import initialPageState from "./InitialPageState";
 import initialUserState from "./InitialUserState";
+import initialSettingsState from "./InitialSettingsState";
+import { toast } from "react-toastify";
 
 const formReducer = (formType) => {
 	let initialState;
@@ -25,6 +27,10 @@ const formReducer = (formType) => {
 			initialState = initialUserState;
 			break;
 
+		case "settings":
+			initialState = initialSettingsState;
+			break;
+
 		default:
 			initialState = { data: {}, errors: {} };
 	}
@@ -37,6 +43,22 @@ const formReducer = (formType) => {
 		}
 
 		switch (type) {
+			case ACTIONS.LOAD_SETTINGS_DATA:
+				if (payload.meta && payload.meta.formType === formType) {
+					if (payload.error) {
+						toast.error(
+							payload.payload.message + " in loading settings"
+						);
+						return state;
+					}
+					newState = {
+						errors: { ...initialState.errors },
+						data: payload.payload,
+					};
+					return newState;
+				}
+				return state;
+
 			case ACTIONS.RESET_FORM:
 				newState = {
 					errors: { ...initialState.errors },
@@ -63,6 +85,29 @@ const formReducer = (formType) => {
 				}
 
 				return newState;
+
+			case ACTIONS.DELETE_APP_IMAGE:
+				const { imageType } = payload;
+				if (state.data[imageType] instanceof File) {
+					newState = {
+						errors: state.errors,
+						data: { ...state.data },
+					};
+					newState.data[imageType] = {};
+					return newState;
+				} else if (state.data[imageType].url) {
+					newState = {
+						errors: state.errors,
+						data: {
+							...state.data,
+							[imageType]: {
+								delete: true,
+							},
+						},
+					};
+					return newState;
+				}
+				return state;
 
 			case ACTIONS.DELETE_USER_AVATAR:
 				return {

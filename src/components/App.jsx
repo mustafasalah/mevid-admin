@@ -2,6 +2,7 @@ import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
 import { appActions } from "../actions/AppActions";
 import { loadNotifications } from "./../actions/NotificationsActions";
+import SettingsActions from "../actions/SettingsActions";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import Content from "./Content";
@@ -9,7 +10,12 @@ import "promise-polyfill/src/polyfill";
 
 class App extends Component {
 	componentDidMount() {
-		const { onUserLogin, loadAppData, loadNotifications } = this.props;
+		const {
+			onUserLogin,
+			loadAppData,
+			loadNotifications,
+			loadAppSettings,
+		} = this.props;
 
 		onUserLogin({
 			id: 21,
@@ -18,6 +24,8 @@ class App extends Component {
 			name: "Mustafa Admin",
 			role: "admin",
 		});
+
+		loadAppSettings();
 
 		loadAppData(() => {
 			loadNotifications();
@@ -38,4 +46,5 @@ class App extends Component {
 export default connect((state) => state, {
 	...appActions,
 	loadNotifications,
+	loadAppSettings: SettingsActions.onSettingsDataLoad,
 })(App);

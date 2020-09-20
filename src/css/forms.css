@@ -907,6 +907,11 @@ ol#arcs-list .arc-actions a.delete::before {
 	margin: 15px 40px 25px;
 	padding: 10px 0;
 	background-origin: content-box;
+	background-size: 85% auto;
+}
+
+#site-logo .image + p.note {
+	margin: 20px 40px;
 }
 
 #site-logo .row:nth-child(2),
@@ -951,6 +956,11 @@ ol#arcs-list .arc-actions a.delete::before {
 	display: flex;
 	align-items: center;
 	height: 100%;
+}
+
+div.center > #favicon-btns {
+	justify-content: center;
+	margin-top: 10px;
 }
 
 #favicon-btns * + * {

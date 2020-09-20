@@ -18,6 +18,7 @@ const AppReducer = combineReducers({
 		episode: formReducer("episode"),
 		page: formReducer("page"),
 		user: formReducer("user"),
+		settings: formReducer("settings"),
 	}),
 	schedule: SchedulerReducer,
 	notifications: notificationsReducer,

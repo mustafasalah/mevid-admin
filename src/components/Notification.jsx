@@ -6,7 +6,7 @@ import { upperFirst } from "../js/Utility";
 
 const countNotifications = (notifications) => {
 	let counter = 0;
-	console.log(notifications);
+
 	notifications.forEach((notification) => {
 		counter += +notification.counter;
 	});

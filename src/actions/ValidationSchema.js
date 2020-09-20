@@ -187,13 +187,122 @@ export const showSchema = {
 	}),
 };
 
+const social_url_joi_schema = joi.string().uri().empty("");
+
+const social_counter_joi_schema = joi
+	.string()
+	.pattern(/^\d+( ?[km])?$/i)
+	.empty("")
+	.messages({
+		"string.pattern.base":
+			"The value must be number only or number followed by 'K' or 'M' character.",
+	});
+
+export const settingsSchema = {
+	site_name: joi.string().empty("").required(),
+	home_page_title: joi.string().empty("").required(),
+	keywords: joi.string().empty("").required(),
+	description: joi.string().empty("").required(),
+	site_content: joi
+		.array()
+		.items(joi.allow("movies", "anime", "tvshows"))
+		.required(),
+	comments_enabled: joi.allow("0", "1").required(),
+	reviews_enabled: joi.allow("0", "1").required(),
+	comments_supervisor: joi.allow("0", "1").required(),
+	reviews_supervisor: joi.allow("0", "1").required(),
+	registeration_enabled: joi.allow("0", "1").required(),
+	dark_mode: joi.allow("0", "1").required(),
+	default_language: joi.string().length(2).empty("").required(),
+	fb_app_id: joi.string().empty(""),
+	fb_app_secret: joi.string().empty(""),
+	tw_app_id: joi.string().empty(""),
+	tw_app_secret: joi.string().empty(""),
+	facebook: joi
+		.object({
+			url: social_url_joi_schema,
+			counter: social_counter_joi_schema,
+		})
+		.with("counter", "url")
+		.required(),
+	twitter: joi
+		.object({
+			url: social_url_joi_schema,
+			counter: social_counter_joi_schema,
+		})
+		.with("counter", "url")
+		.required(),
+	instagram: joi
+		.object({
+			url: social_url_joi_schema,
+			counter: social_counter_joi_schema,
+		})
+		.with("counter", "url")
+		.required(),
+	youtube: joi
+		.object({
+			url: social_url_joi_schema,
+			counter: social_counter_joi_schema,
+		})
+		.with("counter", "url")
+		.required(),
+	captcha_site_key: joi.string().empty(""),
+	captcha_secret_key: joi.string().empty(""),
+	favicon: joi
+		.object({
+			url: joi.string().uri({ allowRelative: true }),
+			name: joi.string().required(),
+			size: joi.string().required(),
+		})
+		.empty({}),
+	site_background: joi
+		.object({
+			url: joi.string().uri({ allowRelative: true }),
+			name: joi.string().required(),
+			size: joi.string().required(),
+		})
+		.empty({}),
+	dark_site_background: joi
+		.object({
+			url: joi.string().uri({ allowRelative: true }),
+			name: joi.string().required(),
+			size: joi.string().required(),
+		})
+		.empty({}),
+	logo: joi
+		.object({
+			url: joi.string().uri({ allowRelative: true }),
+			name: joi.string().required(),
+			size: joi.string().required(),
+		})
+		.empty({})
+		.required(),
+	dark_logo: joi
+		.object({
+			url: joi.string().uri({ allowRelative: true }),
+			name: joi.string().required(),
+			size: joi.string().required(),
+		})
+		.empty({})
+		.required(),
+};
+
 export const schema = {
 	...episodeSchema,
 	...showSchema,
 	...userSchema,
+	...settingsSchema,
 };
 
 export const nestedSchema = {
+	twitter_counter: social_counter_joi_schema,
+	youtube_counter: social_counter_joi_schema,
+	instagram_counter: social_counter_joi_schema,
+	facebook_counter: social_counter_joi_schema,
+	twitter_url: social_url_joi_schema,
+	instagram_url: social_url_joi_schema,
+	youtube_url: social_url_joi_schema,
+	facebook_url: social_url_joi_schema,
 	social_accounts_facebook: joi.string().uri().empty(""),
 	social_accounts_twitter: joi.string().uri().empty(""),
 	social_accounts_instagram: joi.string().uri().empty(""),

@@ -65,7 +65,7 @@ const NavBar = (props) => {
 
 				<li>
 					<NavLink to="/reports" className="radius">
-						<i class="fas fa-bug"></i> Reports
+						<i className="fas fa-bug"></i> Reports
 					</NavLink>
 				</li>
 
