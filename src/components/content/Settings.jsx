@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
 import SectionHeader from "./../common/SectionHeader";
 import FormSection from "./../common/form/FormSection";
 import FormSideSection from "./../common/form/FormSideSection";
@@ -9,11 +10,21 @@ import SiteBackgroundField from "./SiteBackgroundField";
 import FaviconField from "./FaviconField";
 import SettingsActions from "../../actions/SettingsActions";
 
-const Settings = () => {
+const Settings = ({ data, onFormSubmit: onSubmit }) => {
+	const history = useHistory();
+
 	return (
 		<Fragment>
 			<SectionHeader name="General Settings" faClass="fas fa-cogs" />
-			<form>
+			<form
+				method="POST"
+				onSubmit={(e) => {
+					e.preventDefault();
+					onSubmit(data, () => {
+						history.go("/settings");
+					});
+				}}
+			>
 				<div id="main-side">
 					<FormSection header="Website Meta Information">
 						<div className="row">
@@ -32,6 +43,7 @@ const Settings = () => {
 									label="Home Page Title"
 									type="text"
 									placeholder="[site-name] - [page title will appear here...]"
+									required
 								/>
 							</div>
 							<div className="col-2">
@@ -40,6 +52,7 @@ const Settings = () => {
 									label="Keywords"
 									type="text"
 									placeholder="e.g. Movies, TV Shows, Anime, online watching..."
+									required
 								/>
 							</div>
 							<div className="col-2">
@@ -48,6 +61,7 @@ const Settings = () => {
 									label="Site Description"
 									type="textarea"
 									placeholder="eg. MEVid for watching and downloading Movies, anime and TV Show as you want, With different resolution and Quality!"
+									required
 								/>
 							</div>
 						</div>
@@ -117,7 +131,8 @@ const Settings = () => {
 									required
 								/>
 							</div>
-							<div className="col-4">
+
+							<div className="col-5">
 								<div className="field">
 									<FormField
 										name="settings.comments_enabled"
@@ -126,16 +141,8 @@ const Settings = () => {
 									/>
 								</div>
 							</div>
-							<div className="col-4">
-								<div className="field">
-									<FormField
-										name="settings.reviews_enabled"
-										label="Reviews"
-										type="radio"
-									/>
-								</div>
-							</div>
-							<div className="col-4">
+
+							<div className="col-5">
 								<div className="field">
 									<FormField
 										name="settings.comments_supervisor"
@@ -144,7 +151,18 @@ const Settings = () => {
 									/>
 								</div>
 							</div>
-							<div className="col-4">
+
+							<div className="col-5">
+								<div className="field">
+									<FormField
+										name="settings.reviews_enabled"
+										label="Reviews"
+										type="radio"
+									/>
+								</div>
+							</div>
+
+							<div className="col-5">
 								<div className="field">
 									<FormField
 										name="settings.reviews_supervisor"
@@ -153,7 +171,8 @@ const Settings = () => {
 									/>
 								</div>
 							</div>
-							<div className="col-4">
+
+							<div className="col-5">
 								<div className="field">
 									<FormField
 										name="settings.registeration_enabled"
@@ -338,4 +357,7 @@ const Settings = () => {
 	);
 };
 
-export default connect(null, SettingsActions)(Settings);
+export default connect(
+	(state) => ({ data: state.forms.settings.data }),
+	SettingsActions
+)(Settings);

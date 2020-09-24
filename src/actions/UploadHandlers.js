@@ -25,9 +25,8 @@ const handleProgressUpload = (uploadMsg) => {
 };
 
 export const handleLogoImageUpload = async (logo, darkLogo) => {
-	const formData = new FormData();
-
 	if (logo instanceof File || darkLogo instanceof File) {
+		const formData = new FormData();
 		const { onUploadProgress, toastId } = handleProgressUpload(
 			"Uploading site logo images..."
 		);
@@ -53,10 +52,11 @@ export const handleSiteBackgroundImageUpload = async (bg, darkBg) => {
 			"Uploading site background images..."
 		);
 
-		bg instanceof File && formData.append("background", bg);
-		darkBg instanceof File && formData.append("dark_background", darkBg);
+		bg instanceof File && formData.append("site_background", bg);
+		darkBg instanceof File &&
+			formData.append("dark_site_background", darkBg);
 
-		await http.post(`/upload/site_background`, formData, {
+		await http.post(`/upload/background`, formData, {
 			onUploadProgress,
 		});
 
@@ -64,10 +64,10 @@ export const handleSiteBackgroundImageUpload = async (bg, darkBg) => {
 	}
 
 	if (bg.delete || darkBg.delete) {
-		bg.delete && formData.append("delete_bg", "true");
-		darkBg.delete && formData.append("delete_dark_bg", "true");
+		bg.delete && formData.append("delete_site_background", "true");
+		darkBg.delete && formData.append("delete_dark_site_background", "true");
 
-		await http.post("/upload/site_background", formData);
+		await http.post("/upload/background", formData);
 	}
 
 	return Promise.resolve();

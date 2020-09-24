@@ -2,6 +2,7 @@ import axios from "axios";
 
 axios.defaults.baseURL = `${process.env.REACT_APP_HOSTNAME}/api`;
 axios.defaults.contentType = "text/plain";
+axios.defaults.withCredentials = true;
 axios.interceptors.response.use(
 	(config) => {
 		console.log(config);

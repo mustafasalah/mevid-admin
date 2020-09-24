@@ -80,7 +80,7 @@ const formReducer = (formType) => {
 				};
 
 				// if the form have author field property then set it to logged user
-				if (state.data.author !== undefined) {
+				if (state.data.author !== undefined && payload.loggedUser) {
 					newState.data.author = payload.loggedUser.id;
 				}
 
@@ -93,7 +93,7 @@ const formReducer = (formType) => {
 						errors: state.errors,
 						data: { ...state.data },
 					};
-					newState.data[imageType] = {};
+					newState.data[imageType] = "";
 					return newState;
 				} else if (state.data[imageType].url) {
 					newState = {

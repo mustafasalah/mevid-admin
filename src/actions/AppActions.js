@@ -6,10 +6,11 @@ import getReports from "./../components/services/reportsServices";
 import getPages from "../components/services/pagesServices";
 import getUsers from "./../components/services/usersServices";
 import getEpisodes from "./../components/services/episodesServices";
+import auth from "./../components/services/authServices";
 
-const onUserLogin = (loggedUser) => ({
+const loginUser = () => ({
 	type: ACTIONS.LOGIN_USER,
-	loggedUser,
+	payload: auth(),
 });
 
 const loadAppData = (callback) => ({
@@ -29,6 +30,6 @@ const loadAppData = (callback) => ({
 });
 
 export const appActions = {
-	onUserLogin,
+	loginUser,
 	loadAppData,
 };

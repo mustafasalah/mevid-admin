@@ -191,7 +191,7 @@ const social_url_joi_schema = joi.string().uri().empty("");
 
 const social_counter_joi_schema = joi
 	.string()
-	.pattern(/^\d+( ?[km])?$/i)
+	.pattern(/^\d+(\.\d+)?( ?[km])?$/i)
 	.empty("")
 	.messages({
 		"string.pattern.base":
@@ -199,6 +199,7 @@ const social_counter_joi_schema = joi
 	});
 
 export const settingsSchema = {
+	...generalSchema,
 	site_name: joi.string().empty("").required(),
 	home_page_title: joi.string().empty("").required(),
 	keywords: joi.string().empty("").required(),
@@ -206,6 +207,8 @@ export const settingsSchema = {
 	site_content: joi
 		.array()
 		.items(joi.allow("movies", "anime", "tvshows"))
+		.min(1)
+		.max(3)
 		.required(),
 	comments_enabled: joi.allow("0", "1").required(),
 	reviews_enabled: joi.allow("0", "1").required(),
@@ -248,43 +251,11 @@ export const settingsSchema = {
 		.required(),
 	captcha_site_key: joi.string().empty(""),
 	captcha_secret_key: joi.string().empty(""),
-	favicon: joi
-		.object({
-			url: joi.string().uri({ allowRelative: true }),
-			name: joi.string().required(),
-			size: joi.string().required(),
-		})
-		.empty({}),
-	site_background: joi
-		.object({
-			url: joi.string().uri({ allowRelative: true }),
-			name: joi.string().required(),
-			size: joi.string().required(),
-		})
-		.empty({}),
-	dark_site_background: joi
-		.object({
-			url: joi.string().uri({ allowRelative: true }),
-			name: joi.string().required(),
-			size: joi.string().required(),
-		})
-		.empty({}),
-	logo: joi
-		.object({
-			url: joi.string().uri({ allowRelative: true }),
-			name: joi.string().required(),
-			size: joi.string().required(),
-		})
-		.empty({})
-		.required(),
-	dark_logo: joi
-		.object({
-			url: joi.string().uri({ allowRelative: true }),
-			name: joi.string().required(),
-			size: joi.string().required(),
-		})
-		.empty({})
-		.required(),
+	favicon: joi.object().empty(""),
+	site_background: joi.object().empty(""),
+	dark_site_background: joi.object().empty(""),
+	logo: joi.object().required(),
+	dark_logo: joi.object().required(),
 };
 
 export const schema = {

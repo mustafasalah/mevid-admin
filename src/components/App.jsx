@@ -6,39 +6,35 @@ import SettingsActions from "../actions/SettingsActions";
 import TopBar from "./TopBar";
 import SideBar from "./SideBar";
 import Content from "./Content";
+import Loader from "./common/Loader";
 import "promise-polyfill/src/polyfill";
 
 class App extends Component {
 	componentDidMount() {
 		const {
-			onUserLogin,
+			loginUser,
 			loadAppData,
 			loadNotifications,
 			loadAppSettings,
 		} = this.props;
 
-		onUserLogin({
-			id: 21,
-			profileImage: `${process.env.HOSTNAME}/media/profile_images/21/profile_image_21.jpg`,
-			username: "mustafa",
-			name: "Mustafa Admin",
-			role: "admin",
-		});
-
-		loadAppSettings();
-
-		loadAppData(() => {
-			loadNotifications();
+		loginUser().then(() => {
+			loadAppSettings();
+			loadAppData(() => {
+				loadNotifications();
+			});
 		});
 	}
 
 	render() {
-		return (
+		return this.props.loggedUser.id ? (
 			<Fragment>
 				<TopBar user={this.props.loggedUser} />
 				<SideBar />
 				<Content />
 			</Fragment>
+		) : (
+			<Loader />
 		);
 	}
 }

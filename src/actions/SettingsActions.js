@@ -5,6 +5,11 @@ import http from "../components/services/httpServices";
 import { settingsSchema } from "./ValidationSchema";
 import FormActions from "./FormActions";
 import getSettings from "../components/services/settingsServices";
+import {
+	handleLogoImageUpload,
+	handleFaviconImageUpload,
+	handleSiteBackgroundImageUpload,
+} from "./UploadHandlers";
 
 const onFormSubmit = async (data, callback) => {
 	const { value, error } = joi.object(settingsSchema).validate(data);
@@ -13,6 +18,15 @@ const onFormSubmit = async (data, callback) => {
 		try {
 			await http.put(`/settings/`, value);
 			toast.success("The new settings have been saved!");
+
+			handleLogoImageUpload(value.logo, value.dark_logo);
+
+			handleSiteBackgroundImageUpload(
+				value.site_background,
+				value.dark_site_background
+			);
+
+			handleFaviconImageUpload(value.favicon);
 
 			return {
 				type: ACTIONS.SUBMIT_FORM,

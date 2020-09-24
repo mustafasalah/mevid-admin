@@ -1,5 +1,5 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 const UserProfile = ({ user, active, onClick }) => {
 	return (
 		<div id="admin-profile">
@@ -26,9 +26,9 @@ const UserProfile = ({ user, active, onClick }) => {
 					</a>
 				</li>
 				<li>
-					<a href="/account/settings">
+					<Link to={`/users/${user.id}`}>
 						<i className="fas fa-cog"></i> Account Settings
-					</a>
+					</Link>
 				</li>
 				<li>
 					<a href="/logout">
