@@ -215,6 +215,10 @@ const UserForm = ({
 									options={[
 										{ label: "User", value: "user" },
 										{
+											label: "Publisher",
+											value: "publisher",
+										},
+										{
 											label: "Supervisor",
 											value: "supervisor",
 										},

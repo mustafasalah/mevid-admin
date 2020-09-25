@@ -62,7 +62,7 @@ export const userSchema = {
 	gender: joi.allow("m", "f").empty(""),
 	country: joi.string().empty(""),
 	avatar: joi.object().empty(""),
-	role: joi.allow("user", "supervisor", "admin").required(),
+	role: joi.allow("user", "supervisor", "publisher", "admin").required(),
 	banned: joi.allow("1", "0").required(),
 	email_verification: joi.allow("1", "0").required(),
 	about: joi.string().empty(""),

@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Fragment } from "react";
+import { connect } from "react-redux";
 import { Route, Redirect, Switch } from "react-router-dom";
 import Dashboard from "./content/Dashboard";
 import Shows from "./content/Shows";
@@ -19,32 +20,41 @@ import Animes from "./content/Animes";
 import TVShows from "./content/TVShows";
 import ShowForm from "./content/ShowForm";
 import EpisodeForm from "./content/EpisodeForm";
+import { authorize } from "./../js/Utility";
 
-const Content = () => {
+const Content = ({ loggedUser: { role } }) => {
 	return (
 		<section id="content-section">
 			<Switch>
-				<Route path="/episodes/add" component={EpisodeForm} />
-				<Route path="/episodes/:id" component={EpisodeForm} />
-				<Route path="/episodes" component={Episodes} />
+				{authorize(role, "admin") && (
+					<Fragment>
+						<Route path="/layout/main-menu" component={MainMenu} />
+						<Route path="/layout" component={Layout} exact />
+						<Route path="/settings" component={Settings} />
 
-				<Route path="/layout/main-menu" component={MainMenu} />
-				<Route path="/layout" component={Layout} />
-				<Route path="/settings" component={Settings} />
+						<Route path="/users/new" component={UserForm} />
+						<Route path="/users/:id" component={UserForm} />
+						<Route path="/users" component={Users} exact />
 
-				<Route path="/users/new" component={UserForm} />
-				<Route path="/users/:id" component={UserForm} />
-				<Route path="/users" component={Users} />
+						<Route path="/pages/new" component={Page} />
+						<Route path="/pages/:id" component={Page} />
+						<Route path="/pages" component={Pages} exact />
+					</Fragment>
+				)}
 
-				<Route path="/scheduler" component={Scheduler} />
+				{authorize(role, "supervisor") && (
+					<Route path="/scheduler" component={Scheduler} />
+				)}
 
-				<Route path="/pages/new" component={Page} />
-				<Route path="/pages/:id" component={Page} />
-				<Route path="/pages" component={Pages} exact />
+				<Route path="/dashboard" component={Dashboard} />
 
 				<Route path="/comments" component={Comments} />
 				<Route path="/reports" component={Reports} />
 				<Route path="/reviews" component={Reviews} />
+
+				<Route path="/episodes/add" component={EpisodeForm} />
+				<Route path="/episodes/:id" component={EpisodeForm} />
+				<Route path="/episodes" component={Episodes} />
 
 				<Route path="/shows/tv-shows" component={TVShows} exact />
 				<Route path="/shows/anime" component={Animes} exact />
@@ -52,8 +62,6 @@ const Content = () => {
 				<Route path="/shows/:type/add" component={ShowForm} />
 				<Route path="/shows/:id" component={ShowForm} />
 				<Route path="/shows" component={Shows} />
-
-				<Route path="/dashboard" component={Dashboard} />
 
 				<Redirect from="/tv-shows" to="/shows/tv-shows" />
 				<Redirect from="/anime" to="/shows/anime" />
@@ -64,4 +72,4 @@ const Content = () => {
 	);
 };
 
-export default Content;
+export default connect((state) => ({ loggedUser: state.loggedUser }))(Content);

@@ -1,3 +1,14 @@
+const permissions = new Map([
+	["admin", 3],
+	["supervisor", 2],
+	["publisher", 1],
+	["user", 0],
+]);
+
+export const authorize = (currentRole, requiredRole) => {
+	return permissions.get(currentRole) >= permissions.get(requiredRole);
+};
+
 export function toFileSize(bytes) {
 	return (bytes / 1000).toFixed(2) + "KB";
 }

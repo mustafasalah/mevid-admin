@@ -1,7 +1,9 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
+import { authorize } from "./../js/Utility";
+import { connect } from "react-redux";
 
-const NavBar = (props) => {
+const NavBar = ({ loggedUser: { role } }) => {
 	return (
 		<nav>
 			<ul>
@@ -69,76 +71,84 @@ const NavBar = (props) => {
 					</NavLink>
 				</li>
 
-				<li>
-					<NavLink to="/scheduler" className="radius">
-						<i className="fas fa-calendar-alt"></i> Scheduler
-					</NavLink>
-				</li>
+				{authorize(role, "supervisor") && (
+					<li>
+						<NavLink to="/scheduler" className="radius">
+							<i className="fas fa-calendar-alt"></i> Scheduler
+						</NavLink>
+					</li>
+				)}
 
-				<li>
-					<NavLink to="/users" className="radius">
-						<i className="fas fa-users"></i> Users
-					</NavLink>
-
-					<ul className="sub-menu blur-shadow radius">
+				{authorize(role, "admin") && (
+					<Fragment>
 						<li>
-							<NavLink exact to="/users">
-								All Users
+							<NavLink to="/users" className="radius">
+								<i className="fas fa-users"></i> Users
+							</NavLink>
+
+							<ul className="sub-menu blur-shadow radius">
+								<li>
+									<NavLink exact to="/users">
+										All Users
+									</NavLink>
+								</li>
+
+								<li>
+									<NavLink to="/users/new">Add User</NavLink>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<NavLink to="/pages" className="radius">
+								<i className="fas fa-copy"></i> Pages
+							</NavLink>
+
+							<ul className="sub-menu blur-shadow radius">
+								<li>
+									<NavLink exact to="/pages">
+										All Pages
+									</NavLink>
+								</li>
+
+								<li>
+									<NavLink to="/pages/new">
+										Create Page
+									</NavLink>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<NavLink to="/layout" className="radius">
+								<i className="fas fa-brush"></i> Layout and View
+							</NavLink>
+
+							<ul className="sub-menu blur-shadow radius">
+								<li>
+									<NavLink exact to="/layout">
+										Site Layout
+									</NavLink>
+								</li>
+
+								<li>
+									<NavLink to="/layout/main-menu">
+										Menu Layout
+									</NavLink>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<NavLink to="/settings" className="radius">
+								<i className="fas fa-cogs"></i> General Settings
 							</NavLink>
 						</li>
-
-						<li>
-							<NavLink to="/users/new">Add User</NavLink>
-						</li>
-					</ul>
-				</li>
-
-				<li>
-					<NavLink to="/pages" className="radius">
-						<i className="fas fa-copy"></i> Pages
-					</NavLink>
-
-					<ul className="sub-menu blur-shadow radius">
-						<li>
-							<NavLink exact to="/pages">
-								All Pages
-							</NavLink>
-						</li>
-
-						<li>
-							<NavLink to="/pages/new">Create Page</NavLink>
-						</li>
-					</ul>
-				</li>
-
-				<li>
-					<NavLink to="/layout" className="radius">
-						<i className="fas fa-brush"></i> Layout and View
-					</NavLink>
-
-					<ul className="sub-menu blur-shadow radius">
-						<li>
-							<NavLink exact to="/layout">
-								Site Layout
-							</NavLink>
-						</li>
-
-						<li>
-							<NavLink to="/layout/main-menu">
-								Menu Layout
-							</NavLink>
-						</li>
-					</ul>
-				</li>
-
-				<li>
-					<NavLink to="/settings" className="radius">
-						<i className="fas fa-cogs"></i> General Settings
-					</NavLink>
-				</li>
+					</Fragment>
+				)}
 			</ul>
 		</nav>
 	);
 };
 
-export default NavBar;
+export default connect((state) => ({ loggedUser: state.loggedUser }))(NavBar);
