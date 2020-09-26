@@ -14,8 +14,10 @@ import episodeFormActions from "./../../actions/EpisodeFormActions";
 import getEpisodes from "../services/episodesServices";
 import { getShowArcs } from "../services/showsServices";
 import Loader from "./../common/Loader";
+import { authorize } from "./../../js/Utility";
 
 const EpisodeForm = ({
+	loggedUser,
 	data,
 	shows,
 	onSubmit,
@@ -38,6 +40,15 @@ const EpisodeForm = ({
 			if (episodeId === undefined) return onReset();
 			try {
 				const episodeData = await getEpisodes(episodeId);
+
+				// Authorize this page
+				if (
+					!authorize(loggedUser.role, "supervisor") &&
+					loggedUser.id !== +episodeData.author
+				) {
+					history.replace("/episodes");
+				}
+
 				onEpisodeDataLoad(episodeData);
 			} catch (ex) {
 				toast.error("There is no episode with this id: " + episodeId, {
@@ -250,7 +261,11 @@ const EpisodeForm = ({
 };
 
 export default connect(
-	(state) => ({ ...state.forms.episode, shows: state.shows }),
+	(state) => ({
+		...state.forms.episode,
+		shows: state.shows,
+		loggedUser: state.loggedUser,
+	}),
 	{
 		onSubmit: episodeFormActions.onFormSubmit,
 		onReset: episodeFormActions.onFormReset,

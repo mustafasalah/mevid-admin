@@ -2,6 +2,7 @@ import React from "react";
 import getAuthors from "../services/fakeAuthorsServices";
 import AbstractTablePage from "./AbstractTablePage";
 import getGenres from "./../services/getGenres";
+import { authorize } from "./../../js/Utility";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -32,6 +33,7 @@ class AbstractShows extends AbstractTablePage {
 					label: "Edit",
 					className: "edit-item",
 					href: "/shows/:id",
+					permisson: "supervisor",
 				},
 				{
 					label: "Delete",
@@ -43,6 +45,7 @@ class AbstractShows extends AbstractTablePage {
 						);
 						isDelete && this.props.deleteData(id);
 					},
+					permisson: "supervisor",
 				},
 			],
 		},
@@ -98,11 +101,13 @@ class AbstractShows extends AbstractTablePage {
 		const deleteShows = window.confirm(
 			"Are you sure to delete the selected shows?"
 		);
-		deleteShows && this.props.deleteData(this.props.selectedItems);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		deleteShows && this.props.deleteData(selectedItems);
 	}
 
 	handleStatusChange(status) {
-		this.props.changeStatus(this.props.selectedItems, status);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		this.props.changeStatus(selectedItems, status);
 	}
 }
 

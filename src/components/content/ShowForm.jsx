@@ -27,6 +27,7 @@ import TagsField from "./TagsField";
 import showFormActions from "./../../actions/ShowFormActions";
 import getShows from "../services/showsServices";
 import Loader from "./../common/Loader";
+import { authorize } from "../../js/Utility";
 
 const paramTypeToDataType = new Map([
 	["movies", "movie"],
@@ -47,6 +48,7 @@ const typeParamToLabel = new Map([
 ]);
 
 const ShowForm = ({
+	loggedUser,
 	shows,
 	data,
 	onSubmit,
@@ -74,23 +76,28 @@ const ShowForm = ({
 		isTVShow = showType === "TV Show";
 	}
 
-	// change the show type in status according to type in url
-	useEffect(() => {
-		if (params.type) {
-			const currentShowType = paramTypeToDataType.get(params.type);
-			if (data.type !== currentShowType) onTypeChange(currentShowType);
-		}
-	}, [params.type]);
-
 	useEffect(() => {
 		(async () => {
 			// To reset form fields to its default value
 			// (if the user edit show and then go to new one this will delete edited show state)
-			if (showId === undefined) return onReset();
+			if (showId === undefined) {
+				onReset();
+				onTypeChange(paramTypeToDataType.get(params.type));
+				return;
+			}
 
 			// loading show data from server side and set it in form state
 			try {
 				const showData = await getShows(showId);
+
+				// Authorize this page
+				if (
+					!authorize(loggedUser.role, "supervisor") &&
+					loggedUser.id !== +showData.author
+				) {
+					history.replace("/shows");
+				}
+
 				onShowDataLoad(showData);
 			} catch (ex) {
 				toast.error("There is no show with this id: " + showId, {
@@ -100,6 +107,14 @@ const ShowForm = ({
 			}
 		})();
 	}, []);
+
+	// change the show type in status according to type in url
+	useEffect(() => {
+		if (params.type) {
+			const currentShowType = paramTypeToDataType.get(params.type);
+			if (data.type !== currentShowType) onTypeChange(currentShowType);
+		}
+	}, [params.type]);
 
 	return (
 		<Fragment>
@@ -555,7 +570,11 @@ const ShowForm = ({
 };
 
 export default connect(
-	(state) => ({ ...state.forms.show, shows: state.shows }),
+	(state) => ({
+		...state.forms.show,
+		shows: state.shows,
+		loggedUser: state.loggedUser,
+	}),
 	{
 		onSubmit: showFormActions.onFormSubmit,
 		onChange: showFormActions.onFieldChanged,

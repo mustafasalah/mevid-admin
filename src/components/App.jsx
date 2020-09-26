@@ -19,8 +19,7 @@ class App extends Component {
 		} = this.props;
 
 		loginUser().then(() => {
-			const { loggedUser } = this.props;
-			if (loggedUser.role === "admin") loadAppSettings();
+			loadAppSettings();
 			loadAppData(() => {
 				loadNotifications();
 			});

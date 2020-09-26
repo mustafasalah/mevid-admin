@@ -44,6 +44,9 @@ const FormField = ({
 						onChange={
 							isControlled &&
 							((select) => {
+								// if select field is disabled then do nothing
+								if (props.disabled) return;
+
 								if (props.multiple) {
 									const selectedOptions = Array.from(
 										select.selectedOptions
@@ -79,8 +82,11 @@ const FormField = ({
 						id={fieldName}
 						onChange={
 							isControlled &&
-							(({ currentTarget: input }) =>
-								onFieldChanged(formField, input.value))
+							(({ currentTarget: input }) => {
+								// if textarea field is disabled then do nothing
+								if (props.disabled) return;
+								onFieldChanged(formField, input.value);
+							})
 						}
 						name={fieldName}
 						value={
@@ -132,7 +138,10 @@ const FormField = ({
 									? true
 									: undefined) &&
 								(({ currentTarget: input }) => {
-									if (type === "radio") return;
+									// if input field is disabled or radio then do nothing
+									if (type === "radio" || props.disabled)
+										return;
+
 									if (type !== "file") {
 										onFieldChanged(formField, input.value);
 									} else {

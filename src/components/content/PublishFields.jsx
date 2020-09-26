@@ -2,8 +2,15 @@ import React from "react";
 import { Fragment } from "react";
 import FormField from "./../common/form/FormField";
 import getAuthors from "./../services/fakeAuthorsServices";
+import { connect } from "react-redux";
+import { authorize } from "./../../js/Utility";
 
-const PublishFields = ({ form, submitLabel = "Publish", extraFields }) => {
+const PublishFields = ({
+	loggedUser: { role },
+	form,
+	submitLabel = "Publish",
+	extraFields,
+}) => {
 	return (
 		<Fragment>
 			<div className="row">
@@ -29,6 +36,9 @@ const PublishFields = ({ form, submitLabel = "Publish", extraFields }) => {
 							label: author.name,
 							value: +author.id,
 						}))}
+						disabled={
+							authorize(role, "supervisor") ? undefined : true
+						}
 					/>
 				</div>
 
@@ -93,4 +103,6 @@ const PublishFields = ({ form, submitLabel = "Publish", extraFields }) => {
 	);
 };
 
-export default PublishFields;
+export default connect((state) => ({ loggedUser: state.loggedUser }))(
+	PublishFields
+);

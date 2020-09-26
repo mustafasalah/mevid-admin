@@ -17,6 +17,7 @@ class Shows extends AbstractShows {
 const mapStateToProps = (state) => ({
 	...state.tables.shows,
 	items: state.shows,
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {

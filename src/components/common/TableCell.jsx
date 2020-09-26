@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
+import { authorize } from "./../../js/Utility";
+import store from "./../../store";
 
 class TableCell extends Component {
 	renderLinksNav() {
@@ -9,52 +11,65 @@ class TableCell extends Component {
 		if (linksNav) {
 			return (
 				<ul>
-					{linksNav.map((link, i) => {
-						if ((link.on && link.on(rowData)) || !link.on) {
-							const url = link.href.replace(
-								/:(\w+)/gi,
-								(match, prop) => rowData[prop]
-							);
+					{linksNav
+						.filter((link) => {
+							// Authorize this link
 							return (
-								<li key={i}>
-									{link.absolute ? (
-										<a
-											href={url}
-											className={link.className}
-											target="_blank"
-											onClick={(e) => {
-												if (
-													typeof link.onClick ===
-													"function"
-												) {
-													e.preventDefault();
-													link.onClick(rowData);
-												}
-											}}
-										>
-											<span>{link.label}</span>
-										</a>
-									) : (
-										<Link
-											to={url}
-											className={link.className}
-											onClick={(e) => {
-												if (
-													typeof link.onClick ===
-													"function"
-												) {
-													e.preventDefault();
-													link.onClick(rowData);
-												}
-											}}
-										>
-											<span>{link.label}</span>
-										</Link>
-									)}
-								</li>
+								link.permisson === undefined ||
+								authorize(
+									store.getState().loggedUser.role,
+									link.permisson
+								) ||
+								store.getState().loggedUser.id ===
+									rowData.authorId
 							);
-						}
-					})}
+						})
+						.map((link, i) => {
+							if ((link.on && link.on(rowData)) || !link.on) {
+								const url = link.href.replace(
+									/:(\w+)/gi,
+									(match, prop) => rowData[prop]
+								);
+								return (
+									<li key={i}>
+										{link.absolute ? (
+											<a
+												href={url}
+												className={link.className}
+												target="_blank"
+												onClick={(e) => {
+													if (
+														typeof link.onClick ===
+														"function"
+													) {
+														e.preventDefault();
+														link.onClick(rowData);
+													}
+												}}
+											>
+												<span>{link.label}</span>
+											</a>
+										) : (
+											<Link
+												to={url}
+												className={link.className}
+												onClick={(e) => {
+													if (
+														typeof link.onClick ===
+														"function"
+													) {
+														e.preventDefault();
+														link.onClick(rowData);
+													}
+												}}
+											>
+												<span>{link.label}</span>
+											</Link>
+										)}
+									</li>
+								);
+							}
+						})}
 				</ul>
 			);
 		}

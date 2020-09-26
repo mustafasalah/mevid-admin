@@ -17,6 +17,7 @@ class TVShows extends AbstractShows {
 const mapStateToProps = (state) => ({
 	...state.tables.tvshows,
 	items: state.shows.filter((show) => show.category === "tvshow"),
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {

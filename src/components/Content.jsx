@@ -25,49 +25,54 @@ import { authorize } from "./../js/Utility";
 const Content = ({ loggedUser: { role } }) => {
 	return (
 		<section id="content-section">
-			<Switch>
-				{authorize(role, "admin") && (
-					<Fragment>
-						<Route path="/layout/main-menu" component={MainMenu} />
-						<Route path="/layout" component={Layout} exact />
-						<Route path="/settings" component={Settings} />
+			<Redirect from="/tv-shows" to="/shows/tv-shows" />
+			<Redirect from="/anime" to="/shows/anime" />
+			<Redirect from="/movies" to="/shows/movies" />
+			<Redirect from="/" to="/dashboard" exact />
 
-						<Route path="/users/new" component={UserForm} />
-						<Route path="/users/:id" component={UserForm} />
-						<Route path="/users" component={Users} exact />
+			{authorize(role, "publisher") && (
+				<Switch>
+					<Route path="/dashboard" component={Dashboard} />
 
-						<Route path="/pages/new" component={Page} />
-						<Route path="/pages/:id" component={Page} />
-						<Route path="/pages" component={Pages} exact />
-					</Fragment>
-				)}
+					<Route path="/comments" component={Comments} />
+					<Route path="/reports" component={Reports} />
+					<Route path="/reviews" component={Reviews} />
 
-				{authorize(role, "supervisor") && (
-					<Route path="/scheduler" component={Scheduler} />
-				)}
+					<Route path="/episodes/add" component={EpisodeForm} exact />
+					<Route path="/episodes/:id" component={EpisodeForm} />
+					<Route path="/episodes" component={Episodes} exact />
 
-				<Route path="/dashboard" component={Dashboard} />
+					<Route path="/shows/tv-shows" component={TVShows} exact />
+					<Route path="/shows/anime" component={Animes} exact />
+					<Route path="/shows/movies" component={Movies} exact />
+					<Route path="/shows/:type/add" component={ShowForm} />
+					<Route path="/shows/:id" component={ShowForm} />
+					<Route path="/shows" component={Shows} exact />
 
-				<Route path="/comments" component={Comments} />
-				<Route path="/reports" component={Reports} />
-				<Route path="/reviews" component={Reviews} />
+					{authorize(role, "supervisor") && (
+						<Route path="/scheduler" component={Scheduler} />
+					)}
 
-				<Route path="/episodes/add" component={EpisodeForm} />
-				<Route path="/episodes/:id" component={EpisodeForm} />
-				<Route path="/episodes" component={Episodes} />
+					{authorize(role, "admin") && (
+						<Fragment>
+							<Route
+								path="/layout/main-menu"
+								component={MainMenu}
+							/>
+							<Route path="/layout" component={Layout} exact />
+							<Route path="/settings" component={Settings} />
 
-				<Route path="/shows/tv-shows" component={TVShows} exact />
-				<Route path="/shows/anime" component={Animes} exact />
-				<Route path="/shows/movies" component={Movies} exact />
-				<Route path="/shows/:type/add" component={ShowForm} />
-				<Route path="/shows/:id" component={ShowForm} />
-				<Route path="/shows" component={Shows} />
+							<Route path="/users/new" component={UserForm} />
+							<Route path="/users/:id" component={UserForm} />
+							<Route path="/users" component={Users} exact />
 
-				<Redirect from="/tv-shows" to="/shows/tv-shows" />
-				<Redirect from="/anime" to="/shows/anime" />
-				<Redirect from="/movies" to="/shows/movies" />
-				<Redirect from="/" to="/dashboard" />
-			</Switch>
+							<Route path="/pages/new" component={Page} />
+							<Route path="/pages/:id" component={Page} />
+							<Route path="/pages" component={Pages} exact />
+						</Fragment>
+					)}
+				</Switch>
+			)}
 		</section>
 	);
 };

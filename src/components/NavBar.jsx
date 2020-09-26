@@ -1,7 +1,36 @@
 import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
-import { authorize } from "./../js/Utility";
+import { authorize, upperFirst } from "./../js/Utility";
 import { connect } from "react-redux";
+import store from "./../store";
+
+const renderShowsLinks = () => {
+	const result = [];
+	const siteContent = store.getState().forms.settings.data.site_content;
+
+	if (siteContent.length > 1) {
+		result[0] = (
+			<li>
+				<NavLink exact to="/shows">
+					All Shows
+				</NavLink>
+			</li>
+		);
+	}
+
+	for (let content of siteContent) {
+		if (content === "tvshows") content = "tv-shows";
+		result.push(
+			<li>
+				<NavLink to={`/shows/${content}`}>
+					{content === "tv-shows" ? "TV Shows" : upperFirst(content)}
+				</NavLink>
+			</li>
+		);
+	}
+
+	return result;
+};
 
 const NavBar = ({ loggedUser: { role } }) => {
 	return (
@@ -18,20 +47,7 @@ const NavBar = ({ loggedUser: { role } }) => {
 					</NavLink>
 
 					<ul className="sub-menu blur-shadow radius">
-						<li>
-							<NavLink exact to="/shows">
-								All Shows
-							</NavLink>
-						</li>
-						<li>
-							<NavLink to="/shows/movies">Movies</NavLink>
-						</li>
-						<li>
-							<NavLink to="/shows/anime">Anime</NavLink>
-						</li>
-						<li>
-							<NavLink to="/shows/tv-shows">TV Shows</NavLink>
-						</li>
+						{renderShowsLinks()}
 					</ul>
 				</li>
 
@@ -151,4 +167,6 @@ const NavBar = ({ loggedUser: { role } }) => {
 	);
 };
 
-export default connect((state) => ({ loggedUser: state.loggedUser }))(NavBar);
+export default connect((state) => ({
+	loggedUser: state.loggedUser,
+}))(NavBar);

@@ -1,12 +1,30 @@
 import React, { Component, Fragment } from "react";
 import ItemsPage from "./../common/ItemsPage";
 import Loader from "./Loader";
+import { authorize } from "./../../js/Utility";
 
 class AbstractTablePage extends Component {
 	componentDidMount() {
 		const { items, onPageChange } = this.props;
 		const pageNo = this.getCurrentPage(items);
 		pageNo > 1 && onPageChange(pageNo);
+	}
+
+	authorizeActionOnSelectedItems() {
+		let { selectedItems, items, loggedUser } = this.props;
+
+		// filter the selectItem if the logged user is authorized to the action
+		// with all selected items only his own items
+		if (authorize(loggedUser.role, "supervisor") === false) {
+			selectedItems = selectedItems.filter((id) => {
+				return (
+					items.find((item) => item.id === id).authorId ===
+					loggedUser.id
+				);
+			});
+		}
+
+		return selectedItems;
 	}
 
 	getCurrentPage(items) {

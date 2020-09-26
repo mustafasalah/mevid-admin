@@ -80,8 +80,8 @@ const formReducer = (formType) => {
 				};
 
 				// if the form have author field property then set it to logged user
-				if (state.data.author !== undefined && payload.loggedUser) {
-					newState.data.author = payload.loggedUser.id;
+				if (state.data.author !== undefined && payload.payload.data) {
+					newState.data.author = payload.payload.data.id;
 				}
 
 				return newState;

@@ -8,8 +8,8 @@ const types = [
 	"comments",
 	"reviews",
 	"reports",
-	"pages",
 	"users",
+	"pages",
 ];
 
 const initialState = [];
@@ -27,16 +27,20 @@ const dataReducer = (dataType) => (state = initialState, { type, ...rest }) => {
 				return state;
 			}
 
-			toast.success(
-				`The status of the selected ${meta.dataType} has been successfully changed!`
-			);
-			return state.map((data) => {
-				if (meta.id.indexOf(data.id) !== -1) {
-					data = deepCopy(data);
-					data.status = meta.status;
-				}
-				return data;
-			});
+			if (meta.id.length) {
+				toast.success(
+					`The status of the selected ${meta.dataType} has been successfully changed!`
+				);
+				return state.map((data) => {
+					if (meta.id.indexOf(data.id) !== -1) {
+						data = deepCopy(data);
+						data.status = meta.status;
+					}
+					return data;
+				});
+			}
+
+			return state;
 
 		case ACTIONS.DELETE_DATA:
 			if (dataType !== rest.meta.dataType) return state;
@@ -49,12 +53,17 @@ const dataReducer = (dataType) => (state = initialState, { type, ...rest }) => {
 				return state;
 			} else {
 				if (id instanceof Array) {
-					toast.success(
-						`The selected ${typeName} were deleted successfully!`
-					);
-					return state.filter((data) => {
-						return id.indexOf(data.id) === -1;
-					});
+					if (id.length) {
+						toast.success(
+							`The selected ${typeName} were deleted successfully!`
+						);
+
+						return state.filter((data) => {
+							return id.indexOf(data.id) === -1;
+						});
+					}
+
+					return state;
 				} else {
 					toast.success(
 						`The ${typeName.slice(0, -1)} was deleted successfully!`
@@ -64,9 +73,10 @@ const dataReducer = (dataType) => (state = initialState, { type, ...rest }) => {
 			}
 
 		case ACTIONS.LOAD_APP_DATA:
-			const { status, value, reason } = rest.payload[
-				types.indexOf(dataType)
-			];
+			const payloadData = rest.payload[types.indexOf(dataType)];
+			if (payloadData === undefined) return state;
+
+			const { status, value, reason } = payloadData;
 
 			if (status === "fulfilled") {
 				if (typeof rest.meta.callback === "function") {

@@ -49,7 +49,6 @@ const Notification = ({
 				className={active ? "active" : ""}
 				onClick={(e) => {
 					e.preventDefault();
-					console.log(onClick);
 					onClick(active ? "" : "notification");
 				}}
 			>
@@ -75,7 +74,11 @@ const Notification = ({
 									<span
 										className={`notify-label ${notification.type}`}
 									>
-										{`New ${upperFirst(notification.type)}`}
+										{`${
+											notification.is_new === "1"
+												? "New"
+												: "Edited"
+										} ${upperFirst(notification.type)}`}
 									</span>
 									<span className="counter">
 										{notification.counter}

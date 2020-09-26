@@ -22,6 +22,7 @@ class Animes extends AbstractShows {
 const mapStateToProps = (state) => ({
 	...state.tables.animes,
 	items: state.shows.filter((show) => show.category === "anime"),
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {

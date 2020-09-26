@@ -22,6 +22,7 @@ class Movies extends AbstractShows {
 const mapStateToProps = (state) => ({
 	...state.tables.movies,
 	items: state.shows.filter((show) => show.category === "movie"),
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {

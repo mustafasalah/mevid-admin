@@ -6,6 +6,7 @@ import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
+import { authorize } from "../../js/Utility.js";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -63,6 +64,7 @@ class Episodes extends AbstractTablePage {
 					label: "Edit",
 					className: "edit-item",
 					href: "/episodes/:id",
+					permisson: "supervisor",
 				},
 				{
 					label: "Delete",
@@ -74,6 +76,7 @@ class Episodes extends AbstractTablePage {
 						);
 						isDelete && this.props.deleteData(id);
 					},
+					permisson: "supervisor",
 				},
 			],
 		},
@@ -119,6 +122,7 @@ class Episodes extends AbstractTablePage {
 			value: "delete",
 			label: "Delete",
 			handler: this.handleDelete.bind(this),
+			permission: "supervisor",
 		},
 		{
 			value: "draft",
@@ -143,17 +147,20 @@ class Episodes extends AbstractTablePage {
 		const deleteEpisodes = window.confirm(
 			"Are you sure to delete the selected shows?"
 		);
-		deleteEpisodes && this.props.deleteData(this.props.selectedItems);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		deleteEpisodes && this.props.deleteData(selectedItems);
 	}
 
 	handleStatusChange(status) {
-		this.props.changeStatus(this.props.selectedItems, status);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		this.props.changeStatus(selectedItems, status);
 	}
 }
 
 const mapStateToProps = (state) => ({
 	...state.tables.episodes,
 	items: state.episodes,
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {
