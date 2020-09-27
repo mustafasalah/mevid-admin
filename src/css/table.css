@@ -307,7 +307,7 @@ table tr ul {
 	position: absolute;
 }
 
-table tr:hover ul {
+table tr:hover ul:not(:empty) {
 	visibility: visible;
 	opacity: 1;
 	position: static;

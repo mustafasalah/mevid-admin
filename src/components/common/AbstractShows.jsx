@@ -33,7 +33,7 @@ class AbstractShows extends AbstractTablePage {
 					label: "Edit",
 					className: "edit-item",
 					href: "/shows/:id",
-					permisson: "supervisor",
+					permission: "supervisor",
 				},
 				{
 					label: "Delete",
@@ -45,7 +45,7 @@ class AbstractShows extends AbstractTablePage {
 						);
 						isDelete && this.props.deleteData(id);
 					},
-					permisson: "supervisor",
+					permission: "supervisor",
 				},
 			],
 		},

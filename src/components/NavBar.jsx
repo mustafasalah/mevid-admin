@@ -2,13 +2,11 @@ import React, { Fragment } from "react";
 import { NavLink } from "react-router-dom";
 import { authorize, upperFirst } from "./../js/Utility";
 import { connect } from "react-redux";
-import store from "./../store";
 
-const renderShowsLinks = () => {
-	const result = [];
-	const siteContent = store.getState().forms.settings.data.site_content;
-
+const renderShowsLinks = (siteContent) => {
 	if (siteContent.length > 1) {
+		const result = [];
+
 		result[0] = (
 			<li>
 				<NavLink exact to="/shows">
@@ -16,23 +14,40 @@ const renderShowsLinks = () => {
 				</NavLink>
 			</li>
 		);
-	}
 
-	for (let content of siteContent) {
+		for (let content of siteContent) {
+			if (content === "tvshows") content = "tv-shows";
+			result.push(
+				<li>
+					<NavLink to={`/shows/${content}`}>
+						{content === "tv-shows"
+							? "TV Shows"
+							: upperFirst(content)}
+					</NavLink>
+				</li>
+			);
+		}
+
+		return result;
+	} else {
+		const content = siteContent[0];
 		if (content === "tvshows") content = "tv-shows";
-		result.push(
+
+		return (
 			<li>
-				<NavLink to={`/shows/${content}`}>
+				<NavLink to={`/shows/${content}`} className="radius">
+					<i className="fas fa-film"></i>{" "}
 					{content === "tv-shows" ? "TV Shows" : upperFirst(content)}
 				</NavLink>
 			</li>
 		);
 	}
-
-	return result;
 };
 
-const NavBar = ({ loggedUser: { role } }) => {
+const NavBar = ({
+	loggedUser: { role },
+	settings: { site_content: siteContent },
+}) => {
 	return (
 		<nav>
 			<ul>
@@ -41,33 +56,43 @@ const NavBar = ({ loggedUser: { role } }) => {
 						<i className="fas fa-chart-area"></i> Dashboard
 					</NavLink>
 				</li>
-				<li>
-					<NavLink to="/shows" className="radius">
-						<i className="fas fa-film"></i> Shows
-					</NavLink>
 
-					<ul className="sub-menu blur-shadow radius">
-						{renderShowsLinks()}
-					</ul>
-				</li>
+				{siteContent.length === 1 ? (
+					renderShowsLinks(siteContent)
+				) : (
+					<li>
+						<NavLink to="/shows" className="radius">
+							<i className="fas fa-film"></i> Shows
+						</NavLink>
 
-				<li>
-					<NavLink to="/episodes" className="radius">
-						<i className="fas fa-film"></i> Episodes
-					</NavLink>
+						<ul className="sub-menu blur-shadow radius">
+							{renderShowsLinks(siteContent)}
+						</ul>
+					</li>
+				)}
 
-					<ul className="sub-menu blur-shadow radius">
-						<li>
-							<NavLink exact to="/episodes">
-								All Episodes
-							</NavLink>
-						</li>
+				{(siteContent.includes("tvshows") ||
+					siteContent.includes("anime")) && (
+					<li>
+						<NavLink to="/episodes" className="radius">
+							<i className="fas fa-film"></i> Episodes
+						</NavLink>
 
-						<li>
-							<NavLink to="/episodes/add">Add Episode</NavLink>
-						</li>
-					</ul>
-				</li>
+						<ul className="sub-menu blur-shadow radius">
+							<li>
+								<NavLink exact to="/episodes">
+									All Episodes
+								</NavLink>
+							</li>
+
+							<li>
+								<NavLink to="/episodes/add">
+									Add Episode
+								</NavLink>
+							</li>
+						</ul>
+					</li>
+				)}
 
 				<li>
 					<NavLink to="/comments" className="radius">
@@ -169,4 +194,5 @@ const NavBar = ({ loggedUser: { role } }) => {
 
 export default connect((state) => ({
 	loggedUser: state.loggedUser,
+	settings: state.forms.settings.data,
 }))(NavBar);

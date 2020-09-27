@@ -4,6 +4,7 @@ import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
+import { authorize } from "./../../js/Utility";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -34,6 +35,8 @@ class Comments extends AbstractTablePage {
 					onClick: ({ id }) => {
 						this.props.changeStatus([id], "approve");
 					},
+					permission: "supervisor",
+					customAuthorize: this.customAuthorize.bind(this),
 				},
 				{
 					label: "Unapprove",
@@ -43,6 +46,8 @@ class Comments extends AbstractTablePage {
 					onClick: ({ id }) => {
 						this.props.changeStatus([id], "unapprove");
 					},
+					permission: "supervisor",
+					customAuthorize: this.customAuthorize.bind(this),
 				},
 				{
 					label: "Reply",
@@ -60,6 +65,8 @@ class Comments extends AbstractTablePage {
 						);
 						isDelete && this.props.deleteData(id);
 					},
+					permission: "supervisor",
+					customAuthorize: this.customAuthorize.bind(this),
 				},
 			],
 		},
@@ -139,15 +146,48 @@ class Comments extends AbstractTablePage {
 		<SectionHeader name="Comments" faClass="fas fa-comments" />
 	);
 
+	customAuthorize(comment) {
+		const episodeOfComment = this.getEpisodeOfComment(comment);
+		return episodeOfComment.authorId === this.props.loggedUser.id;
+	}
+
+	getEpisodeOfComment(comment) {
+		const { episodes } = this.props;
+		return episodes.find((ep) => ep.id === comment.episodeId);
+	}
+
+	authorizeActionOnSelectedItems() {
+		let { selectedItems, items, loggedUser } = this.props;
+
+		// filter the selectItem if the logged user is authorized to the action
+		// with all selected items only his own items
+		if (authorize(loggedUser.role, "supervisor") === false) {
+			selectedItems = selectedItems.filter((id) => {
+				const selectedComment = items.find((item) => item.id === id);
+				const episodeOfComment = this.getEpisodeOfComment(
+					selectedComment
+				);
+
+				if (episodeOfComment.authorId === loggedUser.id) return true;
+
+				return false;
+			});
+		}
+
+		return selectedItems;
+	}
+
 	handleDelete() {
 		const isDelete = window.confirm(
 			"Are you sure to delete the selected comments?"
 		);
-		isDelete && this.props.deleteData(this.props.selectedItems);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		isDelete && this.props.deleteData(selectedItems);
 	}
 
 	handleStatusChange(status) {
-		this.props.changeStatus(this.props.selectedItems, status);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		this.props.changeStatus(selectedItems, status);
 	}
 }
 
@@ -155,6 +195,8 @@ const mapStateToProps = (state) => ({
 	...state.tables.comments,
 	items: state.comments,
 	authors: state.users,
+	episodes: state.episodes,
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {

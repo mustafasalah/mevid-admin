@@ -231,7 +231,7 @@ const ShowForm = ({
 										name="show.rate"
 										label="Rate"
 										type="select"
-										defaultValue="nr"
+										defaultValue=""
 										options={getRates()}
 									/>
 								</div>

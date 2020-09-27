@@ -5,6 +5,7 @@ import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 import getReviews from "./../services/fakeReviewsServices";
+import { authorize } from "./../../js/Utility";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -38,6 +39,8 @@ class Reviews extends AbstractTablePage {
 					onClick: ({ id }) => {
 						this.props.changeStatus([id], "approve");
 					},
+					permission: "supervisor",
+					customAuthorize: this.customAuthorize.bind(this),
 				},
 				{
 					label: "Unapprove",
@@ -47,6 +50,8 @@ class Reviews extends AbstractTablePage {
 					onClick: ({ id }) => {
 						this.props.changeStatus([id], "unapprove");
 					},
+					permission: "supervisor",
+					customAuthorize: this.customAuthorize.bind(this),
 				},
 				{
 					label: "Delete",
@@ -58,6 +63,8 @@ class Reviews extends AbstractTablePage {
 						);
 						isDelete && this.props.deleteData(id);
 					},
+					permission: "supervisor",
+					customAuthorize: this.customAuthorize.bind(this),
 				},
 			],
 		},
@@ -133,21 +140,52 @@ class Reviews extends AbstractTablePage {
 		this.getData = getReviews;
 	}
 
+	customAuthorize(review) {
+		const showOfReview = this.getShowOfReview(review);
+		return showOfReview.authorId === this.props.loggedUser.id;
+	}
+
+	getShowOfReview(review) {
+		const { shows } = this.props;
+		return shows.find((show) => show.id === review.showId);
+	}
+
+	authorizeActionOnSelectedItems() {
+		let { selectedItems, items, loggedUser } = this.props;
+
+		// filter the selectItem if the logged user is authorized to the action
+		// with all selected items only his own items
+		if (authorize(loggedUser.role, "supervisor") === false) {
+			selectedItems = selectedItems.filter((id) => {
+				const selectedReview = items.find((item) => item.id === id);
+				const showOfReview = this.getShowOfReview(selectedReview);
+
+				return showOfReview.authorId === loggedUser.id;
+			});
+		}
+
+		return selectedItems;
+	}
+
 	handleDelete() {
 		const isDelete = window.confirm(
 			"Are you sure to delete the selected reviews?"
 		);
-		isDelete && this.props.deleteData(this.props.selectedItems);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		isDelete && this.props.deleteData(selectedItems);
 	}
 
 	handleStatusChange(status) {
-		this.props.changeStatus(this.props.selectedItems, status);
+		const selectedItems = this.authorizeActionOnSelectedItems();
+		this.props.changeStatus(selectedItems, status);
 	}
 }
 
 const mapStateToProps = (state) => ({
 	...state.tables.reviews,
 	items: state.reviews,
+	shows: state.shows,
+	loggedUser: state.loggedUser,
 });
 
 const mapDispatchToProps = {

@@ -64,7 +64,7 @@ class Episodes extends AbstractTablePage {
 					label: "Edit",
 					className: "edit-item",
 					href: "/episodes/:id",
-					permisson: "supervisor",
+					permission: "supervisor",
 				},
 				{
 					label: "Delete",
@@ -76,7 +76,7 @@ class Episodes extends AbstractTablePage {
 						);
 						isDelete && this.props.deleteData(id);
 					},
-					permisson: "supervisor",
+					permission: "supervisor",
 				},
 			],
 		},
@@ -161,6 +161,7 @@ const mapStateToProps = (state) => ({
 	...state.tables.episodes,
 	items: state.episodes,
 	loggedUser: state.loggedUser,
+	settings: state.forms.settings.data,
 });
 
 const mapDispatchToProps = {

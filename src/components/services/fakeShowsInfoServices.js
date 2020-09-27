@@ -1,5 +1,5 @@
 const rates = [
-	{ label: "Not Rated", value: "nr" }, // mean: Not Rated
+	{ label: "Not Rated", value: "" }, // mean: Not Rated
 	{ label: "G", value: "g" },
 	{ label: "PG", value: "pg" },
 	{ label: "PG-13", value: "pg-13" },

@@ -15,13 +15,16 @@ class TableCell extends Component {
 						.filter((link) => {
 							// Authorize this link
 							return (
-								link.permisson === undefined ||
+								link.permission === undefined ||
 								authorize(
 									store.getState().loggedUser.role,
-									link.permisson
+									link.permission
 								) ||
 								store.getState().loggedUser.id ===
-									rowData.authorId
+									rowData.authorId ||
+								(typeof link.customAuthorize === "function"
+									? link.customAuthorize(rowData)
+									: false)
 							);
 						})
 						.map((link, i) => {

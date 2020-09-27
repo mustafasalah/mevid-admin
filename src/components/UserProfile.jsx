@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { upperFirst } from "../js/Utility";
+
 const UserProfile = ({ user, active, onClick }) => {
 	return (
 		<div id="admin-profile">
@@ -16,7 +18,7 @@ const UserProfile = ({ user, active, onClick }) => {
 				}}
 			>
 				<strong>{user.name}</strong>
-				<small>{user.role}</small>
+				<small>{upperFirst(user.role)}</small>
 			</button>
 
 			<ul className="sub-menu blur-shadow">

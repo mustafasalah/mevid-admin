@@ -17,29 +17,19 @@ const Notification = ({
 	active,
 	onClick,
 	notifications,
-	shows,
-	episodes,
 	deleteNotification,
 }) => {
+	console.dir(notifications);
 	const notificationsCount = countNotifications(notifications);
 
 	const getNotificationMessage = (notification) => {
 		if (notification.episode_id) {
-			const episode = episodes.find(
-				(episode) => episode.id === +notification.episode_id
-			);
-
-			const show = shows.find((show) => show.id === episode.showId);
-
-			return `${show.name} - Episode ${
-				episode.episodeNo +
-				(episode.episodeTitle ? ": " + episode.episodeTitle : "")
+			const { showName, episodeNo, episodeTitle } = notification;
+			return `${showName} - Episode ${episodeNo}${
+				episodeTitle ? `: ${episodeTitle}` : ""
 			}`;
 		} else {
-			const show = shows.find(
-				(show) => show.id === +notification.show_id
-			);
-			return show.name;
+			return notification.showName;
 		}
 	};
 
@@ -103,8 +93,6 @@ const Notification = ({
 export default connect(
 	(state) => ({
 		notifications: state.notifications,
-		shows: state.shows,
-		episodes: state.episodes,
 	}),
 	{
 		deleteNotification,
