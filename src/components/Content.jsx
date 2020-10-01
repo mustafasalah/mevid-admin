@@ -38,7 +38,7 @@ const Content = ({ loggedUser: { role } }) => {
 					<Route path="/reports" component={Reports} />
 					<Route path="/reviews" component={Reviews} />
 
-					<Route path="/episodes/add" component={EpisodeForm} exact />
+					<Route path="/episodes/add" component={EpisodeForm} />
 					<Route path="/episodes/:id" component={EpisodeForm} />
 					<Route path="/episodes" component={Episodes} exact />
 
@@ -54,7 +54,7 @@ const Content = ({ loggedUser: { role } }) => {
 					)}
 
 					{authorize(role, "admin") && (
-						<Fragment>
+						<Switch>
 							<Route
 								path="/layout/main-menu"
 								component={MainMenu}
@@ -69,7 +69,7 @@ const Content = ({ loggedUser: { role } }) => {
 							<Route path="/pages/new" component={Page} />
 							<Route path="/pages/:id" component={Page} />
 							<Route path="/pages" component={Pages} exact />
-						</Fragment>
+						</Switch>
 					)}
 				</Switch>
 			)}

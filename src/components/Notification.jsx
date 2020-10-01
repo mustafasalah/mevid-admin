@@ -19,7 +19,6 @@ const Notification = ({
 	notifications,
 	deleteNotification,
 }) => {
-	console.dir(notifications);
 	const notificationsCount = countNotifications(notifications);
 
 	const getNotificationMessage = (notification) => {

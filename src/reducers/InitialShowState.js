@@ -25,7 +25,7 @@ export default {
 		genres: [],
 		release_year: "",
 		score: "",
-		rate: "nr",
+		rate: "",
 		duration: "",
 		season: "",
 		episodes: "",
