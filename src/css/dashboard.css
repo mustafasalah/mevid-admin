@@ -277,6 +277,7 @@
 #end-side .widget .item-info time::before {
 	content: "\f017";
 	font: 10px "Font Awesome 5 Free";
+	margin-right: 3px;
 }
 
 #end-side li.show-more {

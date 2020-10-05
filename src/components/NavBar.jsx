@@ -8,7 +8,7 @@ const renderShowsLinks = (siteContent) => {
 		const result = [];
 
 		result[0] = (
-			<li>
+			<li key="all">
 				<NavLink exact to="/shows">
 					All Shows
 				</NavLink>
@@ -18,7 +18,7 @@ const renderShowsLinks = (siteContent) => {
 		for (let content of siteContent) {
 			if (content === "tvshows") content = "tv-shows";
 			result.push(
-				<li>
+				<li key={content}>
 					<NavLink to={`/shows/${content}`}>
 						{content === "tv-shows"
 							? "TV Shows"

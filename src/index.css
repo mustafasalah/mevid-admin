@@ -648,3 +648,11 @@ ol {
 .widget.list li:nth-child(even) {
 	background-color: #f9f9f9;
 }
+
+.widget .no-content {
+	margin: 15px 0;
+	font-size: 0.875em;
+	font-style: italic;
+	text-align: center;
+	color: #8d99ae;
+}

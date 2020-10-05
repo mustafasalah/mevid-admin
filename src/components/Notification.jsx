@@ -53,7 +53,7 @@ const Notification = ({
 				{notifications.length !== 0 ? (
 					notifications.map((notification) => {
 						return (
-							<li>
+							<li key={notification.id}>
 								<Link
 									to={`/${notification.type}s`}
 									onClick={() =>

@@ -2,139 +2,156 @@ import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import renderChartJS from "../../js/viewsChart";
 import SectionHeader from "./../common/SectionHeader";
+import StatisticWidget from "./StatisticWidget";
+import { connect } from "react-redux";
+import RecentWidget from "./RecentWidget";
+import getDataActions from "./../../actions/DataActions";
 
 class Dashboard extends React.Component {
 	componentDidMount() {
 		renderChartJS();
 	}
 
+	getShowsByCategory() {
+		let movies = [],
+			anime = [],
+			tvshows = [];
+
+		this.props.shows.forEach((show) => {
+			switch (show.category) {
+				case "movie":
+					movies.push(show);
+					break;
+
+				case "tvshow":
+					tvshows.push(show);
+					break;
+
+				case "anime":
+					anime.push(anime);
+					break;
+
+				default:
+			}
+		});
+
+		return { movies, anime, tvshows };
+	}
+
+	getItemsByStatus(items) {
+		let approvedItems = [],
+			unapprovedItems = [];
+
+		items.forEach((item) => {
+			if (item.status === "approved") {
+				approvedItems.push(item);
+			} else {
+				unapprovedItems.push(item);
+			}
+		});
+
+		return { approvedItems, unapprovedItems };
+	}
+
+	getUsersByStatus() {
+		let activeUsers = [],
+			bannedUsers = [];
+		this.props.users.forEach((user) => {
+			if (user.status === "active") {
+				activeUsers.push(user);
+			} else {
+				bannedUsers.push(user);
+			}
+		});
+
+		return { activeUsers, bannedUsers };
+	}
+
 	render() {
+		const {
+			shows,
+			reviews,
+			comments,
+			users,
+			reports,
+			fixReportAction,
+			changeCommentStatus,
+			changeReviewStatus,
+		} = this.props;
+		const { movies, anime, tvshows } = this.getShowsByCategory();
+		const {
+			approvedItems: approvedReviews,
+			unapprovedItems: unapprovedReviews,
+		} = this.getItemsByStatus(reviews);
+		const {
+			approvedItems: approvedComments,
+			unapprovedItems: unapprovedComments,
+		} = this.getItemsByStatus(comments);
+		const { activeUsers, bannedUsers } = this.getUsersByStatus();
+
 		return (
 			<Fragment>
 				<SectionHeader name="Overview" faClass="fas fa-chart-pie" />
 
 				<div id="statistics-container">
-					<div className="statistic shows radius focus-shadow">
-						<h3>
-							<span>Shows</span>
-						</h3>
-						<div className="statistic-content">
-							<div className="info-side">
-								<ul>
-									<li>
-										<span className="count">14</span> Movie
-									</li>
-									<li>
-										<span className="count">20</span> Anime
-									</li>
-									<li>
-										<span className="count">06</span> TV
-										Show
-									</li>
-									<li>
-										<span className="count">40</span> Total
-										Shows
-									</li>
-								</ul>
-							</div>
-							<div className="icon-details-side">
-								<i className="fas fa-film"></i>
-								<Link to="#" className="more-detials">
-									more detials
-								</Link>
-							</div>
-						</div>
-					</div>
+					<StatisticWidget
+						title="Shows"
+						data={[
+							{ label: "Movies", counter: movies.length },
+							{ label: "Anime", counter: anime.length },
+							{ label: "TV Shows", counter: tvshows.length },
+						]}
+						moreLink="/shows"
+						faClass="fas fa-film"
+					/>
 
-					<div className="statistic comments radius focus-shadow">
-						<h3>
-							<span>Comments</span>
-						</h3>
-						<div className="statistic-content">
-							<div className="info-side">
-								<ul>
-									<li>
-										<span className="count">34</span>{" "}
-										Approved
-									</li>
-									<li>
-										<span className="count">20</span>{" "}
-										Disapproved
-									</li>
-									<li>
-										<span className="count">54</span> Total
-										Comments
-									</li>
-								</ul>
-							</div>
-							<div className="icon-details-side">
-								<i className="fas fa-comments"></i>
-								<Link to="#" className="more-detials">
-									more detials
-								</Link>
-							</div>
-						</div>
-					</div>
+					<StatisticWidget
+						title="Comments"
+						data={[
+							{
+								label: "Approved",
+								counter: approvedComments.length,
+							},
+							{
+								label: "Unapproved",
+								counter: unapprovedComments.length,
+							},
+						]}
+						moreLink="/comments"
+						faClass="fas fa-comments"
+					/>
 
-					<div className="statistic reviews radius focus-shadow">
-						<h3>
-							<span>Reviews</span>
-						</h3>
-						<div className="statistic-content">
-							<div className="info-side">
-								<ul>
-									<li>
-										<span className="count">33</span>{" "}
-										Approved
-									</li>
-									<li>
-										<span className="count">09</span>{" "}
-										Disapproved
-									</li>
-									<li>
-										<span className="count">42</span> Total
-										Reviews
-									</li>
-								</ul>
-							</div>
-							<div className="icon-details-side">
-								<i className="fas fa-star-half-alt"></i>
-								<Link to="#" className="more-detials">
-									more detials
-								</Link>
-							</div>
-						</div>
-					</div>
+					<StatisticWidget
+						title="Reviews"
+						data={[
+							{
+								label: "Approved",
+								counter: approvedReviews.length,
+							},
+							{
+								label: "Unapproved",
+								counter: unapprovedReviews.length,
+							},
+						]}
+						moreLink="/reviews"
+						faClass="fas fa-star-half-alt"
+					/>
 
-					<div className="statistic users radius focus-shadow">
-						<h3>
-							<span>Users</span>
-						</h3>
-						<div className="statistic-content">
-							<div className="info-side">
-								<ul>
-									<li>
-										<span className="count">222</span>{" "}
-										Active User
-									</li>
-									<li>
-										<span className="count">013</span>{" "}
-										Banned User
-									</li>
-									<li>
-										<span className="count">235</span> Total
-										Users
-									</li>
-								</ul>
-							</div>
-							<div className="icon-details-side">
-								<i className="fas fa-users"></i>
-								<Link to="#" className="more-detials">
-									more detials
-								</Link>
-							</div>
-						</div>
-					</div>
+					<StatisticWidget
+						title="Users"
+						data={[
+							{
+								label: "Active User",
+								counter: activeUsers.length,
+							},
+							{
+								label: "Banned User",
+								counter: bannedUsers.length,
+							},
+						]}
+						moreLink="/users"
+						faClass="fas fa-user"
+					/>
 				</div>
 
 				<div id="main-side">
@@ -142,10 +159,11 @@ class Dashboard extends React.Component {
 						<header>
 							<h3>
 								<span>
-									<i className="fas fa-chart-line"></i>
-									Views Diagram
+									<i className="fas fa-chart-line"></i> Views
+									Diagram
 								</span>
 							</h3>
+
 							<select
 								className="widget-options radius-3"
 								id="diagram-control"
@@ -595,317 +613,54 @@ class Dashboard extends React.Component {
 					</div>
 				</div>
 				<div id="end-side">
-					<section className="widget list">
-						<h3>
-							<span>
-								<i className="fas fa-exclamation-circle"></i>
-								Reports
-							</span>
-						</h3>
-						<div className="widget-content blur-shadow radius">
-							<ol>
-								<li>
-									<p className="item-info">
-										<i>Report on:</i>
-										<time dateTime="2019-07-20T19:10:00">
-											02 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Game Of Thrones Season 8 -
-												Episode 05
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Fixed?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<i>Report on:</i>
-										<time dateTime="2019-07-20T19:10:00">
-											50 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Hunter X Hunter - Episode 22
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Fixed?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<i>Report on:</i>
-										<time dateTime="2019-07-20T19:10:00">
-											02 day ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Death Parade - Episode 22
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Fixed?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<i>Report on:</i>
-										<time dateTime="2019-07-20T19:10:00">
-											03 day ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">Pet Sematary</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Fixed?
-										</button>
-									</div>
-								</li>
-							</ol>
-						</div>
-					</section>
+					<RecentWidget
+						title="Reports"
+						faClass="fas fa-exclamation-circle"
+						onPhrase="Report on"
+						doBtnLabel="Fixed?"
+						showMoreLink="/reports"
+						data={reports}
+						doBtnAction={(id) => {
+							const isDelete = window.confirm(
+								"Are you sure you fixed this report?"
+							);
+							isDelete && fixReportAction(id);
+						}}
+					/>
 
-					<section className="widget list">
-						<h3>
-							<span>
-								<i className="fas fa-comments"></i>
-								Recent Comments
-							</span>
-						</h3>
-						<div className="widget-content blur-shadow radius">
-							<ol>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">mustafa salah</Link>
-											<i>Comment on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											02 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Game Of Thrones Season 8 -
-												Episode 05
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Approve?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">mustafa salah</Link>
-											<i>Comment on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											50 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Hunter X Hunter - Episode 22
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Approve?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">me_chan</Link>
-											<i>Comment on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											50 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Re:Zero kara Hajimeru Isekai
-												Seikatsu - Episode 11
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Approve?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">ali osman</Link>
-											<i>Comment on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											02 day ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Death Parade - Episode 22
-											</Link>
-										</strong>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">Me Chan</Link>
-											<i>Comment on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											05 day ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Overlord III - Episode 11
-											</Link>
-										</strong>
-									</div>
-								</li>
-								<li className="show-more">
-									<Link to="#">Show More</Link>
-								</li>
-							</ol>
-						</div>
-					</section>
+					<RecentWidget
+						title="Comments"
+						faClass="fas fa-comments"
+						onPhrase="Commented on"
+						doBtnLabel="Approve?"
+						showMoreLink="/comments"
+						data={comments}
+						doBtnCondition={(item) => item.status !== "approved"}
+						doBtnAction={(id) => {
+							changeCommentStatus([id], "approve");
+						}}
+					/>
 
-					<section className="widget list">
-						<h3>
-							<span>
-								<i className="fas fa-star-half-alt"></i>
-								Recent Reviews
-							</span>
-						</h3>
-						<div className="widget-content blur-shadow radius">
-							<ol>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">mustafa salah</Link>
-											<i>Reviews:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											02 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												Game Of Thrones Season 8
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Approve?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">hero</Link>
-											<i>Reviews:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											05 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">
-												How to train your dragon: the
-												hidden world
-											</Link>
-										</strong>
-										<button className="do-btn radius-3 focus-shadow">
-											Approve?
-										</button>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">mustafa salah</Link>
-											<i>Reviews:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											50 minute ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">Hunter X Hunter</Link>
-										</strong>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">ali osman</Link>
-											<i>Reviews on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											02 day ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">Death Parade</Link>
-										</strong>
-									</div>
-								</li>
-								<li>
-									<p className="item-info">
-										<span>
-											<Link to="#">ali osman</Link>
-											<i>Reviews on:</i>
-										</span>
-										<time dateTime="2019-07-20T19:10:00">
-											05 day ago
-										</time>
-									</p>
-									<div className="item-content">
-										<strong>
-											<Link to="#">Toy Story 3</Link>
-										</strong>
-									</div>
-								</li>
-								<li className="show-more">
-									<Link to="#">Show More</Link>
-								</li>
-							</ol>
-						</div>
-					</section>
+					<RecentWidget
+						title="Reviews"
+						faClass="fas fa-star-half-alt"
+						onPhrase="Reviewed"
+						doBtnLabel="Approve?"
+						showMoreLink="/reviews"
+						data={reviews}
+						doBtnCondition={(item) => item.status !== "approved"}
+						doBtnAction={(id) => {
+							changeReviewStatus([id], "approve");
+						}}
+					/>
 				</div>
 			</Fragment>
 		);
 	}
 }
 
-export default Dashboard;
+export default connect((state) => state, {
+	fixReportAction: getDataActions("reports").deleteData,
+	changeCommentStatus: getDataActions("comments").changeStatus,
+	changeReviewStatus: getDataActions("reviews").changeStatus,
+})(Dashboard);
