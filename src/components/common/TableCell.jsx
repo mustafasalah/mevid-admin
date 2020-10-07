@@ -114,11 +114,14 @@ class TableCell extends Component {
 						{column.render(rowData, this.renderLinksNav.bind(this))}
 					</Fragment>
 				);
+
 			default:
 				return (
 					<Fragment>
 						{column.render && column.render(rowData)}
-						{data ? data : column.default || ""}
+						{data !== undefined || data !== null
+							? data
+							: column.default || ""}
 						{this.renderLinksNav()}
 					</Fragment>
 				);

@@ -363,6 +363,7 @@
 	color: #d90429;
 }
 
+#top-lists-widgets ol li,
 #top-lists-widgets ul li {
 	display: -webkit-flex;
 	display: flex;

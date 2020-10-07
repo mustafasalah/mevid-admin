@@ -30,7 +30,7 @@ const RecentWidget = ({
 				) : (
 					<ol>
 						{data.slice(0, maxItems).map((item) => (
-							<li>
+							<li key={item.id}>
 								<p className="item-info">
 									<span>
 										{item.author && (

@@ -39,6 +39,7 @@
 	text-align: center;
 	color: #d90429;
 	position: relative;
+	background-color: #f9f9f9;
 }
 
 .loader > * {
