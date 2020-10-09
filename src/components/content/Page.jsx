@@ -9,6 +9,7 @@ import FormSideSection from "./../common/form/FormSideSection";
 import PublishFields from "./PublishFields";
 import PageFormActions from "../../actions/PageFormActions";
 import getPages from "../services/pagesServices";
+import getDataActions from "./../../actions/DataActions";
 
 const Page = ({
 	data,
@@ -16,6 +17,7 @@ const Page = ({
 	onFieldChange: onChange,
 	onFormReset: onReset,
 	onPageDataLoad,
+	deletePageHandler,
 }) => {
 	const history = useHistory();
 	const params = useParams();
@@ -26,7 +28,7 @@ const Page = ({
 		// initialize Qill Editor
 		const quill = QuillEditor();
 		editor = $(quill.container).children(".ql-editor");
-		quill.on("text-change", (delta, oldContent) => {
+		quill.on("text-change", () => {
 			const content = editor.html();
 			onChange("content", content);
 		});
@@ -91,6 +93,21 @@ const Page = ({
 						<PublishFields
 							form="page"
 							submitLabel={data.id ? "Save Changes" : "Create"}
+							deleteBtn={
+								data.id
+									? {
+											label: "Delete",
+											handler: () => {
+												const deleteIt = window.confirm(
+													"Are you sure to delete this page?"
+												);
+												deleteIt &&
+													deletePageHandler(data.id);
+												history.replace("/pages");
+											},
+									  }
+									: undefined
+							}
 						/>
 					</FormSideSection>
 				</div>
@@ -103,5 +120,8 @@ export default connect(
 	(state) => ({
 		...state.forms.page,
 	}),
-	PageFormActions
+	{
+		...PageFormActions,
+		deletePageHandler: getDataActions("pages").deleteData,
+	}
 )(Page);

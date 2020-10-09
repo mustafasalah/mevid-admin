@@ -15,6 +15,7 @@ import getEpisodes from "../services/episodesServices";
 import { getShowArcs } from "../services/showsServices";
 import Loader from "./../common/Loader";
 import { authorize } from "./../../js/Utility";
+import getDataActions from "./../../actions/DataActions";
 
 const EpisodeForm = ({
 	loggedUser,
@@ -24,6 +25,7 @@ const EpisodeForm = ({
 	onReset,
 	onEpisodeDataLoad,
 	onShowIdChange,
+	deleteEpisodeHandler,
 }) => {
 	const history = useHistory();
 	const params = useParams();
@@ -251,6 +253,25 @@ const EpisodeForm = ({
 										]}
 									/>,
 								]}
+								deleteBtn={
+									data.id
+										? {
+												label: "Delete",
+												handler: () => {
+													const deleteIt = window.confirm(
+														"Are you sure to delete this episode?"
+													);
+													deleteIt &&
+														deleteEpisodeHandler(
+															data.id
+														);
+													history.replace(
+														"/episodes"
+													);
+												},
+										  }
+										: undefined
+								}
 							/>
 						</FormSideSection>
 					</div>
@@ -273,5 +294,6 @@ export default connect(
 		onWatchVideoFileDelete: episodeFormActions.onWatchVideoFileDelete,
 		onEpisodeDataLoad: episodeFormActions.onEpisodeDataLoad,
 		onShowIdChange: episodeFormActions.onShowIdChange,
+		deleteEpisodeHandler: getDataActions("episodes").deleteData,
 	}
 )(EpisodeForm);

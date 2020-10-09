@@ -1,5 +1,7 @@
 import React from "react";
 
+const HOSTNAME = process.env.REACT_APP_HOSTNAME;
+
 const SchedulerShow = ({
 	schedulerId,
 	show,
@@ -24,7 +26,12 @@ const SchedulerShow = ({
 				<dl>
 					<dt>Show Name:</dt>
 					<dd>
-						<a href={`/shows/${show.id}`}>{show.name}</a>
+						<a
+							href={`${HOSTNAME}/shows/${show.id}`}
+							target="_blank"
+						>
+							{show.name}
+						</a>
 					</dd>
 
 					<dt>Show Time:</dt>

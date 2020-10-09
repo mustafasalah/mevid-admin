@@ -531,9 +531,16 @@ ol {
 	text-decoration: none;
 	margin-left: 10px;
 	vertical-align: middle;
+	position: relative;
+	display: inline-block;
+	z-index: 1;
+	border: none;
+	cursor: pointer;
+	text-align: initial;
 }
 
-#content-section > h2 .add-new::before {
+#content-section > h2 .add-new::before,
+#content-section > h2 .nested-add-new a::before {
 	content: "\f067 ";
 	font: bold 0.8em "Font Awesome 5 Free";
 	color: #d90429;
@@ -543,10 +550,43 @@ ol {
 #content-section > h2 .add-new:hover {
 	background-color: #d90429;
 	color: #fff;
+	overflow: visible;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
 }
 
 #content-section > h2 .add-new:hover::before {
 	color: inherit;
+}
+
+#content-section > h2 .nested-add-new-container {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	background-color: #f9f9f9;
+	border-radius: 0 0 5px 5px;
+	overflow: hidden;
+	transform: scaleY(0);
+	transform-origin: center top;
+	transition: transform 0.5s;
+}
+
+#content-section > h2 .add-new:hover .nested-add-new-container {
+	transform: scaleY(1);
+}
+
+#content-section > h2 .nested-add-new a {
+	display: block;
+	text-decoration: none;
+	padding: 8px 10px;
+	font-weight: bold;
+	color: #16182b;
+}
+
+#content-section > h2 .nested-add-new a:hover {
+	background-color: #16182b;
+	color: #fff;
 }
 
 #main-side {

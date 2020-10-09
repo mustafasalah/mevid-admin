@@ -28,6 +28,7 @@ import showFormActions from "./../../actions/ShowFormActions";
 import getShows from "../services/showsServices";
 import Loader from "./../common/Loader";
 import { authorize } from "../../js/Utility";
+import getDataActions from "./../../actions/DataActions";
 
 const paramTypeToDataType = new Map([
 	["movies", "movie"],
@@ -57,6 +58,7 @@ const ShowForm = ({
 	onTypeChange,
 	onShowImageDelete,
 	onShowDataLoad,
+	deleteShowHandler,
 }) => {
 	const history = useHistory();
 	const params = useParams();
@@ -560,6 +562,23 @@ const ShowForm = ({
 										]}
 									/>,
 								]}
+								deleteBtn={
+									data.id
+										? {
+												label: "Delete",
+												handler: () => {
+													const deleteIt = window.confirm(
+														"Are you sure to delete this show?"
+													);
+													deleteIt &&
+														deleteShowHandler(
+															data.id
+														);
+													history.replace("/shows");
+												},
+										  }
+										: undefined
+								}
 							/>
 						</FormSideSection>
 					</div>
@@ -582,5 +601,6 @@ export default connect(
 		onTypeChange: showFormActions.onFormTypeChange,
 		onShowImageDelete: showFormActions.onShowImageDelete,
 		onShowDataLoad: showFormActions.onShowDataLoad,
+		deleteShowHandler: getDataActions("shows").deleteData,
 	}
 )(ShowForm);

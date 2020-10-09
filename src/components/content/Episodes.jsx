@@ -6,7 +6,6 @@ import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
-import { authorize } from "../../js/Utility.js";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -32,21 +31,27 @@ class Episodes extends AbstractTablePage {
 						<dl className="episode-info">
 							<dt>Episode No:</dt>
 							<dd>
-								<Link to={`/episodes/${rowData.id}`}>
+								<a
+									href={`${HOSTNAME}/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
+									target="_blank"
+								>
 									{`Episode ${rowData.episodeNo
 										.toString()
 										.padStart(2, "0")}` +
 										(rowData.episodeTitle
 											? `: ${rowData.episodeTitle}`
 											: "")}
-								</Link>
+								</a>
 							</dd>
 
 							<dt>Show Name:</dt>
 							<dd>
-								<Link to={`/shows/${rowData.showId}`}>
+								<a
+									href={`${HOSTNAME}/shows/${rowData.showId}`}
+									target="_blank"
+								>
 									{rowData.showName}
-								</Link>
+								</a>
 							</dd>
 						</dl>
 						{renderLinksNav()}
@@ -69,7 +74,7 @@ class Episodes extends AbstractTablePage {
 				{
 					label: "Delete",
 					className: "delete-item",
-					href: "#delete-id",
+					href: "#delete-:id",
 					onClick: ({ id }) => {
 						const isDelete = window.confirm(
 							"Are you sure to delete this episode?"

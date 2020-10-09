@@ -18,7 +18,8 @@ class Pages extends AbstractTablePage {
 			haveSort: true,
 			classNames: "primary-col",
 			type: "link",
-			href: "/pages/:id",
+			externalLink: true,
+			href: `${HOSTNAME}/pages/:id`,
 			linksNav: [
 				{
 					label: "View",

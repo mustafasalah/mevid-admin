@@ -94,16 +94,19 @@ class TableCell extends Component {
 				);
 
 			case "link":
+				const hrefValue = column.href.replace(
+					/:(\w+)/gi,
+					(match, prop) => rowData[prop]
+				);
 				return (
 					<Fragment>
-						<Link
-							to={column.href.replace(
-								/:(\w+)/gi,
-								(match, prop) => rowData[prop]
-							)}
-						>
-							{data}
-						</Link>
+						{column.externalLink ? (
+							<a href={hrefValue} target="_blank">
+								{data}
+							</a>
+						) : (
+							<Link to={hrefValue}>{data}</Link>
+						)}
 						{this.renderLinksNav()}
 					</Fragment>
 				);

@@ -18,7 +18,8 @@ class Comments extends AbstractTablePage {
 			haveSort: true,
 			classNames: "more-padding primary-col",
 			type: "link",
-			href: "/users/:authorId",
+			externalLink: true,
+			href: `${HOSTNAME}/user/:authorId`,
 		},
 		{
 			dataProp: "content",

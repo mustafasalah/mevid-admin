@@ -68,7 +68,7 @@ const dataReducer = (dataType) => (state = initialState, { type, ...rest }) => {
 					toast.success(
 						`The ${typeName.slice(0, -1)} was deleted successfully!`
 					);
-					return state.filter((data) => data.id !== id);
+					return state.filter((data) => data.id !== +id);
 				}
 			}
 

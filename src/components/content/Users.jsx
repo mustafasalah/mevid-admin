@@ -32,7 +32,8 @@ class Users extends AbstractTablePage {
 			haveSort: true,
 			classNames: "primary-col",
 			type: "link",
-			href: "/users/:id",
+			externalLink: true,
+			href: `${HOSTNAME}/user/:id`,
 			linksNav: [
 				{
 					label: "View",

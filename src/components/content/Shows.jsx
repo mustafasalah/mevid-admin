@@ -9,7 +9,14 @@ class Shows extends AbstractShows {
 	sectionHeader = (
 		<SectionHeader
 			name="Shows"
-			link={{ href: "/shows/add", label: "New Show" }}
+			link={{
+				label: "New Show",
+				content: [
+					{ label: "Movie", href: "/shows/movies/add" },
+					{ label: "Anime", href: "/shows/anime/add" },
+					{ label: "TV Show", href: "/shows/tv-shows/add" },
+				],
+			}}
 		/>
 	);
 }

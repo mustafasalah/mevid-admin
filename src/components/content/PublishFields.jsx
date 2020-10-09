@@ -10,6 +10,7 @@ const PublishFields = ({
 	form,
 	submitLabel = "Publish",
 	extraFields,
+	deleteBtn,
 }) => {
 	return (
 		<Fragment>
@@ -99,6 +100,16 @@ const PublishFields = ({
 			<button type="submit" className="primary-btn focus-shadow radius">
 				{submitLabel}
 			</button>
+
+			{deleteBtn && (
+				<button
+					type="button"
+					className="delete-btn dark-btn focus-shadow radius"
+					onClick={() => deleteBtn.handler()}
+				>
+					{deleteBtn.label || "Delete"}
+				</button>
+			)}
 		</Fragment>
 	);
 };

@@ -25,13 +25,13 @@ import { authorize } from "./../js/Utility";
 const Content = ({ loggedUser: { role } }) => {
 	return (
 		<section id="content-section">
-			<Redirect from="/tv-shows" to="/shows/tv-shows" />
-			<Redirect from="/anime" to="/shows/anime" />
-			<Redirect from="/movies" to="/shows/movies" />
-			<Redirect from="/" to="/dashboard" exact />
-
 			{authorize(role, "publisher") && (
 				<Switch>
+					<Redirect from="/tv-shows" to="/shows/tv-shows" exact />
+					<Redirect from="/anime" to="/shows/anime" exact />
+					<Redirect from="/movies" to="/shows/movies" exact />
+					<Redirect from="/" to="/dashboard" exact />
+
 					<Route path="/dashboard" component={Dashboard} />
 
 					<Route path="/comments" component={Comments} />
