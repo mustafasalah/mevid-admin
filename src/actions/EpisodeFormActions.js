@@ -47,7 +47,7 @@ const onFormSubmit = async (data, callback) => {
 			};
 		} catch (ex) {
 			// alert the network error
-			toast.error(ex.message);
+			toast.error(ex.response.data || ex.message);
 			return {
 				type: ACTIONS.SUBMIT_FORM,
 				error: ex,

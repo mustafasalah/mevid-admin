@@ -354,6 +354,7 @@
 
 .select2-container {
 	width: 100% !important;
+	z-index: 1;
 }
 
 .select2-container * {

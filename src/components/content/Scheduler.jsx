@@ -1,15 +1,13 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import SchedulerActions from "../../actions/SchedulerActions";
 import SectionHeader from "../common/SectionHeader";
 import SchedulerForm from "./SchedulerForm";
 import SchedulerDaySection from "./SchedulerDaySection";
-import Loader from "./../common/Loader";
 
 const days = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
 const Scheduler = ({
-	onSchedulerLoad,
 	onShowAdded,
 	onShowUpdated,
 	onShowUpdate,
@@ -19,16 +17,6 @@ const Scheduler = ({
 	shows,
 	schedulerForm,
 }) => {
-	// loaded state is state used to show and hide loader
-	const [loaded, setLoaded] = useState(false);
-
-	// load scheduler data from server side and set loaded state to true
-	useEffect(() => {
-		onSchedulerLoad(() => {
-			setLoaded(true);
-		});
-	}, []);
-
 	return (
 		<Fragment>
 			<SectionHeader name="Scheduler" faClass="far fa-calendar-alt" />
@@ -41,22 +29,18 @@ const Scheduler = ({
 					shows={shows}
 					data={schedulerForm}
 				/>
-				{loaded ? (
-					days.map((day) => (
-						<SchedulerDaySection
-							key={day}
-							day={day}
-							shows={shows}
-							schedulers={schedulers.filter(
-								({ day: showDay }) => day === showDay
-							)}
-							onShowDeleted={onShowDeleted}
-							onShowUpdate={onShowUpdate}
-						/>
-					))
-				) : (
-					<Loader />
-				)}
+				{days.map((day) => (
+					<SchedulerDaySection
+						key={day}
+						day={day}
+						shows={shows}
+						schedulers={schedulers.filter(
+							({ day: showDay }) => day === showDay
+						)}
+						onShowDeleted={onShowDeleted}
+						onShowUpdate={onShowUpdate}
+					/>
+				))}
 			</div>
 		</Fragment>
 	);

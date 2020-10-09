@@ -64,6 +64,7 @@ const formReducer = (formType) => {
 					errors: { ...initialState.errors },
 					data: {
 						...initialState.data,
+						...payload.filledFields,
 					},
 				};
 

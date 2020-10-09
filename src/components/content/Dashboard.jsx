@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
 import SectionHeader from "./../common/SectionHeader";
 import StatisticWidget from "./StatisticWidget";
 import { connect } from "react-redux";
@@ -8,6 +7,7 @@ import getDataActions from "./../../actions/DataActions";
 import ViewsDiagramWidget from "./ViewsDiagramWidget";
 import TopAuthorsWidget from "./TopAuthorsWidget";
 import TopShowsWidget from "./TopShowsWidget";
+import TodayEpisodesWidget from "./TodayEpisodesWidget";
 
 class Dashboard extends React.Component {
 	getShowsByCategory() {
@@ -67,10 +67,8 @@ class Dashboard extends React.Component {
 
 	render() {
 		const {
-			shows,
 			reviews,
 			comments,
-			users,
 			reports,
 			fixReportAction,
 			changeCommentStatus,
@@ -154,145 +152,7 @@ class Dashboard extends React.Component {
 
 				<div id="main-side">
 					<ViewsDiagramWidget />
-
-					<section className="widget" id="day-shows">
-						<h3>
-							<span>
-								<i className="fas fa-calendar-day"></i>
-								Today's Shows
-							</span>
-						</h3>
-						<div className="widget-content radius blur-shadow">
-							<ul>
-								<li>
-									<div className="show-poster">
-										<Link
-											to="#"
-											className="focus-shadow radius"
-											title="Re:Zero kara Hajimeru Isekai Seikatsu"
-											style={{}}
-										></Link>
-									</div>
-									<div className="show-info">
-										<dl>
-											<dt>Show Name:</dt>
-											<dd>
-												<Link to="#">
-													Re:Zero kara Hajimeru Isekai
-													Seikatsu - Episode 16
-												</Link>
-											</dd>
-
-											<dt>Show Time:</dt>
-											<dd>
-												<time dateTime="12:30">
-													12:30 GMT
-												</time>
-											</dd>
-										</dl>
-										<button
-											className="do-btn radius-3"
-											disabled
-										>
-											Added
-										</button>
-									</div>
-								</li>
-								<li>
-									<div className="show-poster">
-										<Link
-											to="#"
-											className="focus-shadow radius"
-											title="Hunter X Hunter"
-											style={{}}
-										></Link>
-									</div>
-									<div className="show-info">
-										<dl>
-											<dt>Show Name:</dt>
-											<dd>
-												<Link to="#">
-													Hunter X Hunter - Episode
-													124
-												</Link>
-											</dd>
-
-											<dt>Show Time:</dt>
-											<dd>
-												<time dateTime="22:30">
-													22:30 GMT
-												</time>
-											</dd>
-										</dl>
-										<button className="do-btn radius-3 focus-shadow">
-											Add
-										</button>
-									</div>
-								</li>
-								<li className="gray">
-									<div className="show-poster">
-										<Link
-											to="#"
-											className="focus-shadow radius"
-											title="Overlord III"
-											style={{}}
-										></Link>
-									</div>
-									<div className="show-info">
-										<dl>
-											<dt>Show Name:</dt>
-											<dd>
-												<Link to="#">
-													Overlord III - Episode 11
-												</Link>
-											</dd>
-
-											<dt>Show Time:</dt>
-											<dd>
-												<time dateTime="02:00">
-													02:00 GMT
-												</time>
-											</dd>
-										</dl>
-										<button className="do-btn radius-3 focus-shadow">
-											Add
-										</button>
-									</div>
-								</li>
-								<li className="gray">
-									<div className="show-poster">
-										<Link
-											to="#"
-											className="focus-shadow radius"
-											title="The Promisted Neverland"
-											style={{}}
-										></Link>
-									</div>
-									<div className="show-info">
-										<dl>
-											<dt>Show Name:</dt>
-											<dd>
-												<Link to="#">
-													The Promisted Neverland -
-													Episode 10
-												</Link>
-											</dd>
-
-											<dt>Show Time:</dt>
-											<dd>
-												<time dateTime="17:00">
-													17:00 GMT
-												</time>
-											</dd>
-										</dl>
-										<button className="do-btn radius-3 focus-shadow">
-											Add
-										</button>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</section>
+					<TodayEpisodesWidget />
 
 					<div id="top-lists-widgets">
 						<TopShowsWidget />

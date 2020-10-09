@@ -18,11 +18,10 @@ const ViewsDiagramWidget = () => {
 				<select
 					className="widget-options radius-3"
 					id="diagram-control"
+					defaultValue="week"
 				>
 					<option value="today">Today</option>
-					<option value="week" selected>
-						This Week
-					</option>
+					<option value="week">This Week</option>
 					<option value="month">This Month</option>
 					<option value="year">This Year</option>
 				</select>

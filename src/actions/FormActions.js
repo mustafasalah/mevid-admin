@@ -85,8 +85,9 @@ const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 	};
 };
 
-const onFormReset = (formType) => () => ({
+const onFormReset = (formType) => (filledFields) => ({
 	type: ACTIONS.RESET_FORM,
+	filledFields: filledFields || {},
 	formType,
 });
 

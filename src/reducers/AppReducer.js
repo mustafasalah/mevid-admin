@@ -1,4 +1,5 @@
 import { combineReducers } from "redux";
+import * as ACTIONS from "../actions/ActionTypes";
 import showsTableReducer from "./ShowsTableReducer";
 import episodesTableReducer from "./EpisodesTableReducer";
 import commentsTableReducer from "./CommentsTableReducer";
@@ -42,6 +43,11 @@ const AppReducer = combineReducers({
 		pages: pagesTableReducer,
 		users: usersTableReducer,
 	}),
+	// loaded state is state used to show and hide loader
+	loaded: (loaded = false, { type }) => {
+		if (type === ACTIONS.APP_LOADED) return true;
+		return loaded;
+	},
 });
 
 export default AppReducer;

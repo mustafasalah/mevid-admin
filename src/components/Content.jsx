@@ -38,7 +38,14 @@ const Content = ({ loggedUser: { role } }) => {
 					<Route path="/reports" component={Reports} />
 					<Route path="/reviews" component={Reviews} />
 
-					<Route path="/episodes/add" component={EpisodeForm} />
+					<Route
+						path={[
+							"/episodes/add/:showId/:episodeNo",
+							"/episodes/add/:showId/",
+							"/episodes/add/",
+						]}
+						component={EpisodeForm}
+					/>
 					<Route path="/episodes/:id" component={EpisodeForm} />
 					<Route path="/episodes" component={Episodes} exact />
 

@@ -26,12 +26,11 @@ const TopShowsWidget = ({ shows, showsNo = 5 }) => {
 					onChange={({ currentTarget: input }) =>
 						setPeriod(+input.value)
 					}
+					value={period}
 				>
 					<option value={WEEK_PERIOD}>This Week</option>
 					<option value={MONTH_PERIOD}>This Month</option>
-					<option value={ALL_TIME_PERIOD} selected>
-						All Time
-					</option>
+					<option value={ALL_TIME_PERIOD}>All Time</option>
 				</select>
 			</header>
 			<div className="widget-content blur-shadow radius">
@@ -50,7 +49,7 @@ const TopShowsWidget = ({ shows, showsNo = 5 }) => {
 						{shows.slice(0, showsNo).map((show) => {
 							const showUrl = `${HOSTNAME}/shows/${show.id}`;
 							return (
-								<li>
+								<li key={show.id}>
 									<div className="item-image">
 										<a
 											href={showUrl}

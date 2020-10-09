@@ -37,7 +37,7 @@ const EpisodeForm = ({
 
 	useEffect(() => {
 		(async () => {
-			if (episodeId === undefined) return onReset();
+			if (episodeId === undefined) return onReset(history.location.state);
 			try {
 				const episodeData = await getEpisodes(episodeId);
 

@@ -74,12 +74,11 @@ const TopAuthorsWidget = ({ authorsNo = 5, ...props }) => {
 					onChange={({ currentTarget: input }) =>
 						setPeriod(+input.value)
 					}
+					value={period}
 				>
 					<option value={WEEK_PERIOD}>This Week</option>
 					<option value={MONTH_PERIOD}>This Month</option>
-					<option value={ALL_TIME_PERIOD} selected>
-						All Time
-					</option>
+					<option value={ALL_TIME_PERIOD}>All Time</option>
 				</select>
 			</header>
 			<div className="widget-content blur-shadow radius">
