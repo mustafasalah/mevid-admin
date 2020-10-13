@@ -33,6 +33,12 @@ export default function runSortable(pageType = "layout") {
 		mainSortable.on("sortable:sort", realWidth);
 		sidebarSortable.on("sortable:sort", realWidth);
 		footerSortable.on("sortable:sort", realWidth);
+
+		return {
+			mainSortable,
+			sidebarSortable,
+			footerSortable,
+		};
 	} else {
 		mainMenuSortable = new Sortable(
 			document.querySelectorAll(".main-menu-drop-zone"),
@@ -62,5 +68,7 @@ export default function runSortable(pageType = "layout") {
 					.hide();
 			}
 		});
+
+		return mainMenuSortable;
 	}
 }

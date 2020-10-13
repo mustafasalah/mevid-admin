@@ -535,6 +535,7 @@ ol {
 	display: inline-block;
 	z-index: 1;
 	border: none;
+	outline: none;
 	cursor: pointer;
 	text-align: initial;
 }

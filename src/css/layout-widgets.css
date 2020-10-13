@@ -16,19 +16,24 @@
 	text-align: center;
 }
 
-#layout .add-widget a {
+#layout .add-widget button {
 	display: block;
 	padding: 12px 15px;
 	text-decoration: none;
 	font-size: 16px;
+	background-color: transparent;
 	color: #8d99ae;
+	border: none;
+	font-weight: bold;
+	width: 100%;
+	cursor: pointer;
 }
 
 #layout .add-widget:hover {
 	border-color: #ccc;
 }
 
-#layout .add-widget:hover a {
+#layout .add-widget:hover button {
 	color: #ef233c;
 }
 
@@ -46,9 +51,9 @@
 }
 
 #layout h4::before,
-#layout .add-widget a::before {
+#layout .add-widget button::before {
 	font: bold 14px "Font Awesome 5 Free";
-	margin-right: 3px;
+	margin-right: 5px;
 }
 
 #layout .widget-box {
@@ -71,6 +76,10 @@
 	font: 400 italic 13px "Nunito", serif;
 	color: #ccc;
 	margin-left: 2px;
+}
+
+#layout .drop-zone {
+	outline: none;
 }
 
 #layout .drop-zone .widget-box {
@@ -109,48 +118,48 @@
 
 /*-------------- Layout Widget Icons ----------------*/
 
-#layout [data-id^="main-menu"] h4::before {
+#layout h4.main-menu::before {
 	content: "\f03a";
 }
 
-#layout [data-id^="recent-added"] h4::before {
+#layout h4.recent::before {
 	content: "\f0e7";
 }
 
-#layout [data-id^="ads"] h4::before {
+#layout h4.ads::before {
 	content: "\f0a1";
 }
 
-#layout [data-id^="category"] h4::before,
-#layout [data-id^="shows-slider"] h4::before,
-#layout [data-id^="selected-shows"] h4::before {
+#layout h4.category::before,
+#layout h4.slider::before,
+#layout h4.selected_shows::before {
 	content: "\f008";
 }
 
-[data-id^="advance-search"] h4::before {
+h4.search::before {
 	content: "\f0b0";
 }
 
-#layout [data-id^="social-media"] h4::before {
+#layout h4.social_media::before {
 	content: "\f1e0";
 }
 
-#layout [data-id^="today-schedule"] h4::before {
+#layout h4.schedule::before {
 	content: "\f783";
 }
 
-#layout [data-id^="links-list"] h4::before {
+#layout h4.links_list::before {
 	content: "\f0c1";
 }
 
-#layout [data-id^="about-us"] h4::before {
+#layout h4.about::before {
 	content: "\f05a";
 }
 
-#layout [data-id^="account"] h4::before {
+#layout h4.account::before {
 	content: "\f007";
 }
 
-#layout .add-widget a::before {
+#layout .add-widget button::before {
 	content: "\f067";
 }

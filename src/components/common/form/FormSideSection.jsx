@@ -1,7 +1,14 @@
 import React, { useState, useRef } from "react";
 import $ from "jquery";
 
-const FormSideSection = ({ required, label, children, ...props }) => {
+const FormSideSection = ({
+	required,
+	label,
+	children,
+	submitBtn = false,
+	deleteBtn = false,
+	...props
+}) => {
 	const [opened, setOpened] = useState(true);
 	const widgetContent = useRef(null);
 
@@ -20,6 +27,32 @@ const FormSideSection = ({ required, label, children, ...props }) => {
 			<div className="widget-content" ref={widgetContent}>
 				{children}
 			</div>
+
+			{submitBtn && (
+				<button
+					className="primary-btn focus-shadow radius"
+					type="submit"
+					onClick={(e) => {
+						e.preventDefault();
+						submitBtn.handler();
+					}}
+				>
+					Save Changes
+				</button>
+			)}
+
+			{deleteBtn && (
+				<button
+					className="dark-btn focus-shadow radius"
+					type="button"
+					onClick={(e) => {
+						e.preventDefault();
+						deleteBtn.handler();
+					}}
+				>
+					Delete
+				</button>
+			)}
 		</section>
 	);
 };
