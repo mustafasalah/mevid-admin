@@ -812,6 +812,7 @@ ol#arcs-list .arc-actions a.delete::before {
 	font-style: italic;
 	color: #8d99ae;
 	font-size: 11px;
+	display: block;
 }
 
 #end-side .image {

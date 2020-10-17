@@ -1,4 +1,5 @@
 import joi from "@hapi/joi";
+import getGenres from "./../components/services/getGenres";
 import {
 	getRates,
 	getShowStatus,
@@ -7,7 +8,6 @@ import {
 	getAudioType,
 	getRawTypes,
 } from "../components/services/fakeShowsInfoServices";
-
 const generalSchema = {
 	id: joi.number().integer().min(1).empty(""),
 };
@@ -123,6 +123,27 @@ const mediaSchema = {
 			),
 		})
 	),
+};
+
+export const layoutSchema = {
+	...generalSchema,
+	title: joi.string().min(2).empty(""),
+	type: joi.string().required(),
+	position: joi.string(),
+	settings: joi.object({
+		category: joi
+			.array()
+			.items(joi.allow("all", "movies", "anime", "tv-shows")),
+		genres: joi.array(),
+		tag: joi.array(),
+		order: joi.allow("latest", "oldest", "views", "rates"),
+		shows_no: joi.number().integer().min(1),
+		icons: joi.allow("film", "star", "crown", "heart", "fire"),
+		links: joi.array(),
+		content: joi.string().empty(""),
+	}),
+	enabled: joi.allow("1", "0"),
+	deletable: joi.allow("1", "0"),
 };
 
 export const episodeSchema = {
@@ -266,6 +287,16 @@ export const schema = {
 };
 
 export const nestedSchema = {
+	settings_category: joi
+		.array()
+		.items(joi.allow("all", "movies", "anime", "tv-shows")),
+	settings_genres: joi.array(),
+	settings_tag: joi.array(),
+	settings_order: joi.allow("latest", "oldest", "views", "rates"),
+	settings_shows_no: joi.number().integer().min(1),
+	settings_icons: joi.allow("film", "star", "crown", "heart", "fire"),
+	settings_links: joi.array(),
+	settings_content: joi.string().empty(""),
 	twitter_counter: social_counter_joi_schema,
 	youtube_counter: social_counter_joi_schema,
 	instagram_counter: social_counter_joi_schema,

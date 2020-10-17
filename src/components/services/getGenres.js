@@ -1,3 +1,5 @@
+import { upperFirst } from "../../js/Utility";
+
 const commonGenres = [
 		"action",
 		"adventure",
@@ -73,3 +75,8 @@ export default function getGenres(showType = "shows") {
 
 	return [...commonGenres, ...movieGenres, ...animeGenres].sort();
 }
+
+export const getGenresOptions = getGenres().map((genre) => ({
+	label: upperFirst(genre),
+	value: genre,
+}));

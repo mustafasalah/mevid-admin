@@ -1,6 +1,11 @@
 import * as ACTIONS from "./ActionTypes";
 import store from "../store";
-import { schema, nestedSchema, pageSchema } from "./ValidationSchema";
+import {
+	schema,
+	nestedSchema,
+	pageSchema,
+	layoutSchema,
+} from "./ValidationSchema";
 import getEpisodes from "../components/services/episodesServices";
 import getShows from "../components/services/showsServices";
 import getPages from "../components/services/pagesServices";
@@ -49,6 +54,10 @@ const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 	) {
 		if (formType === "page") {
 			({ value, error } = { ...pageSchema, ...nestedSchema }[
+				validateKey
+			].validate(fieldValue));
+		} else if (formType === "layout") {
+			({ value, error } = { ...layoutSchema, ...nestedSchema }[
 				validateKey
 			].validate(fieldValue));
 		} else {

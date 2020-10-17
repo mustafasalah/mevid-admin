@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
+import { connect } from "react-redux";
+import * as ACTIONS from "../../actions/ActionTypes";
 
-const WidgetSection = ({ title, dropzone, haveAddWidget, children }) => {
+const WidgetSection = ({ title, dropzone, addWidget, children, dispatch }) => {
 	return (
 		<Fragment>
 			<div className="col-1">
@@ -24,12 +26,28 @@ const WidgetSection = ({ title, dropzone, haveAddWidget, children }) => {
 				children
 			)}
 
-			{haveAddWidget ? (
+			{addWidget ? (
 				<div className="col-1">
 					<div className="field">
 						<div className="add-widget radius">
 							<h4>
-								<button type="button">Add Widget</button>
+								<button
+									type="button"
+									onClick={() => {
+										dispatch({
+											type:
+												ACTIONS.ADD_LAYOUT_WIDGET_FORM,
+											widget: {
+												type: "add",
+												widgetType: "ads",
+												position: addWidget,
+											},
+											formType: "layout",
+										});
+									}}
+								>
+									Add Widget
+								</button>
 							</h4>
 						</div>
 					</div>
@@ -39,4 +57,4 @@ const WidgetSection = ({ title, dropzone, haveAddWidget, children }) => {
 	);
 };
 
-export default WidgetSection;
+export default connect()(WidgetSection);

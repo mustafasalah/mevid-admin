@@ -43,6 +43,10 @@ const formReducer = (formType) => {
 		}
 
 		switch (type) {
+			case ACTIONS.LOAD_LAYOUT_WIDGET_FORM:
+			case ACTIONS.ADD_LAYOUT_WIDGET_FORM:
+				return { data: { ...payload.widget }, errors: {} };
+
 			case ACTIONS.LOAD_SETTINGS_DATA:
 				if (payload.meta && payload.meta.formType === formType) {
 					if (payload.error) {

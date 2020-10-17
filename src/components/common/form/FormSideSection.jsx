@@ -26,33 +26,41 @@ const FormSideSection = ({
 
 			<div className="widget-content" ref={widgetContent}>
 				{children}
+
+				{submitBtn && (
+					<button
+						className="primary-btn focus-shadow radius"
+						type="submit"
+						onClick={(e) => {
+							e.preventDefault();
+							if (typeof submitBtn === "function") {
+								submitBtn();
+							} else {
+								submitBtn.handler();
+							}
+						}}
+					>
+						{submitBtn.label || "Save Changes"}
+					</button>
+				)}
+
+				{deleteBtn && (
+					<button
+						className="dark-btn focus-shadow radius"
+						type="button"
+						onClick={(e) => {
+							e.preventDefault();
+							if (typeof deleteBtn === "function") {
+								deleteBtn();
+							} else {
+								deleteBtn.handler();
+							}
+						}}
+					>
+						{deleteBtn.label || "Delete"}
+					</button>
+				)}
 			</div>
-
-			{submitBtn && (
-				<button
-					className="primary-btn focus-shadow radius"
-					type="submit"
-					onClick={(e) => {
-						e.preventDefault();
-						submitBtn.handler();
-					}}
-				>
-					Save Changes
-				</button>
-			)}
-
-			{deleteBtn && (
-				<button
-					className="dark-btn focus-shadow radius"
-					type="button"
-					onClick={(e) => {
-						e.preventDefault();
-						deleteBtn.handler();
-					}}
-				>
-					Delete
-				</button>
-			)}
 		</section>
 	);
 };
