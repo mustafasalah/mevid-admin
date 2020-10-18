@@ -24,7 +24,7 @@ const SliderWidget = ({ onSubmit }) => (
 						{ label: "Anime", value: "anime" },
 						{
 							label: "TV Show",
-							value: "tv-show",
+							value: "tvshow",
 						},
 					]}
 					multiple
@@ -36,10 +36,7 @@ const SliderWidget = ({ onSubmit }) => (
 					name="layout.settings.genres"
 					label="Genres"
 					type="select"
-					options={[
-						{ label: "All", value: "all" },
-						...getGenresOptions,
-					]}
+					options={getGenresOptions}
 					placeholder="Default: All"
 					multiple
 				/>

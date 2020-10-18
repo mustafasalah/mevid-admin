@@ -23,7 +23,7 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
 
 			<div className="col-1">
 				<div className="field">
-					<label for="selected-shows-icon">Widget Icon</label>
+					<label htmlFor="selected-shows-icon">Widget Icon</label>
 					<div className="icons-wrapper">
 						<input
 							name="selected-shows-icon"
@@ -87,7 +87,7 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
 						{ label: "Anime", value: "anime" },
 						{
 							label: "TV Show",
-							value: "tv-show",
+							value: "tvshow",
 						},
 					]}
 					multiple
@@ -99,10 +99,7 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
 					name="layout.settings.genres"
 					label="Genres"
 					type="select"
-					options={[
-						{ label: "All", value: "all" },
-						...getGenresOptions,
-					]}
+					options={getGenresOptions}
 					placeholder="Default: All"
 					multiple
 				/>

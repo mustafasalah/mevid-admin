@@ -130,12 +130,11 @@ export const layoutSchema = {
 	title: joi.string().min(2).empty(""),
 	type: joi.string().required(),
 	position: joi.string(),
+	widgetType: joi.string(),
 	settings: joi.object({
-		category: joi
-			.array()
-			.items(joi.allow("all", "movies", "anime", "tv-shows")),
-		genres: joi.array(),
-		tag: joi.array(),
+		category: joi.any(),
+		genres: joi.any(),
+		tag: joi.any(),
 		order: joi.allow("latest", "oldest", "views", "rates"),
 		shows_no: joi.number().integer().min(1),
 		icons: joi.allow("film", "star", "crown", "heart", "fire"),
@@ -287,11 +286,9 @@ export const schema = {
 };
 
 export const nestedSchema = {
-	settings_category: joi
-		.array()
-		.items(joi.allow("all", "movies", "anime", "tv-shows")),
-	settings_genres: joi.array(),
-	settings_tag: joi.array(),
+	settings_category: joi.any(),
+	settings_genres: joi.any(),
+	settings_tag: joi.any(),
 	settings_order: joi.allow("latest", "oldest", "views", "rates"),
 	settings_shows_no: joi.number().integer().min(1),
 	settings_icons: joi.allow("film", "star", "crown", "heart", "fire"),

@@ -117,7 +117,11 @@ class Layout extends Component {
 				</div>
 				<form action="#">
 					<div id="end-side">
-						<WidgetsWrapper widget={layoutForm} />
+						<WidgetsWrapper
+							widget={layoutForm}
+							onUpdate={this.props.onUpdateLayoutWidget}
+							onAddWidget={this.props.onAddWidget}
+						/>
 					</div>
 				</form>
 			</Fragment>
@@ -129,5 +133,7 @@ export default connect(
 	(state) => ({ layoutForm: state.forms.layout.data, ...state.layout }),
 	{
 		onLayoutSorted: layoutActions.sortLayout,
+		onUpdateLayoutWidget: layoutActions.updateLayoutWidget,
+		onAddWidget: layoutActions.addWidget,
 	}
 )(Layout);

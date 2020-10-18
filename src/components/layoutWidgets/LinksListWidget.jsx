@@ -10,7 +10,7 @@ const LinksListWidget = ({ onSubmit }) => (
 					name="layout.title"
 					label="Title"
 					type="text"
-					placeholder="default: Links List"
+					placeholder="default: Important Links"
 				/>
 			</div>
 			<div className="col-1">

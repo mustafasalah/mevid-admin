@@ -12,12 +12,9 @@ import SearchWidget from "./../layoutWidgets/SearchWidget";
 import SliderWidget from "./../layoutWidgets/SliderWidget";
 import SocialMediaWidget from "./../layoutWidgets/SocialMediaWidget";
 
-const submitHandler = (id) => {
-	console.log(id);
-};
 const deleteHandler = (id) => {};
 
-const WidgetsWrapper = ({ widget }) => {
+const WidgetsWrapper = ({ widget, onUpdate, onAddWidget }) => {
 	if (widget.type === undefined) return null;
 
 	switch (widget.type) {
@@ -27,64 +24,59 @@ const WidgetsWrapper = ({ widget }) => {
 					position={widget.position}
 					onSubmit={{
 						label: "Add Widget",
-						handler: () => {},
+						handler: () =>
+							onAddWidget(widget.position, widget.widgetType),
 					}}
 				/>
 			);
 
 		case "slider":
-			return <SliderWidget onSubmit={() => submitHandler(widget.id)} />;
+			return <SliderWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "recent":
-			return <RecentWidget onSubmit={() => submitHandler(widget.id)} />;
+			return <RecentWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "ads":
 			return (
 				<AdsWidget
-					onSubmit={() => submitHandler(widget.id)}
-					onDelete={() => deleteHandler(widget.id)}
+					onSubmit={() => onUpdate(widget)}
+					onDelete={() => deleteHandler(widget)}
 				/>
 			);
 
 		case "category":
 			return (
 				<CategoryWidget
-					onSubmit={() => submitHandler(widget.id)}
-					onDelete={() => deleteHandler(widget.id)}
+					onSubmit={() => onUpdate(widget)}
+					onDelete={() => deleteHandler(widget)}
 				/>
 			);
 
 		case "social_media":
-			return (
-				<SocialMediaWidget onSubmit={() => submitHandler(widget.id)} />
-			);
+			return <SocialMediaWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "search":
-			return <SearchWidget onSubmit={() => submitHandler(widget.id)} />;
+			return <SearchWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "schedule":
-			return (
-				<SchedulerWidget onSubmit={() => submitHandler(widget.id)} />
-			);
+			return <SchedulerWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "selected_shows":
 			return (
 				<PickedShowsWidget
-					onSubmit={() => submitHandler(widget.id)}
-					onDelete={() => deleteHandler(widget.id)}
+					onSubmit={() => onUpdate(widget)}
+					onDelete={() => deleteHandler(widget)}
 				/>
 			);
 
 		case "about":
-			return <AboutWidget onSubmit={() => submitHandler(widget.id)} />;
+			return <AboutWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "links_list":
-			return (
-				<LinksListWidget onSubmit={() => submitHandler(widget.id)} />
-			);
+			return <LinksListWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "account":
-			return <AccountWidget onSubmit={() => submitHandler(widget.id)} />;
+			return <AccountWidget onSubmit={() => onUpdate(widget)} />;
 
 		default:
 			return null;

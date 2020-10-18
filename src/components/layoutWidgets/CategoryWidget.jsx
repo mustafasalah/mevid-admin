@@ -33,21 +33,18 @@ const CategoryWidget = ({ onSubmit, onDelete }) => (
 						{ label: "Anime", value: "anime" },
 						{
 							label: "TV Show",
-							value: "tv-show",
+							value: "tvshow",
 						},
 					]}
-					multiple
 				/>
 			</div>
 
 			<div className="col-1">
 				<TagsField
 					name="layout.settings.tag"
-					label="Tags"
+					label="Tag"
 					type="select"
-					placeholder="Press 'enter' after any tag you write"
-					multiple
-					tags
+					placeholder="Default: no tag"
 					htmlAfterField={
 						<small>
 							Used to group collection of shows together under

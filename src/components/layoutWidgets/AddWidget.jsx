@@ -13,7 +13,7 @@ const getWidgetTypeOptions = (position) => {
 	} else {
 		widgetTypeOptions.push({
 			label: "Selected Shows",
-			value: "selected-shows",
+			value: "selected_shows",
 		});
 	}
 
