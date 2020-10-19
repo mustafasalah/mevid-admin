@@ -2,7 +2,14 @@ import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../actions/ActionTypes";
 
-const WidgetSection = ({ title, dropzone, addWidget, children, dispatch }) => {
+const WidgetSection = ({
+	title,
+	dropzone,
+	addWidget,
+	children,
+	dispatch,
+	removeActive,
+}) => {
 	return (
 		<Fragment>
 			<div className="col-1">
@@ -44,6 +51,10 @@ const WidgetSection = ({ title, dropzone, addWidget, children, dispatch }) => {
 											},
 											formType: "layout",
 										});
+
+										// remove active status from other widget box
+										typeof removeActive === "function" &&
+											removeActive();
 									}}
 								>
 									Add Widget

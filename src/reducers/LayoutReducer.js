@@ -6,17 +6,29 @@ const layoutReducer = (layoutType) => (
 	{ type, payload, error, dropzone, oldIndex, newIndex, meta }
 ) => {
 	switch (type) {
-		case ACTIONS.ADD_WIDGET_TO_LAYOUT:
+		case ACTIONS.DELETE_LAYOUT_WIDGET:
+			if (meta.position !== layoutType) return state;
+
 			if (error && payload) {
-				toast.error(
-					payload.message + " in adding new widget to layout"
-				);
+				toast.error(payload.message + " when deleting the widget");
 				return state;
 			}
 
-			const { position, widgetType } = meta;
+			// alert success message
+			toast.success(`The widget has been deleted successfully!`);
 
+			return state.filter((widget) => widget.id !== meta.id);
+
+		case ACTIONS.ADD_WIDGET_TO_LAYOUT:
+			const { position, widgetType } = meta;
 			if (position !== layoutType) return state;
+
+			if (error && payload) {
+				toast.error(
+					payload.message + " when adding new widget to layout"
+				);
+				return state;
+			}
 
 			// alert success message
 			toast.success(
@@ -26,15 +38,14 @@ const layoutReducer = (layoutType) => (
 			return [...state, payload.data];
 
 		case ACTIONS.UPDATE_LAYOUT_WIDGET_DATA:
+			if (meta.position !== layoutType) return state;
+
 			if (error && payload) {
 				toast.error(
-					payload.message + " in updating layout widget data"
+					payload.message + " when updating layout widget data"
 				);
 				return state;
 			}
-
-			if (payload.data.position !== layoutType) return state;
-			delete payload.data.position;
 
 			// alert success message
 			toast.success(`The widget data has been successfully updated!`);
@@ -46,7 +57,7 @@ const layoutReducer = (layoutType) => (
 
 		case ACTIONS.LOAD_LAYOUT:
 			if (error && payload) {
-				toast.error(payload.message + " in loading site layout data");
+				toast.error(payload.message + " when loading site layout data");
 				return state;
 			}
 			return payload.data[layoutType];

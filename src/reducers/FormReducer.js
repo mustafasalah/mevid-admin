@@ -43,9 +43,25 @@ const formReducer = (formType) => {
 		}
 
 		switch (type) {
+			case ACTIONS.DELETE_LAYOUT_WIDGET:
+			case ACTIONS.ADD_WIDGET_TO_LAYOUT:
+				if (payload.meta.formType !== formType) return state;
+				return {
+					data: {},
+					errors: {},
+				};
+
 			case ACTIONS.LOAD_LAYOUT_WIDGET_FORM:
+				return {
+					data: { ...payload.widget, position: payload.position },
+					errors: {},
+				};
+
 			case ACTIONS.ADD_LAYOUT_WIDGET_FORM:
-				return { data: { ...payload.widget }, errors: {} };
+				return {
+					data: { ...payload.widget },
+					errors: {},
+				};
 
 			case ACTIONS.LOAD_SETTINGS_DATA:
 				if (payload.meta && payload.meta.formType === formType) {

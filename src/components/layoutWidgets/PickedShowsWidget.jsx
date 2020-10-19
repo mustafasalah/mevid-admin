@@ -3,6 +3,7 @@ import FormSideSection from "./../common/form/FormSideSection";
 import FormField from "./../common/form/FormField";
 import TagsField from "./../content/TagsField";
 import { getGenresOptions } from "./../services/getGenres";
+import IconsFormField from "./IconsFormField";
 
 const PickedShowsWidget = ({ onSubmit, onDelete }) => (
 	<FormSideSection
@@ -22,56 +23,7 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
 			</div>
 
 			<div className="col-1">
-				<div className="field">
-					<label htmlFor="selected-shows-icon">Widget Icon</label>
-					<div className="icons-wrapper">
-						<input
-							name="selected-shows-icon"
-							value="film"
-							id="film-icon"
-							type="radio"
-						/>
-						<label htmlFor="film-icon">
-							<i className="fas fa-film"></i>
-						</label>
-						<input
-							name="selected-shows-icon"
-							value="star"
-							id="star-icon"
-							type="radio"
-						/>
-						<label htmlFor="star-icon">
-							<i className="fas fa-star"></i>
-						</label>
-						<input
-							name="selected-shows-icon"
-							value="crown"
-							id="crown-icon"
-							type="radio"
-						/>
-						<label htmlFor="crown-icon">
-							<i className="fas fa-crown"></i>
-						</label>
-						<input
-							name="selected-shows-icon"
-							value="heart"
-							id="heart-icon"
-							type="radio"
-						/>
-						<label htmlFor="heart-icon">
-							<i className="fas fa-heart"></i>
-						</label>
-						<input
-							name="selected-shows-icon"
-							value="fire"
-							id="fire-icon"
-							type="radio"
-						/>
-						<label htmlFor="fire-icon">
-							<i className="fab fa-hotjar"></i>
-						</label>
-					</div>
-				</div>
+				<IconsFormField />
 			</div>
 
 			<div className="col-1">

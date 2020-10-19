@@ -12,9 +12,7 @@ import SearchWidget from "./../layoutWidgets/SearchWidget";
 import SliderWidget from "./../layoutWidgets/SliderWidget";
 import SocialMediaWidget from "./../layoutWidgets/SocialMediaWidget";
 
-const deleteHandler = (id) => {};
-
-const WidgetsWrapper = ({ widget, onUpdate, onAddWidget }) => {
+const WidgetsWrapper = ({ widget, onUpdate, onAddWidget, onDelete }) => {
 	if (widget.type === undefined) return null;
 
 	switch (widget.type) {
@@ -40,7 +38,7 @@ const WidgetsWrapper = ({ widget, onUpdate, onAddWidget }) => {
 			return (
 				<AdsWidget
 					onSubmit={() => onUpdate(widget)}
-					onDelete={() => deleteHandler(widget)}
+					onDelete={() => onDelete(widget)}
 				/>
 			);
 
@@ -48,7 +46,7 @@ const WidgetsWrapper = ({ widget, onUpdate, onAddWidget }) => {
 			return (
 				<CategoryWidget
 					onSubmit={() => onUpdate(widget)}
-					onDelete={() => deleteHandler(widget)}
+					onDelete={() => onDelete(widget)}
 				/>
 			);
 
@@ -65,7 +63,7 @@ const WidgetsWrapper = ({ widget, onUpdate, onAddWidget }) => {
 			return (
 				<PickedShowsWidget
 					onSubmit={() => onUpdate(widget)}
-					onDelete={() => deleteHandler(widget)}
+					onDelete={() => onDelete(widget)}
 				/>
 			);
 

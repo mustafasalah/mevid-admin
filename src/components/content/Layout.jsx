@@ -31,6 +31,10 @@ class Layout extends Component {
 		}
 	}
 
+	state = {
+		activeWidget: null,
+	};
+
 	componentDidMount() {
 		// Run Links-List script
 		new LinksList();
@@ -63,7 +67,20 @@ class Layout extends Component {
 										}}
 									/>
 									{header.map((widget) => (
-										<Widget key={widget.id} data={widget} />
+										<Widget
+											key={widget.id}
+											data={widget}
+											position="header"
+											isActive={
+												this.state.activeWidget ===
+												widget.id
+											}
+											onClick={() => {
+												this.setState({
+													activeWidget: widget.id,
+												});
+											}}
+										/>
 									))}
 								</WidgetSection>
 							</div>
@@ -75,11 +92,28 @@ class Layout extends Component {
 											dropzone="main-drop-zone"
 											sectionName="main"
 											addWidget="main"
+											removeActive={() =>
+												this.setState({
+													activeWidget: null,
+												})
+											}
 										>
 											{main.map((widget) => (
 												<Widget
 													key={widget.id}
 													data={widget}
+													position="main"
+													isActive={
+														this.state
+															.activeWidget ===
+														widget.id
+													}
+													onClick={() => {
+														this.setState({
+															activeWidget:
+																widget.id,
+														});
+													}}
 												/>
 											))}
 										</WidgetSection>
@@ -91,11 +125,28 @@ class Layout extends Component {
 											title="Sidebar Content"
 											dropzone="sidebar-drop-zone"
 											addWidget="sidebar"
+											removeActive={() =>
+												this.setState({
+													activeWidget: null,
+												})
+											}
 										>
 											{sidebar.map((widget) => (
 												<Widget
 													key={widget.id}
 													data={widget}
+													position="sidebar"
+													isActive={
+														this.state
+															.activeWidget ===
+														widget.id
+													}
+													onClick={() => {
+														this.setState({
+															activeWidget:
+																widget.id,
+														});
+													}}
 												/>
 											))}
 										</WidgetSection>
@@ -108,7 +159,20 @@ class Layout extends Component {
 									dropzone="footer-drop-zone"
 								>
 									{footer.map((widget) => (
-										<Widget key={widget.id} data={widget} />
+										<Widget
+											key={widget.id}
+											data={widget}
+											position="footer"
+											isActive={
+												this.state.activeWidget ===
+												widget.id
+											}
+											onClick={() => {
+												this.setState({
+													activeWidget: widget.id,
+												});
+											}}
+										/>
 									))}
 								</WidgetSection>
 							</div>
@@ -120,6 +184,17 @@ class Layout extends Component {
 						<WidgetsWrapper
 							widget={layoutForm}
 							onUpdate={this.props.onUpdateLayoutWidget}
+							onDelete={(data) => {
+								const deleteIt = window.confirm(
+									"Are you sure to delete this widget?"
+								);
+								if (deleteIt) {
+									this.props.onDeleteWidget(data);
+									this.setState({
+										activeWidget: null,
+									});
+								}
+							}}
 							onAddWidget={this.props.onAddWidget}
 						/>
 					</div>
@@ -135,5 +210,6 @@ export default connect(
 		onLayoutSorted: layoutActions.sortLayout,
 		onUpdateLayoutWidget: layoutActions.updateLayoutWidget,
 		onAddWidget: layoutActions.addWidget,
+		onDeleteWidget: layoutActions.deleteWidget,
 	}
 )(Layout);

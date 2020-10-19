@@ -16,7 +16,7 @@ const defaultTitle = new Map([
 	["account", "Account"],
 ]);
 
-const Widget = ({ data, dispatch }) => {
+const Widget = ({ data, dispatch, position, isActive, onClick }) => {
 	const { title, type, enabled } = data;
 
 	return (
@@ -25,7 +25,7 @@ const Widget = ({ data, dispatch }) => {
 				<div
 					className={`widget-box radius blur-shadow${
 						enabled === "0" ? " disabled" : ""
-					}`}
+					}${isActive ? " active" : ""}`}
 				>
 					<h4 className={type}>{title || defaultTitle.get(type)}</h4>
 					<button
@@ -34,11 +34,16 @@ const Widget = ({ data, dispatch }) => {
 						onClick={() => {
 							// scroll to top
 							window.scrollTo(0, 0);
+
 							dispatch({
 								type: ACTIONS.LOAD_LAYOUT_WIDGET_FORM,
 								widget: data,
 								formType: "layout",
+								position,
 							});
+
+							// handler to make this widget active
+							typeof onClick === "function" && onClick();
 						}}
 					>
 						<i className="fas fa-sliders-h"></i> Settings

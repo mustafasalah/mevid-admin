@@ -10,23 +10,39 @@ const layoutActions = {
 		};
 	},
 
-	async updateLayoutWidget(data) {
+	deleteWidget(data) {
 		return {
-			type: ACTIONS.UPDATE_LAYOUT_WIDGET_DATA,
-			payload: await http.put("/layout", data),
+			type: ACTIONS.DELETE_LAYOUT_WIDGET,
+			payload: http.delete(`/layout/${data.id}`),
+			meta: {
+				id: data.id,
+				position: data.position,
+				formType: "layout",
+			},
 		};
 	},
 
-	async addWidget(position, type) {
+	updateLayoutWidget(data) {
+		return {
+			type: ACTIONS.UPDATE_LAYOUT_WIDGET_DATA,
+			payload: http.put("/layout", data),
+			meta: {
+				position: data.position,
+			},
+		};
+	},
+
+	addWidget(position, type) {
 		return {
 			type: ACTIONS.ADD_WIDGET_TO_LAYOUT,
-			payload: await http.post("/layout", {
+			payload: http.post("/layout", {
 				position,
 				type,
 			}),
 			meta: {
 				position,
 				widgetType: type,
+				formType: "layout",
 			},
 		};
 	},

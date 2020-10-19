@@ -86,7 +86,8 @@
 	cursor: move;
 }
 
-#layout .widget-box:not(.disabled):hover {
+#layout .widget-box:not(.disabled):hover,
+#layout .widget-box:not(.disabled).active {
 	border-color: #d90429;
 }
 

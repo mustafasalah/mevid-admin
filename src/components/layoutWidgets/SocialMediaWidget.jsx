@@ -3,11 +3,7 @@ import FormSideSection from "./../common/form/FormSideSection";
 import FormField from "./../common/form/FormField";
 
 const SocialMediaWidget = ({ onSubmit }) => (
-	<FormSideSection
-		label="Social Media"
-		id="social-media"
-		submitBtn={onSubmit}
-	>
+	<FormSideSection label="Follow Us" id="social-media" submitBtn={onSubmit}>
 		<div className="row">
 			<div className="col-1">
 				<FormField
