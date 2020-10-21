@@ -25,14 +25,14 @@ const IconsFormField = ({ icon, dispatch }) => {
 			<label htmlFor="selected-shows-icon">Widget Icon</label>
 			<div className="icons-wrapper">
 				{icons.map(([name, classValue]) => (
-					<Fragment>
+					<Fragment key={name}>
 						<input
 							name="selected-shows-icon"
 							value={name}
 							id={`${name}-icon`}
 							type="radio"
 							checked={icon === name}
-							onClick={onSelectHandler}
+							onChange={onSelectHandler}
 						/>
 						<label htmlFor={`${name}-icon`}>
 							<i className={classValue}></i>

@@ -52,6 +52,12 @@
 	margin-top: 10px;
 }
 
+#links-list p.not-available {
+	margin: 0;
+	margin-top: 10px;
+	background-color: #eee;
+}
+
 #current-links-list li {
 	display: -webkit-flex;
 	display: flex;

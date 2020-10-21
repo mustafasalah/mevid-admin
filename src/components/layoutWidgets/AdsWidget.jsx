@@ -18,6 +18,19 @@ const AdsWidget = ({ onSubmit, onDelete }) => (
 					placeholder="HTML Code Here..."
 				/>
 			</div>
+
+			{onDelete === undefined && (
+				<div className="col-1">
+					<FormField
+						name="layout.enabled"
+						label="Enabled"
+						type="radio"
+						htmlAfterField={
+							<small>Enable or Disable viewing ads</small>
+						}
+					/>
+				</div>
+			)}
 		</div>
 	</FormSideSection>
 );

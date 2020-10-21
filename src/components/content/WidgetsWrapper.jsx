@@ -38,7 +38,11 @@ const WidgetsWrapper = ({ widget, onUpdate, onAddWidget, onDelete }) => {
 			return (
 				<AdsWidget
 					onSubmit={() => onUpdate(widget)}
-					onDelete={() => onDelete(widget)}
+					onDelete={
+						widget.deletable === "1"
+							? () => onDelete(widget)
+							: undefined
+					}
 				/>
 			);
 

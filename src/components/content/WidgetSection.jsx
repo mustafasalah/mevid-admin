@@ -52,6 +52,9 @@ const WidgetSection = ({
 											formType: "layout",
 										});
 
+										// scroll up
+										window.scrollTo(0, 0);
+
 										// remove active status from other widget box
 										typeof removeActive === "function" &&
 											removeActive();

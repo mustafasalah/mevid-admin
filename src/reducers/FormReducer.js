@@ -324,6 +324,73 @@ const formReducer = (formType) => {
 					data: submitedData,
 				};
 
+			case ACTIONS.DELETE_LINK_IN_LINKS_LIST_WIDGET:
+				toast.success("The link has been deleted");
+				return {
+					data: {
+						...state.data,
+						settings: {
+							...state.data.settings,
+							links: state.data.settings.links.filter(
+								(link, i) => i !== payload.index
+							),
+						},
+					},
+					errors: state.errors,
+				};
+
+			case ACTIONS.MOVE_LINK_IN_LINKS_LIST_WIDGET:
+				const { index, direction } = payload;
+				const newLinks = [...state.data.settings.links];
+				const movement = direction === "up" ? -1 : 1;
+				const temp = newLinks[index];
+				newLinks[index] = newLinks[index + movement];
+				newLinks[index + movement] = temp;
+
+				return {
+					data: {
+						...state.data,
+						settings: {
+							...state.data.settings,
+							links: newLinks,
+						},
+					},
+					errors: state.errors,
+				};
+
+			case ACTIONS.ADD_LINK_IN_LINKS_LIST_WIDGET:
+				toast.success("The link has been added");
+				delete payload.link.id;
+				return {
+					data: {
+						...state.data,
+						settings: {
+							...state.data.settings,
+							links: [...state.data.settings.links, payload.link],
+						},
+					},
+					errors: state.errors,
+				};
+
+			case ACTIONS.UPDATE_LINK_IN_LINKS_LIST_WIDGET:
+				toast.success("The link has been updated");
+				return {
+					data: {
+						...state.data,
+						settings: {
+							...state.data.settings,
+							links: state.data.settings.links.map((link, i) => {
+								if (payload.link.id === i) {
+									delete payload.link.id;
+									return payload.link;
+								}
+								return link;
+							}),
+						},
+					},
+					errors: state.errors,
+				};
+
 			case ACTIONS.FORM_ADD:
 				let { error: fieldError, fieldName, fieldValue } = payload;
 

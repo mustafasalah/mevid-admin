@@ -1,186 +1,108 @@
-import React from "react";
+import React, { useState } from "react";
 import FormSideSection from "./../common/form/FormSideSection";
 import FormField from "./../common/form/FormField";
+import LinkForm from "./LinkForm";
+import LinksList from "./LinksList";
+import { connect } from "react-redux";
+import * as ACTIONS from "../../actions/ActionTypes";
 
-const LinksListWidget = ({ onSubmit }) => (
-	<FormSideSection label="Links List" id="links-list" submitBtn={onSubmit}>
-		<div className="row">
-			<div className="col-1">
-				<FormField
-					name="layout.title"
-					label="Title"
-					type="text"
-					placeholder="default: Important Links"
-				/>
-			</div>
-			<div className="col-1">
-				<div className="field">
-					<label htmlFor="link-name">Update Links List</label>
-					<div className="row radius" id="nested-form">
-						<div className="col-1">
-							<div className="field">
-								<label htmlFor="link-name">Link Name</label>
-								<input
-									id="link-name"
-									name="link-name"
-									type="text"
-									placeholder="e.g. Terms of Use"
-								/>
-							</div>
-						</div>
-						<div className="col-1">
-							<div className="field">
-								<label htmlFor="link-url">Link Url</label>
-								<input
-									id="link-url"
-									name="link-url"
-									type="url"
-									placeholder="e.g. http://www.mevid.com/terms-of-use"
-								/>
-							</div>
-						</div>
-						<button
-							type="button"
-							id="links-list-button"
-							className="dark-btn radius-3 focus-shadow"
-							disabled
-						>
-							Add Link
-						</button>
-					</div>
+const LinksListWidget = ({ onSubmit, links, dispatch }) => {
+	const [form, setForm] = useState({
+		id: null,
+		label: "",
+		url: "",
+	});
+
+	const moveLinkHandler = (index, direction) => {
+		if (
+			(index <= 0 && direction === "up") ||
+			(index >= links.length - 1 && direction === "down")
+		) {
+			return;
+		}
+
+		dispatch({
+			type: ACTIONS.MOVE_LINK_IN_LINKS_LIST_WIDGET,
+			index,
+			direction,
+			formType: "layout",
+		});
+	};
+
+	const submitLinkHandler = (link, isUpdate) => {
+		dispatch({
+			type: isUpdate
+				? ACTIONS.UPDATE_LINK_IN_LINKS_LIST_WIDGET
+				: ACTIONS.ADD_LINK_IN_LINKS_LIST_WIDGET,
+			link,
+			formType: "layout",
+		});
+
+		// Reset form fields
+		setForm({ id: null, label: "", url: "" });
+	};
+
+	const deleteLinkHandler = (index) => {
+		dispatch({
+			type: ACTIONS.DELETE_LINK_IN_LINKS_LIST_WIDGET,
+			index,
+			formType: "layout",
+		});
+	};
+
+	const changeHandler = (field, value) => {
+		setForm({
+			...form,
+			[field]: value,
+		});
+	};
+
+	const editLinkHandler = (link, index) => {
+		setForm({
+			id: index,
+			...link,
+		});
+	};
+
+	return (
+		<FormSideSection
+			label="Links List"
+			id="links-list"
+			submitBtn={onSubmit}
+		>
+			<div className="row">
+				<div className="col-1">
+					<FormField
+						name="layout.title"
+						label="Title"
+						type="text"
+						placeholder="default: Important Links"
+					/>
 				</div>
 			</div>
 
-			<div className="col-1">
-				<div className="field">
-					<label>Current Links List</label>
-					<ul id="current-links-list" className="blur-shadow radius">
-						<li>
-							<span
-								className="link-name"
-								data-url="http://www.mevid.com/about-us"
-							>
-								About Us
-							</span>
-							<div className="btns-wrapper">
-								<button
-									type="button"
-									className="move-btn down-btn"
-									title="move down"
-								></button>
-								<button
-									type="button"
-									className="move-btn up-btn"
-									title="move up"
-								></button>
-								<button
-									type="button"
-									className="edit-btn"
-									title="edit link"
-								></button>
-								<button
-									type="button"
-									className="delete-btn"
-									title="delete link"
-								></button>
-							</div>
-						</li>
-						<li>
-							<span
-								className="link-name"
-								data-url="http://www.mevid.com/terms-of-use"
-							>
-								Terms of Use
-							</span>
-							<div className="btns-wrapper">
-								<button
-									type="button"
-									className="move-btn down-btn"
-									title="move down"
-								></button>
-								<button
-									type="button"
-									className="move-btn up-btn"
-									title="move up"
-								></button>
-								<button
-									type="button"
-									className="edit-btn"
-									title="edit link"
-								></button>
-								<button
-									type="button"
-									className="delete-btn"
-									title="delete link"
-								></button>
-							</div>
-						</li>
-						<li>
-							<span
-								className="link-name"
-								data-url="http://www.mevid.com/join-us"
-							>
-								Join Us
-							</span>
-							<div className="btns-wrapper">
-								<button
-									type="button"
-									className="move-btn down-btn"
-									title="move down"
-								></button>
-								<button
-									type="button"
-									className="move-btn up-btn"
-									title="move up"
-								></button>
-								<button
-									type="button"
-									className="edit-btn"
-									title="edit link"
-								></button>
-								<button
-									type="button"
-									className="delete-btn"
-									title="delete link"
-								></button>
-							</div>
-						</li>
+			<div className="row">
+				<div className="col-1">
+					<LinkForm
+						form={form}
+						onChange={changeHandler}
+						onSubmit={submitLinkHandler}
+					/>
+				</div>
 
-						<li>
-							<span
-								className="link-name"
-								data-url="http://www.mevid.com/privacy-police"
-							>
-								Privacy Police
-							</span>
-							<div className="btns-wrapper">
-								<button
-									type="button"
-									className="move-btn down-btn"
-									title="move down"
-								></button>
-								<button
-									type="button"
-									className="move-btn up-btn"
-									title="move up"
-								></button>
-								<button
-									type="button"
-									className="edit-btn"
-									title="edit link"
-								></button>
-								<button
-									type="button"
-									className="delete-btn"
-									title="delete link"
-								></button>
-							</div>
-						</li>
-					</ul>
+				<div className="col-1">
+					<LinksList
+						links={links}
+						onMove={moveLinkHandler}
+						onEdit={editLinkHandler}
+						onDelete={deleteLinkHandler}
+					/>
 				</div>
 			</div>
-		</div>
-	</FormSideSection>
-);
+		</FormSideSection>
+	);
+};
 
-export default LinksListWidget;
+export default connect((state) => ({
+	links: state.forms.layout.data.settings.links,
+}))(LinksListWidget);

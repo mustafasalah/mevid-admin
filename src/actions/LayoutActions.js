@@ -32,7 +32,7 @@ const layoutActions = {
 		};
 	},
 
-	addWidget(position, type) {
+	addWidget(position, type, callback) {
 		return {
 			type: ACTIONS.ADD_WIDGET_TO_LAYOUT,
 			payload: http.post("/layout", {
@@ -43,6 +43,7 @@ const layoutActions = {
 				position,
 				widgetType: type,
 				formType: "layout",
+				callback,
 			},
 		};
 	},
