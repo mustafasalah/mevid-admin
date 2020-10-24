@@ -31,6 +31,19 @@ const publishSchema = {
 	description: joi.string().max(255).empty(""),
 };
 
+export const menuSchema = {
+	...generalSchema,
+	type: joi
+		.allow("link", "category", "page", "genre", "tag")
+		.empty("")
+		.required(),
+	label: joi.string().empty("").required(),
+	link: joi
+		.string()
+		.uri({ allowRelative: true, allowQuerySquareBrackets: true })
+		.required(),
+};
+
 export const pageSchema = {
 	...generalSchema,
 	...publishSchema,

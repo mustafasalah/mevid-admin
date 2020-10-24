@@ -5,6 +5,7 @@ import {
 	nestedSchema,
 	pageSchema,
 	layoutSchema,
+	menuSchema,
 } from "./ValidationSchema";
 import getEpisodes from "../components/services/episodesServices";
 import getShows from "../components/services/showsServices";
@@ -58,6 +59,10 @@ const onFieldChanged = (formType) => (fieldName, fieldValue) => {
 			].validate(fieldValue));
 		} else if (formType === "layout") {
 			({ value, error } = { ...layoutSchema, ...nestedSchema }[
+				validateKey
+			].validate(fieldValue));
+		} else if (formType === "mainmenu") {
+			({ value, error } = { ...menuSchema, ...nestedSchema }[
 				validateKey
 			].validate(fieldValue));
 		} else {

@@ -39,6 +39,7 @@ export default function runSortable(pageType = "layout") {
 			sidebarSortable,
 			footerSortable,
 		};
+		
 	} else {
 		mainMenuSortable = new Sortable(
 			document.querySelectorAll(".main-menu-drop-zone"),

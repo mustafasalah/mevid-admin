@@ -25,6 +25,11 @@
 	flex-flow: column;
 }
 
+#statistics-container.three .statistic {
+	width: -webkit-calc(33.3333% - 22.5px);
+	width: calc(33.3333% - 22.5px);
+}
+
 #statistics-container .statistic > h3 {
 	font-size: 18px;
 }

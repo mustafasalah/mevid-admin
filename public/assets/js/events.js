@@ -36,11 +36,11 @@
 	// );
 
 	// Event for Showing Sub Links area
-	$("#layout").on("mousedown", "button.sub-link", function () {
-		var subLinkArea = $(this).parents(".row").first().next();
+	// $("#layout").on("mousedown", "button.sub-link", function () {
+	// 	var subLinkArea = $(this).parents(".row").first().next();
 
-		subLinkArea.slideToggle(0);
-	});
+	// 	subLinkArea.slideToggle(0);
+	// });
 
 	// Event for deleting links on main menu
 	$("#layout").on("mousedown", "button.delete-btn", function () {

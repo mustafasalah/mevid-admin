@@ -9,14 +9,26 @@ class TagsField extends Component {
 
 	async componentDidMount() {
 		const { data } = await getTags();
+		const { tagValuePrefix, urlEncodeValue } = this.props;
 		this.setState({
-			options: data.map(({ name }) => ({ label: name, value: name })),
+			options: data.map(({ name }) => ({
+				label: name,
+				value:
+					tagValuePrefix +
+					(urlEncodeValue ? window.encodeURIComponent(name) : name),
+			})),
 		});
 	}
 
 	render() {
-		return <FormField options={this.state.options} {...this.props} />;
+		const { tagValuePrefix, urlEncodeValue, ...props } = this.props;
+		return <FormField options={this.state.options} {...props} />;
 	}
 }
+
+TagsField.defaultProps = {
+	tagValuePrefix: "",
+	urlEncodeValue: false,
+};
 
 export default TagsField;

@@ -13,6 +13,7 @@ import SchedulerReducer from "./SchedulerReducer";
 import formReducer from "./FormReducer";
 import notificationsReducer from "./NotificationsReducer";
 import layoutReducer from "./LayoutReducer";
+import mainMenuReducer from "./MainMenuReducer";
 
 const AppReducer = combineReducers({
 	layout: combineReducers({
@@ -21,6 +22,7 @@ const AppReducer = combineReducers({
 		sidebar: layoutReducer("sidebar"),
 		footer: layoutReducer("footer"),
 	}),
+	mainmenu: mainMenuReducer,
 	forms: combineReducers({
 		show: formReducer("show"),
 		episode: formReducer("episode"),
@@ -28,6 +30,7 @@ const AppReducer = combineReducers({
 		user: formReducer("user"),
 		settings: formReducer("settings"),
 		layout: formReducer("layout"),
+		mainmenu: formReducer("mainmenu"),
 	}),
 	schedule: SchedulerReducer,
 	notifications: notificationsReducer,

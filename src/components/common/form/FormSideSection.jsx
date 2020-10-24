@@ -7,9 +7,10 @@ const FormSideSection = ({
 	children,
 	submitBtn = false,
 	deleteBtn = false,
+	opened: open = true,
 	...props
 }) => {
-	const [opened, setOpened] = useState(true);
+	const [opened, setOpened] = useState(open);
 	const widgetContent = useRef(null);
 
 	return (

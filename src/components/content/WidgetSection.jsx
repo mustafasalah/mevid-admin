@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../actions/ActionTypes";
+import WidgetHeader from "./WidgetHeader";
 
 const WidgetSection = ({
 	title,
@@ -13,15 +14,7 @@ const WidgetSection = ({
 	return (
 		<Fragment>
 			<div className="col-1">
-				<div className="field">
-					<div className="widget-section">
-						<h3>
-							<span className="radius-3 focus-shadow">
-								{title}
-							</span>
-						</h3>
-					</div>
-				</div>
+				<WidgetHeader title={title} />
 			</div>
 			{dropzone ? (
 				<div className="col-1">

@@ -11,7 +11,6 @@ import SideBar from "./SideBar";
 import Content from "./Content";
 import Loader from "./common/Loader";
 import "promise-polyfill/src/polyfill";
-import { authorize } from "./../js/Utility";
 
 class App extends Component {
 	async componentDidMount() {
@@ -22,7 +21,6 @@ class App extends Component {
 			loadScheduler,
 			loadAppSettings,
 			appLoaded,
-			loadLayoutData,
 		} = this.props;
 
 		try {
@@ -43,10 +41,6 @@ class App extends Component {
 
 			// And load Shows Scheduler Data
 			await loadScheduler();
-
-			if (authorize(this.props.loggedUser.role, "admin")) {
-				loadLayoutData();
-			}
 		} catch (ex) {
 			console.error(ex);
 		}
@@ -70,6 +64,5 @@ export default connect((state) => state, {
 	loadNotifications,
 	loadAppSettings: SettingsActions.onSettingsDataLoad,
 	loadScheduler: SchedulerActions.onSchedulerLoad,
-	loadLayoutData: layoutActions.loadLayoutData,
 	appLoaded: () => ({ type: ACTIONS.APP_LOADED }),
 })(App);

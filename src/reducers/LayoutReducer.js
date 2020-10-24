@@ -60,6 +60,7 @@ const layoutReducer = (layoutType) => (
 				toast.error(payload.message + " when loading site layout data");
 				return state;
 			}
+
 			return payload.data[layoutType];
 
 		case ACTIONS.SORT_LAYOUT:

@@ -8,6 +8,7 @@ import ViewsDiagramWidget from "./ViewsDiagramWidget";
 import TopAuthorsWidget from "./TopAuthorsWidget";
 import TopShowsWidget from "./TopShowsWidget";
 import TodayEpisodesWidget from "./TodayEpisodesWidget";
+import { authorize } from "./../../js/Utility";
 
 class Dashboard extends React.Component {
 	getShowsByCategory() {
@@ -70,6 +71,7 @@ class Dashboard extends React.Component {
 			reviews,
 			comments,
 			reports,
+			loggedUser,
 			fixReportAction,
 			changeCommentStatus,
 			changeReviewStatus,
@@ -89,7 +91,10 @@ class Dashboard extends React.Component {
 			<Fragment>
 				<SectionHeader name="Overview" faClass="fas fa-chart-pie" />
 
-				<div id="statistics-container">
+				<div
+					id="statistics-container"
+					className={loggedUser.role === "publisher" ? "three" : ""}
+				>
 					<StatisticWidget
 						title="Shows"
 						data={[
@@ -133,25 +138,30 @@ class Dashboard extends React.Component {
 						faClass="fas fa-star-half-alt"
 					/>
 
-					<StatisticWidget
-						title="Users"
-						data={[
-							{
-								label: "Active User",
-								counter: activeUsers.length,
-							},
-							{
-								label: "Banned User",
-								counter: bannedUsers.length,
-							},
-						]}
-						moreLink="/users"
-						faClass="fas fa-user"
-					/>
+					{authorize(loggedUser.role, "supervisor") && (
+						<StatisticWidget
+							title="Users"
+							data={[
+								{
+									label: "Active User",
+									counter: activeUsers.length,
+								},
+								{
+									label: "Banned User",
+									counter: bannedUsers.length,
+								},
+							]}
+							moreLink="/users"
+							faClass="fas fa-user"
+						/>
+					)}
 				</div>
 
 				<div id="main-side">
-					<ViewsDiagramWidget />
+					{authorize(loggedUser.role, "supervisor") && (
+						<ViewsDiagramWidget />
+					)}
+
 					<TodayEpisodesWidget />
 
 					<div id="top-lists-widgets">

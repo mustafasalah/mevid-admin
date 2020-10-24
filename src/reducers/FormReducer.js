@@ -5,6 +5,7 @@ import initialEpisodeState from "./InitialEpisodeState";
 import initialPageState from "./InitialPageState";
 import initialUserState from "./InitialUserState";
 import initialSettingsState from "./InitialSettingsState";
+import initialMenuState from "./InitialMenuState";
 import { toast } from "react-toastify";
 
 const formReducer = (formType) => {
@@ -29,6 +30,10 @@ const formReducer = (formType) => {
 
 		case "settings":
 			initialState = initialSettingsState;
+			break;
+
+		case "mainmenu":
+			initialState = initialMenuState;
 			break;
 
 		default:

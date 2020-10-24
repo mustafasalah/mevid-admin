@@ -31,7 +31,7 @@ const Widget = ({ data, dispatch, position, isActive, onClick }) => {
 					<button
 						className="settings-btn dark-btn focus-shadow radius-3"
 						type="button"
-						onClick={() => {
+						onMouseDown={() => {
 							// scroll to top
 							window.scrollTo(0, 0);
 
