@@ -37,6 +37,16 @@ class Dashboard extends React.Component {
 		return { movies, anime, tvshows };
 	}
 
+	getAuthorizedShowsId() {
+		const { loggedUser, shows } = this.props;
+
+		if (authorize(loggedUser.role, "supervisor")) return shows;
+
+		return shows
+			.filter((show) => show.authorId === loggedUser.id)
+			.map((show) => show.id);
+	}
+
 	getItemsByStatus(items) {
 		let approvedItems = [],
 			unapprovedItems = [];
@@ -86,76 +96,89 @@ class Dashboard extends React.Component {
 			unapprovedItems: unapprovedComments,
 		} = this.getItemsByStatus(comments);
 		const { activeUsers, bannedUsers } = this.getUsersByStatus();
+		const authorizedShowsId = this.getAuthorizedShowsId();
 
 		return (
 			<Fragment>
-				<SectionHeader name="Overview" faClass="fas fa-chart-pie" />
-
-				<div
-					id="statistics-container"
-					className={loggedUser.role === "publisher" ? "three" : ""}
-				>
-					<StatisticWidget
-						title="Shows"
-						data={[
-							{ label: "Movies", counter: movies.length },
-							{ label: "Anime", counter: anime.length },
-							{ label: "TV Shows", counter: tvshows.length },
-						]}
-						moreLink="/shows"
-						faClass="fas fa-film"
-					/>
-
-					<StatisticWidget
-						title="Comments"
-						data={[
-							{
-								label: "Approved",
-								counter: approvedComments.length,
-							},
-							{
-								label: "Unapproved",
-								counter: unapprovedComments.length,
-							},
-						]}
-						moreLink="/comments"
-						faClass="fas fa-comments"
-					/>
-
-					<StatisticWidget
-						title="Reviews"
-						data={[
-							{
-								label: "Approved",
-								counter: approvedReviews.length,
-							},
-							{
-								label: "Unapproved",
-								counter: unapprovedReviews.length,
-							},
-						]}
-						moreLink="/reviews"
-						faClass="fas fa-star-half-alt"
-					/>
-
-					{authorize(loggedUser.role, "supervisor") && (
-						<StatisticWidget
-							title="Users"
-							data={[
-								{
-									label: "Active User",
-									counter: activeUsers.length,
-								},
-								{
-									label: "Banned User",
-									counter: bannedUsers.length,
-								},
-							]}
-							moreLink="/users"
-							faClass="fas fa-user"
+				{authorize(loggedUser.role, "supervisor") && (
+					<Fragment>
+						<SectionHeader
+							name="Overview"
+							faClass="fas fa-chart-pie"
 						/>
-					)}
-				</div>
+
+						<div
+							id="statistics-container"
+							className={
+								loggedUser.role === "supervisor" ? "three" : ""
+							}
+						>
+							<StatisticWidget
+								title="Shows"
+								data={[
+									{ label: "Movies", counter: movies.length },
+									{ label: "Anime", counter: anime.length },
+									{
+										label: "TV Shows",
+										counter: tvshows.length,
+									},
+								]}
+								moreLink="/shows"
+								faClass="fas fa-film"
+							/>
+
+							<StatisticWidget
+								title="Comments"
+								data={[
+									{
+										label: "Approved",
+										counter: approvedComments.length,
+									},
+									{
+										label: "Unapproved",
+										counter: unapprovedComments.length,
+									},
+								]}
+								moreLink="/comments"
+								faClass="fas fa-comments"
+							/>
+
+							<StatisticWidget
+								title="Reviews"
+								data={[
+									{
+										label: "Approved",
+										counter: approvedReviews.length,
+									},
+									{
+										label: "Unapproved",
+										counter: unapprovedReviews.length,
+									},
+								]}
+								moreLink="/reviews"
+								faClass="fas fa-star-half-alt"
+							/>
+
+							{authorize(loggedUser.role, "admin") && (
+								<StatisticWidget
+									title="Users"
+									data={[
+										{
+											label: "Active User",
+											counter: activeUsers.length,
+										},
+										{
+											label: "Banned User",
+											counter: bannedUsers.length,
+										},
+									]}
+									moreLink="/users"
+									faClass="fas fa-user"
+								/>
+							)}
+						</div>
+					</Fragment>
+				)}
 
 				<div id="main-side">
 					{authorize(loggedUser.role, "supervisor") && (
@@ -176,7 +199,15 @@ class Dashboard extends React.Component {
 						onPhrase="Report on"
 						doBtnLabel="Fixed?"
 						showMoreLink="/reports"
-						data={reports}
+						data={
+							authorize(loggedUser.role, "supervisor")
+								? reports
+								: reports.filter((report) =>
+										authorizedShowsId.includes(
+											report.showId
+										)
+								  )
+						}
 						doBtnAction={(id) => {
 							const isDelete = window.confirm(
 								"Are you sure you fixed this report?"
@@ -191,7 +222,15 @@ class Dashboard extends React.Component {
 						onPhrase="Commented on"
 						doBtnLabel="Approve?"
 						showMoreLink="/comments"
-						data={comments}
+						data={
+							authorize(loggedUser.role, "supervisor")
+								? comments
+								: comments.filter((comment) =>
+										authorizedShowsId.includes(
+											comment.showId
+										)
+								  )
+						}
 						doBtnCondition={(item) => item.status !== "approved"}
 						doBtnAction={(id) => {
 							changeCommentStatus([id], "approve");
@@ -204,7 +243,15 @@ class Dashboard extends React.Component {
 						onPhrase="Reviewed"
 						doBtnLabel="Approve?"
 						showMoreLink="/reviews"
-						data={reviews}
+						data={
+							authorize(loggedUser.role, "supervisor")
+								? reviews
+								: reviews.filter((review) =>
+										authorizedShowsId.includes(
+											review.showId
+										)
+								  )
+						}
 						doBtnCondition={(item) => item.status !== "approved"}
 						doBtnAction={(id) => {
 							changeReviewStatus([id], "approve");

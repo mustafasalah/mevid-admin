@@ -37,7 +37,7 @@ export const menuSchema = {
 		.allow("link", "category", "page", "genre", "tag")
 		.empty("")
 		.required(),
-	label: joi.string().empty("").required(),
+	label: joi.string().empty("").required().label("Navigation Label"),
 	link: joi
 		.string()
 		.uri({ allowRelative: true, allowQuerySquareBrackets: true })

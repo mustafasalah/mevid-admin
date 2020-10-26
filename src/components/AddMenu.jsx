@@ -34,7 +34,7 @@ const AddMenu = ({ active, onClick }) => {
 					</Link>
 				</li>
 				<li>
-					<Link to="/pages/new-page">
+					<Link to="/pages/new">
 						<i className="fas fa-plus"></i> Create Page
 					</Link>
 				</li>

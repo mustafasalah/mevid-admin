@@ -8,6 +8,7 @@ import { authorize } from "./../../js/Utility";
 const PublishFields = ({
 	loggedUser: { role },
 	form,
+	forms,
 	submitLabel = "Publish",
 	extraFields,
 	deleteBtn,
@@ -38,7 +39,11 @@ const PublishFields = ({
 							value: +author.id,
 						}))}
 						disabled={
-							authorize(role, "supervisor") ? undefined : true
+							authorize(role, "supervisor")
+								? forms[form].data.id === ""
+									? true
+									: false
+								: true
 						}
 					/>
 				</div>
@@ -114,6 +119,7 @@ const PublishFields = ({
 	);
 };
 
-export default connect((state) => ({ loggedUser: state.loggedUser }))(
-	PublishFields
-);
+export default connect((state) => ({
+	loggedUser: state.loggedUser,
+	forms: state.forms,
+}))(PublishFields);

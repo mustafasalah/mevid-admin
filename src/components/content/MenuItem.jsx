@@ -8,7 +8,7 @@ const mapTypes = new Map([
 	["page", "Page"],
 ]);
 
-const MenuItem = ({ item, onDelete }) => {
+const MenuItem = ({ item, onDelete, onEdit }) => {
 	const { id, label, type, nested, nested_in } = item;
 	const haveNestedItems = nested instanceof Array;
 	const [showDropzone, setShowDropzone] = useState(
@@ -40,12 +40,18 @@ const MenuItem = ({ item, onDelete }) => {
 									title="edit link"
 									type="button"
 									className="edit-btn"
+									onMouseUp={() => {
+										onEdit(item);
+										window.scrollTo(0, 0);
+									}}
 								></button>
 								<button
 									title="delete link"
 									type="button"
 									className="delete-btn"
-									onMouseUp={() => onDelete(id, nested_in)}
+									onMouseUp={() => {
+										onDelete(id, nested_in);
+									}}
 								></button>
 							</div>
 						</div>
@@ -62,6 +68,7 @@ const MenuItem = ({ item, onDelete }) => {
 						<MenuItem
 							key={nestedItem.id}
 							item={nestedItem}
+							onEdit={onEdit}
 							onDelete={onDelete}
 						/>
 					))}

@@ -5,6 +5,7 @@ import initialEpisodeState from "./InitialEpisodeState";
 import initialPageState from "./InitialPageState";
 import initialUserState from "./InitialUserState";
 import initialSettingsState from "./InitialSettingsState";
+import initialLayoutState from "./InitialLayoutState";
 import initialMenuState from "./InitialMenuState";
 import { toast } from "react-toastify";
 
@@ -32,6 +33,10 @@ const formReducer = (formType) => {
 			initialState = initialSettingsState;
 			break;
 
+		case "layout":
+			initialState = initialLayoutState;
+			break;
+
 		case "mainmenu":
 			initialState = initialMenuState;
 			break;
@@ -48,6 +53,20 @@ const formReducer = (formType) => {
 		}
 
 		switch (type) {
+			case ACTIONS.EDIT_MAIN_MENU_ITEM:
+				const {
+					item: { id, label, link, type },
+				} = payload;
+				return {
+					data: {
+						id,
+						label,
+						link,
+						type,
+					},
+					errors: {},
+				};
+
 			case ACTIONS.DELETE_LAYOUT_WIDGET:
 			case ACTIONS.ADD_WIDGET_TO_LAYOUT:
 				if (payload.meta.formType !== formType) return state;
@@ -93,6 +112,7 @@ const formReducer = (formType) => {
 					},
 				};
 
+				// Keep author data when reset form
 				if (state.data.author !== undefined) {
 					newState.data.author = state.data.author;
 				}

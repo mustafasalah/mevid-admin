@@ -20,6 +20,7 @@ const MainMenu = ({
 	loadMenuData,
 	sortMenuItems,
 	deleteMenuItem,
+	editMenuItem,
 }) => {
 	useEffect(() => {
 		// Load Menu data
@@ -64,6 +65,7 @@ const MainMenu = ({
 							{menuItems.length === 0 ? (
 								<p className="not-available">
 									There are no links added in the main menu
+									yet
 								</p>
 							) : (
 								<div className="col-1">
@@ -72,6 +74,9 @@ const MainMenu = ({
 											<MenuItem
 												key={item.id}
 												item={item}
+												onEdit={(item) => {
+													editMenuItem(item);
+												}}
 												onDelete={(id, nestedIn) => {
 													const deleteIt = window.confirm(
 														"Are you sure to delete this menu item?"
@@ -93,7 +98,7 @@ const MainMenu = ({
 			</div>
 
 			<div id="end-side">
-				<MainMenuForm pages />
+				<MainMenuForm />
 			</div>
 		</Fragment>
 	);
@@ -104,6 +109,7 @@ export default connect(
 		menuItems: state.mainmenu,
 	}),
 	{
+		editMenuItem: mainMenuActions.editMenuItem,
 		deleteMenuItem: mainMenuActions.deleteMenuItem,
 		loadMenuData: mainMenuActions.loadMenuData,
 		sortMenuItems: mainMenuActions.sortMenuItems,

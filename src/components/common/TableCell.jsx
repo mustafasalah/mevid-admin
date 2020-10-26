@@ -122,7 +122,7 @@ class TableCell extends Component {
 				return (
 					<Fragment>
 						{column.render && column.render(rowData)}
-						{data !== undefined || data !== null
+						{data !== undefined && data !== null
 							? data
 							: column.default || ""}
 						{this.renderLinksNav()}

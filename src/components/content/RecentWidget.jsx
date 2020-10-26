@@ -79,10 +79,11 @@ const RecentWidget = ({
 								</div>
 							</li>
 						))}
-
-						<li className="show-more">
-							<Link to={showMoreLink}>Show All</Link>
-						</li>
+						{data.length > maxItems && (
+							<li className="show-more">
+								<Link to={showMoreLink}>Show All</Link>
+							</li>
+						)}
 					</ol>
 				)}
 			</div>

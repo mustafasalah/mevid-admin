@@ -4,13 +4,15 @@ import FormField from "../common/form/FormField";
 import { getGenresOptions } from "./../services/getGenres";
 import TagsField from "./TagsField";
 import { connect } from "react-redux";
+import FormActions from "../../actions/FormActions";
+import mainMenuActions from "./../../actions/MainMenuActions";
 
 const genresOptions = getGenresOptions.map((genre) => {
 	genre.value = `/browse/all/${window.encodeURIComponent(genre.value)}`;
 	return genre;
 });
 
-const MainMenuForm = ({ form, pages, siteContent }) => {
+const MainMenuForm = ({ form, pages, siteContent, onReset, onSubmit }) => {
 	const isUpdate = form.id !== "";
 
 	const linkField = () => {
@@ -21,7 +23,7 @@ const MainMenuForm = ({ form, pages, siteContent }) => {
 						name="mainmenu.link"
 						label="URL"
 						type="url"
-						placeholder="e.g. http://www.mevid.com/scheduler"
+						placeholder="e.g. http://www.example.com/page"
 					/>
 				);
 
@@ -98,9 +100,18 @@ const MainMenuForm = ({ form, pages, siteContent }) => {
 			label={isUpdate ? "Update Menu Item" : "Add Menu Item"}
 			submitBtn={{
 				label: isUpdate ? "Update" : "Add to Menu",
-				handler: () => {},
+				handler: () => {
+					onSubmit(form);
+				},
 			}}
-			opened
+			deleteBtn={
+				isUpdate
+					? {
+							label: "Cancel",
+							handler: () => onReset(),
+					  }
+					: undefined
+			}
 		>
 			<div className="row">
 				<div className="col-1">
@@ -137,8 +148,14 @@ const MainMenuForm = ({ form, pages, siteContent }) => {
 	);
 };
 
-export default connect((state) => ({
-	pages: state.pages,
-	siteContent: state.forms.settings.data.site_content,
-	form: state.forms.mainmenu.data,
-}))(MainMenuForm);
+export default connect(
+	(state) => ({
+		pages: state.pages,
+		siteContent: state.forms.settings.data.site_content,
+		form: state.forms.mainmenu.data,
+	}),
+	{
+		onReset: FormActions.onFormReset("mainmenu"),
+		onSubmit: mainMenuActions.submitMenuItem,
+	}
+)(MainMenuForm);
