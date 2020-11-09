@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useRef } from "react";
+import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import mainMenuActions from "../../actions/MainMenuActions";
 import SectionHeader from "./../common/SectionHeader";
@@ -6,14 +6,7 @@ import runSortable from "../../js/Sortable";
 import WidgetHeader from "./WidgetHeader";
 import MenuItem from "./MenuItem";
 import MainMenuForm from "./MainMenuForm";
-
-function usePrevious(value) {
-	const ref = useRef([]);
-	useEffect(() => {
-		ref.current = value;
-	});
-	return ref.current;
-}
+import { usePrevious } from "./../../js/Utility";
 
 const MainMenu = ({
 	menuItems,
@@ -21,6 +14,7 @@ const MainMenu = ({
 	sortMenuItems,
 	deleteMenuItem,
 	editMenuItem,
+	editSubMenu,
 }) => {
 	useEffect(() => {
 		// Load Menu data
@@ -28,24 +22,28 @@ const MainMenu = ({
 	}, []);
 
 	const prevMenuItems = usePrevious(menuItems);
+
 	useEffect(() => {
 		if (prevMenuItems.length === 0 && menuItems.length !== 0) {
 			// Run Sortable script
-			const mainMenuSortable = runSortable("menu");
+			const mainMenuSortable = runSortable(".main-menu-drop-zone");
+
+			mainMenuSortable.on("sortable:start", (e) => {});
 
 			mainMenuSortable.on("sortable:sorted", async (e) => {
 				console.log(
+					e,
+					e.oldContainer.dataset.parentLinkId || null,
+					e.newContainer.dataset.parentLinkId || null
+					// e.oldIndex,
+					// e.newIndex
+				);
+				sortMenuItems(
 					e.oldContainer.dataset.parentLinkId || null,
 					e.newContainer.dataset.parentLinkId || null,
 					e.oldIndex,
 					e.newIndex
 				);
-				// sortMenuItems(
-				// 	e.oldContainer.dataset.parentLinkId || null,
-				// 	e.newContainer.dataset.parentLinkId || null,
-				// 	e.oldIndex,
-				// 	e.newIndex
-				// );
 			});
 		}
 	}, [menuItems]);
@@ -76,6 +74,7 @@ const MainMenu = ({
 												item={item}
 												onEdit={(item) => {
 													editMenuItem(item);
+													editSubMenu(item.id);
 												}}
 												onDelete={(id, nestedIn) => {
 													const deleteIt = window.confirm(
@@ -104,14 +103,10 @@ const MainMenu = ({
 	);
 };
 
-export default connect(
-	(state) => ({
-		menuItems: state.mainmenu,
-	}),
-	{
-		editMenuItem: mainMenuActions.editMenuItem,
-		deleteMenuItem: mainMenuActions.deleteMenuItem,
-		loadMenuData: mainMenuActions.loadMenuData,
-		sortMenuItems: mainMenuActions.sortMenuItems,
-	}
-)(MainMenu);
+export default connect((state) => ({ menuItems: state.mainmenu }), {
+	editSubMenu: mainMenuActions.editSubMenu,
+	editMenuItem: mainMenuActions.editMenuItem,
+	deleteMenuItem: mainMenuActions.deleteMenuItem,
+	loadMenuData: mainMenuActions.loadMenuData,
+	sortMenuItems: mainMenuActions.sortMenuItems,
+})(MainMenu);

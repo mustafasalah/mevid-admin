@@ -9,11 +9,7 @@ const mapTypes = new Map([
 ]);
 
 const MenuItem = ({ item, onDelete, onEdit }) => {
-	const { id, label, type, nested, nested_in } = item;
-	const haveNestedItems = nested instanceof Array;
-	const [showDropzone, setShowDropzone] = useState(
-		haveNestedItems && nested.length !== 0
-	);
+	const { id, label, type, nested_in } = item;
 
 	return (
 		<div className="col-1">
@@ -25,11 +21,9 @@ const MenuItem = ({ item, onDelete, onEdit }) => {
 							<button
 								type="button"
 								className="sub-link dark-btn radius-3 blur-shadow"
-								onMouseDown={() =>
-									setShowDropzone(!showDropzone)
-								}
+								onMouseDown={() => {}}
 							>
-								Sub Links
+								Add sub items
 							</button>
 
 							<i className="link-type" title="link type">
@@ -58,22 +52,6 @@ const MenuItem = ({ item, onDelete, onEdit }) => {
 					</div>
 				</div>
 			</div>
-			{haveNestedItems && (
-				<div
-					className="row drop-zone sub-menu main-menu-drop-zone radius"
-					style={{ display: showDropzone ? "flex" : "none" }}
-					data-parent-link-id={id}
-				>
-					{nested.map((nestedItem) => (
-						<MenuItem
-							key={nestedItem.id}
-							item={nestedItem}
-							onEdit={onEdit}
-							onDelete={onDelete}
-						/>
-					))}
-				</div>
-			)}
 		</div>
 	);
 };

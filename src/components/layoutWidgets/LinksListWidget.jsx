@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import FormSideSection from "./../common/form/FormSideSection";
 import FormField from "./../common/form/FormField";
-import LinkForm from "./LinkForm";
-import LinksList from "./LinksList";
+import LinkForm from "../content/LinkForm";
+import LinksList from "../content/LinksList";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../actions/ActionTypes";
 

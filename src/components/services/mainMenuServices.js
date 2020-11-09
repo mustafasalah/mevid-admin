@@ -4,12 +4,19 @@ const getMenuStructure = () => {
 	return http.get("/mainmenu");
 };
 
-export const sortMenu = (data) => {
-	return http.put("/mainmenu/sort", data);
+export const sortMenu = (nestedIn, nestedTo, oldIndex, newIndex) => {
+	return http.put("/mainmenu/sort", {
+		nestedIn,
+		nestedTo,
+		oldIndex,
+		newIndex,
+	});
 };
 
 export const deleteMenuItem = (id) => {
-	return http.delete(`/mainmenu/${id}`);
+	return http.delete(`/mainmenu`, {
+		id,
+	});
 };
 
 export const submitMenuItem = (item) => {

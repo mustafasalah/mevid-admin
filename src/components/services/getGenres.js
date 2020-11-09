@@ -67,16 +67,30 @@ const commonGenres = [
 export default function getGenres(showType = "shows") {
 	showType = showType.toLowerCase();
 
-	if (showType === "tv show" || showType === "tvshows") {
-		return [...commonGenres, ...movieGenres].sort();
-	} else if (showType === "animes" || showType === "anime") {
-		return [...commonGenres, ...animeGenres].sort();
-	}
+	switch (showType) {
+		case "tvshows":
+		case "tv show":
+		case "movies":
+		case "movie":
+			return [...commonGenres, ...movieGenres].sort();
 
-	return [...commonGenres, ...movieGenres, ...animeGenres].sort();
+		case "animes":
+		case "anime":
+			return [...commonGenres, ...animeGenres].sort();
+
+		default:
+			return [...commonGenres, ...movieGenres, ...animeGenres].sort();
+	}
 }
 
 export const getGenresOptions = getGenres().map((genre) => ({
 	label: upperFirst(genre),
 	value: genre,
 }));
+
+export const genresUrlOptions = getGenresOptions.map((genre) => {
+	return {
+		...genre,
+		value: `/browse/all/${window.encodeURIComponent(genre.value)}`,
+	};
+});

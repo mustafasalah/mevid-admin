@@ -9,6 +9,7 @@ import { sortLayout } from "../services/layoutServices";
 import { toast } from "react-toastify";
 import WidgetsWrapper from "./WidgetsWrapper";
 import Loader from "./../common/Loader";
+import { useHistory } from "react-router-dom";
 
 class Layout extends Component {
 	async onSortedHandler({
@@ -75,6 +76,12 @@ class Layout extends Component {
 												title: "Main Menu",
 												type: "main-menu",
 												enabled: "1",
+											}}
+											position="header"
+											onClick={() => {
+												this.props.history.push(
+													"/layout/main-menu"
+												);
 											}}
 										/>
 										{header.map((widget) => (

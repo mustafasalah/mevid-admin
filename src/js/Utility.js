@@ -1,9 +1,19 @@
+import { useEffect, useRef } from "react";
+
 const permissions = new Map([
 	["admin", 3],
 	["supervisor", 2],
 	["publisher", 1],
 	["user", 0],
 ]);
+
+export function usePrevious(value) {
+	const ref = useRef([]);
+	useEffect(() => {
+		ref.current = value;
+	});
+	return ref.current;
+}
 
 export const authorize = (currentRole, requiredRole) => {
 	return permissions.get(currentRole) >= permissions.get(requiredRole);

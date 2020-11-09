@@ -8,15 +8,18 @@ const mainMenuReducer = (
 ) => {
 	switch (type) {
 		case ACTIONS.UPDATE_MENU_ITEMS:
-			if (isUpdate) {
-				if (item.nested_in === undefined) {
+			if (item.nested_in === undefined) {
+				if (isUpdate) {
 					return [...state].map((menuItem) => {
 						if (menuItem.id === item.id) return item;
 						return menuItem;
 					});
-				} else {
+				}
+				return [...state, item];
+			} else {
+				if (isUpdate) {
 					return [...state].map((menuItem) => {
-						if (menuItem.id === item.nested_in) {
+						if (+menuItem.id === item.nested_in) {
 							return {
 								...menuItem,
 								nested: menuItem.nested.map((nestedItem) => {
@@ -28,9 +31,13 @@ const mainMenuReducer = (
 						return menuItem;
 					});
 				}
-			}
 
-			return [...state, item];
+				const newMenu = [...state];
+				newMenu
+					.find((menuItem) => +menuItem.id === item.nested_in)
+					.nested.push(item);
+				return newMenu;
+			}
 
 		case ACTIONS.DELETE_MAIN_MENU_ITEM:
 			if (error && payload) {
@@ -60,9 +67,9 @@ const mainMenuReducer = (
 
 		case ACTIONS.SORT_MAIN_MENU_ITEMS:
 			if (error && payload) {
-				toast.error(payload.message + " when sorting main menu items");
+				toast.error(payload.message + " when sorting main menu");
 			}
-			return state;
+			return payload.data;
 
 		case ACTIONS.LOAD_MAIN_MENU_STRUCTURE:
 			if (error && payload) {

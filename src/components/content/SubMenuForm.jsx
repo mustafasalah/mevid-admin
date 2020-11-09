@@ -1,29 +1,21 @@
 import React from "react";
-import FormSideSection from "../common/form/FormSideSection";
 import FormField from "../common/form/FormField";
-import { genresUrlOptions } from "./../services/getGenres";
 import TagsField from "./TagsField";
 import { connect } from "react-redux";
-import FormActions from "../../actions/FormActions";
+import { genresUrlOptions } from "../services/getGenres";
 import mainMenuActions from "./../../actions/MainMenuActions";
-import SubMenuItems from "./SubMenuItems";
 
-const MainMenuForm = ({
-	form,
-	mainmenu,
-	pages,
-	siteContent,
-	onReset,
-	onSubmit,
-}) => {
-	const isUpdate = form.id !== "";
+const subMenuForm = ({ form, siteContent, pages, onSubmit }) => {
+	const { id, label, url } = form;
+	const isUpdate = id !== "";
+	const isFilled = label !== "" && url !== "";
 
 	const linkField = () => {
 		switch (form.type) {
 			case "link":
 				return (
 					<FormField
-						name="mainmenu.link"
+						name="submenu.link"
 						label="URL"
 						type="url"
 						placeholder="e.g. http://www.example.com/scheduler"
@@ -33,7 +25,7 @@ const MainMenuForm = ({
 			case "page":
 				return (
 					<FormField
-						name="mainmenu.link"
+						name="submenu.link"
 						label="Page"
 						type="select"
 						options={pages.map((page) => ({
@@ -49,7 +41,7 @@ const MainMenuForm = ({
 			case "category":
 				return (
 					<FormField
-						name="mainmenu.link"
+						name="submenu.link"
 						label="Category"
 						type="select"
 						options={siteContent.map((content) => {
@@ -73,7 +65,7 @@ const MainMenuForm = ({
 			case "genre":
 				return (
 					<FormField
-						name="mainmenu.link"
+						name="submenu.link"
 						label="Genre"
 						type="select"
 						options={genresUrlOptions}
@@ -84,7 +76,7 @@ const MainMenuForm = ({
 			case "tag":
 				return (
 					<TagsField
-						name="mainmenu.link"
+						name="submenu.link"
 						label="Tags"
 						type="select"
 						tagValuePrefix="/tag/"
@@ -99,36 +91,22 @@ const MainMenuForm = ({
 	};
 
 	return (
-		<FormSideSection
-			label={isUpdate ? "Update Menu Item" : "Add Menu Item"}
-			submitBtn={{
-				label: isUpdate ? "Update" : "Add to Menu",
-				handler: () => {
-					onSubmit(form);
-				},
-			}}
-			deleteBtn={
-				isUpdate
-					? {
-							label: "Cancel",
-							handler: () => onReset(),
-					  }
-					: undefined
-			}
-		>
-			<div className="row">
+		<div className="field">
+			<label htmlFor="link-name">
+				{isUpdate ? "Update" : "Add"} SubMenu Item
+			</label>
+			<div className="row radius" id="nested-form">
 				<div className="col-1">
 					<FormField
-						name="mainmenu.label"
-						label="Navigation Label"
+						name="submenu.label"
+						label="Link Label"
 						type="text"
-						placeholder="e.g. Scheduler"
 					/>
 				</div>
 
 				<div className="col-1">
 					<FormField
-						name="mainmenu.type"
+						name="submenu.type"
 						label="Link Type"
 						type="select"
 						options={[
@@ -141,33 +119,31 @@ const MainMenuForm = ({
 							{ label: "Page", value: "page" },
 							{ label: "Tag", value: "tag" },
 						]}
-						placeholder="Select link type..."
 					/>
 				</div>
 
 				<div className="col-1">{linkField()}</div>
-
-				{isUpdate && (
-					<SubMenuItems
-						links={
-							mainmenu.find((item) => item.id === form.id).nested
-						}
-					/>
-				)}
+				<button
+					type="button"
+					id="links-list-button"
+					className="dark-btn radius-3 focus-shadow"
+					disabled={!isFilled}
+					onClick={() => isFilled && onSubmit(form)}
+				>
+					{isUpdate ? "Update" : "Add"} Link
+				</button>
 			</div>
-		</FormSideSection>
+		</div>
 	);
 };
 
 export default connect(
 	(state) => ({
 		pages: state.pages,
+		form: state.forms.submenu.data,
 		siteContent: state.forms.settings.data.site_content,
-		form: state.forms.mainmenu.data,
-		mainmenu: state.mainmenu,
 	}),
 	{
-		onReset: FormActions.onFormReset("mainmenu"),
 		onSubmit: mainMenuActions.submitMenuItem,
 	}
-)(MainMenuForm);
+)(subMenuForm);

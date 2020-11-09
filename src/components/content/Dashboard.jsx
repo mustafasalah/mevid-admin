@@ -192,6 +192,7 @@ class Dashboard extends React.Component {
 						<TopAuthorsWidget />
 					</div>
 				</div>
+
 				<div id="end-side">
 					<RecentWidget
 						title="Reports"

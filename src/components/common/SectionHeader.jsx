@@ -11,7 +11,7 @@ const SectionHeader = (props) => {
 			</span>
 			{link &&
 				(link.content ? (
-					<button className="add-new radius-3">
+					<button className="add-new radius-3 have-nested-menu">
 						{link.label}
 						{link.content && (
 							<ul className="nested-add-new-container blur-shadow">

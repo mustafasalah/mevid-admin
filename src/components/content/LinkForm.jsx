@@ -13,7 +13,7 @@ const LinkForm = ({ form, onSubmit, onChange }) => {
 			<div className="row radius" id="nested-form">
 				<div className="col-1">
 					<div className="field">
-						<label htmlFor="link-name">Link Name</label>
+						<label htmlFor="link-name">Link Label</label>
 						<input
 							id="link-name"
 							name="link-name"
@@ -28,7 +28,7 @@ const LinkForm = ({ form, onSubmit, onChange }) => {
 				</div>
 				<div className="col-1">
 					<div className="field">
-						<label htmlFor="link-url">Link Url</label>
+						<label htmlFor="link-url">Link URL</label>
 						<input
 							id="link-url"
 							name="link-url"

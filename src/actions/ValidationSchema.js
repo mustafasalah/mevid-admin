@@ -37,11 +37,17 @@ export const menuSchema = {
 		.allow("link", "category", "page", "genre", "tag")
 		.empty("")
 		.required(),
-	label: joi.string().empty("").required().label("Navigation Label"),
+	label: joi.string().empty("").required().label("Label"),
 	link: joi
 		.string()
 		.uri({ allowRelative: true, allowQuerySquareBrackets: true })
 		.required(),
+};
+
+export const subMenuSchema = {
+	...generalSchema,
+	...menuSchema,
+	nested_in: joi.number().integer().required(),
 };
 
 export const pageSchema = {

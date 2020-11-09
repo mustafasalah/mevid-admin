@@ -2,8 +2,6 @@ import { Sortable } from "@shopify/draggable";
 import $ from "jquery";
 
 export default function runSortable(pageType = "layout") {
-	let mainSortable, sidebarSortable, footerSortable, mainMenuSortable;
-
 	// Get real width for dragged widget
 	function realWidth(e) {
 		var originalWidth = e.data.dragEvent.source.offsetWidth;
@@ -11,6 +9,8 @@ export default function runSortable(pageType = "layout") {
 	}
 
 	if (pageType === "layout") {
+		let sidebarSortable, footerSortable, mainSortable;
+
 		mainSortable = new Sortable(
 			document.querySelectorAll("#main-drop-zone"),
 			{
@@ -39,17 +39,15 @@ export default function runSortable(pageType = "layout") {
 			sidebarSortable,
 			footerSortable,
 		};
-		
 	} else {
-		mainMenuSortable = new Sortable(
-			document.querySelectorAll(".main-menu-drop-zone"),
-			{
-				draggable: ".main-menu-drop-zone > *",
-			}
-		);
+		let sortableContainer;
 
-		mainMenuSortable.on("sortable:sort", realWidth);
-		mainMenuSortable.on("sortable:sorted", function (e) {
+		sortableContainer = new Sortable(document.querySelectorAll(pageType), {
+			draggable: `${pageType} > *`,
+		});
+
+		sortableContainer.on("sortable:sort", realWidth);
+		sortableContainer.on("sortable:sorted", function (e) {
 			var elem = $(e.data.dragEvent.source);
 
 			// Check if the Link was dragged to sub links area
@@ -70,6 +68,6 @@ export default function runSortable(pageType = "layout") {
 			}
 		});
 
-		return mainMenuSortable;
+		return sortableContainer;
 	}
 }

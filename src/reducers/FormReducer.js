@@ -7,6 +7,7 @@ import initialUserState from "./InitialUserState";
 import initialSettingsState from "./InitialSettingsState";
 import initialLayoutState from "./InitialLayoutState";
 import initialMenuState from "./InitialMenuState";
+import initialSubMenuState from "./InitialSubMenuState";
 import { toast } from "react-toastify";
 
 const formReducer = (formType) => {
@@ -41,6 +42,10 @@ const formReducer = (formType) => {
 			initialState = initialMenuState;
 			break;
 
+		case "submenu":
+			initialState = initialSubMenuState;
+			break;
+
 		default:
 			initialState = { data: {}, errors: {} };
 	}
@@ -53,6 +58,12 @@ const formReducer = (formType) => {
 		}
 
 		switch (type) {
+			case ACTIONS.EDIT_SUB_MENU:
+				return {
+					data: { ...initialState.data, nested_in: payload.id },
+					errors: { ...initialState.errors },
+				};
+
 			case ACTIONS.EDIT_MAIN_MENU_ITEM:
 				const {
 					item: { id, label, link, type },
@@ -316,7 +327,7 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.SUBMIT_FORM:
-				const { error, callback } = payload;
+				const { error, callback, donotResetFields } = payload;
 
 				// if there is error, show it to the user
 				if (error) {
@@ -335,6 +346,14 @@ const formReducer = (formType) => {
 					window.setTimeout(callback, 500);
 
 				const submitedData = { ...initialState.data };
+
+				// Fields to don't reset their values after submit
+				if (donotResetFields) {
+					for (let field of donotResetFields) {
+						if (state.data[field] === undefined) continue;
+						submitedData[field] = state.data[field];
+					}
+				}
 
 				// if the form have author field property then set it to logged user
 				if (state.data.author !== undefined) {

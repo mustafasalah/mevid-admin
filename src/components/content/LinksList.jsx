@@ -1,9 +1,15 @@
 import React from "react";
 
-const LinksList = ({ links, onMove, onEdit, onDelete }) => {
+const LinksList = ({
+	title = "Current Links List",
+	links,
+	onMove,
+	onEdit,
+	onDelete,
+}) => {
 	return (
 		<div className="field">
-			<label>Current Links List</label>
+			<label>{title}</label>
 			{links.length === 0 ? (
 				<p className="not-available radius">No links yet</p>
 			) : (
