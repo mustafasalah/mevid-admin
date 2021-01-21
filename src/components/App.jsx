@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import * as ACTIONS from "../actions/ActionTypes";
 import { appActions } from "../actions/AppActions";
 import { loadNotifications } from "./../actions/NotificationsActions";
-import layoutActions from "./../actions/LayoutActions";
 import SettingsActions from "../actions/SettingsActions";
 import SchedulerActions from "./../actions/SchedulerActions";
 import TopBar from "./TopBar";

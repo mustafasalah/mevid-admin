@@ -22,13 +22,17 @@ const LinksList = ({
 									type="button"
 									className="move-btn down-btn"
 									title="move down"
-									onClick={() => onMove(i, "down")}
+									onClick={() =>
+										onMove(i + 1, link.nested_in, "down")
+									}
 								></button>
 								<button
 									type="button"
 									className="move-btn up-btn"
 									title="move up"
-									onClick={() => onMove(i, "up")}
+									onClick={() =>
+										onMove(i + 1, link.nested_in, "up")
+									}
 								></button>
 								<button
 									type="button"
@@ -44,7 +48,8 @@ const LinksList = ({
 										const deleteIt = window.confirm(
 											"Are you sure to delete this link?"
 										);
-										deleteIt && onDelete(i);
+										deleteIt &&
+											onDelete(link.id, link.nested_in);
 									}}
 								></button>
 							</div>

@@ -19,7 +19,7 @@ const mainMenuReducer = (
 			} else {
 				if (isUpdate) {
 					return [...state].map((menuItem) => {
-						if (+menuItem.id === item.nested_in) {
+						if (menuItem.id === item.nested_in) {
 							return {
 								...menuItem,
 								nested: menuItem.nested.map((nestedItem) => {
@@ -32,10 +32,18 @@ const mainMenuReducer = (
 					});
 				}
 
-				const newMenu = [...state];
-				newMenu
-					.find((menuItem) => +menuItem.id === item.nested_in)
-					.nested.push(item);
+				const newMenu = deepCopy(state);
+				const subMenu = newMenu.find(
+					(menuItem) => +menuItem.id === item.nested_in
+				);
+
+				if (subMenu === undefined) return state;
+
+				// Convert nested_in id to string first
+				item.nested_in = item.nested_in.toString();
+
+				subMenu.nested.push(item);
+
 				return newMenu;
 			}
 
@@ -64,6 +72,12 @@ const mainMenuReducer = (
 			toast.success("The menu item has been deleted successfully");
 
 			return newState.filter((item) => item.id !== meta.id);
+
+		case ACTIONS.MOVE_SUB_MENU_ITEM:
+			if (error && payload) {
+				toast.error(payload.message + " when moving sub menu item");
+			}
+			return payload.data;
 
 		case ACTIONS.SORT_MAIN_MENU_ITEMS:
 			if (error && payload) {

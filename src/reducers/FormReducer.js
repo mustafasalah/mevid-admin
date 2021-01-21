@@ -65,18 +65,27 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.EDIT_MAIN_MENU_ITEM:
+			case ACTIONS.EDIT_SUB_MENU_ITEM:
 				const {
-					item: { id, label, link, type },
+					item: { id, label, link, type, nested_in },
 				} = payload;
-				return {
+
+				newState = {
 					data: {
 						id,
 						label,
 						link,
 						type,
+						nested_in,
 					},
 					errors: {},
 				};
+
+				if (type === ACTIONS.EDIT_SUB_MENU_ITEM) {
+					newState.data.nested_in = state.data.nested_in;
+				}
+
+				return newState;
 
 			case ACTIONS.DELETE_LAYOUT_WIDGET:
 			case ACTIONS.ADD_WIDGET_TO_LAYOUT:

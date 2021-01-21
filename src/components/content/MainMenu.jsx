@@ -28,19 +28,9 @@ const MainMenu = ({
 			// Run Sortable script
 			const mainMenuSortable = runSortable(".main-menu-drop-zone");
 
-			mainMenuSortable.on("sortable:start", (e) => {});
-
 			mainMenuSortable.on("sortable:sorted", async (e) => {
-				console.log(
-					e,
-					e.oldContainer.dataset.parentLinkId || null,
-					e.newContainer.dataset.parentLinkId || null
-					// e.oldIndex,
-					// e.newIndex
-				);
 				sortMenuItems(
 					e.oldContainer.dataset.parentLinkId || null,
-					e.newContainer.dataset.parentLinkId || null,
 					e.oldIndex,
 					e.newIndex
 				);

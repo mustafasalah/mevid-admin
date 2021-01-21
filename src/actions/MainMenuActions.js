@@ -4,8 +4,8 @@ import getMenuStructure from "../components/services/mainMenuServices";
 import {
 	deleteMenuItem,
 	sortMenu,
+	moveItem,
 } from "./../components/services/mainMenuServices";
-import { deepCopy } from "./../js/Utility";
 import { submitMenuItem } from "../components/services/mainMenuServices";
 import { menuSchema } from "./ValidationSchema";
 import { subMenuSchema } from "./ValidationSchema";
@@ -26,8 +26,9 @@ const mainMenuActions = {
 	},
 
 	submitMenuItem: async (item) => {
+		const isNested = item.nested_in !== undefined;
 		const { value, error } = joi
-			.object(item.nested_in === undefined ? menuSchema : subMenuSchema)
+			.object(isNested ? subMenuSchema : menuSchema)
 			.validate(item);
 		const isUpdate = item.id !== "";
 
@@ -52,16 +53,18 @@ const mainMenuActions = {
 					mainMenuActions.reflectMenuChanges(data, isUpdate)
 				);
 
+				console.log(item);
+
 				return {
 					type: ACTIONS.SUBMIT_FORM,
 					error: null,
 					formType: getMenuType(item),
-					donotResetFields: ["nested_in"],
+					donotResetFields: isNested ? ["nested_in"] : [],
 				};
 			} catch (ex) {
 				// alert the network error
 				toast.error(ex.message);
-				console.log(ex);
+
 				return {
 					type: ACTIONS.SUBMIT_FORM,
 					error: ex,
@@ -72,6 +75,7 @@ const mainMenuActions = {
 		} else {
 			// alert the validation error
 			toast.error(error.message);
+
 			return {
 				type: ACTIONS.SUBMIT_FORM,
 				error,
@@ -86,6 +90,14 @@ const mainMenuActions = {
 			type: ACTIONS.EDIT_MAIN_MENU_ITEM,
 			item,
 			formType: "mainmenu",
+		};
+	},
+
+	editSubMenuItem(item) {
+		return {
+			type: ACTIONS.EDIT_SUB_MENU_ITEM,
+			item,
+			formType: "submenu",
 		};
 	},
 
@@ -112,89 +124,17 @@ const mainMenuActions = {
 		};
 	},
 
-	sortMenuItems(nestedIn, nestedTo, oldIndex, newIndex) {
-		let menu = deepCopy(store.getState().mainmenu);
+	moveSubMenuItem(index, nestedIn, direction) {
+		return {
+			type: ACTIONS.MOVE_SUB_MENU_ITEM,
+			payload: moveItem(index, nestedIn, direction),
+		};
+	},
 
-		console.log("old: ", menu);
-
-		if (nestedIn === nestedTo) {
-			if (nestedIn === null) {
-				let counterA = 0,
-					counterB = 0;
-
-				for (let i = oldIndex - 1; i >= 0; i--) {
-					if (menu[i] === undefined) {
-						continue;
-					}
-					for (let j = 0; j < menu[i].nested.length; j++) {
-						counterA++;
-					}
-				}
-
-				for (let i = newIndex - 1; i >= 0; i--) {
-					debugger;
-					if (menu[i] === undefined) {
-						continue;
-					}
-					for (let j = 0; j < menu[i].nested.length; j++) {
-						counterB++;
-					}
-				}
-
-				oldIndex = oldIndex - counterA;
-				newIndex = newIndex - counterB;
-
-				// const temp = menu[oldIndex];
-				// menu.splice(oldIndex, 1, menu[newIndex]);
-				// menu[newIndex] = temp;
-			}
-			// else {
-			// 	menu = menu.map((item) => {
-			// 		if (item.id === nestedIn) {
-			// 			const temp = item.nested[oldIndex];
-			// 			item.nested[oldIndex] = item.nested[newIndex];
-			// 			item.nested[newIndex] = temp;
-			// 		}
-			// 		return item;
-			// 	});
-			// }
-		} else if (nestedIn === null) {
-			// Create temporary variable to hold moved item
-			let counter = 0;
-
-			for (let i = oldIndex - 1; i >= 0; i--) {
-				if (menu[i] === undefined) continue;
-				for (let j = 0; j < menu[i].nested.length; j++) {
-					counter++;
-				}
-			}
-			oldIndex = oldIndex - counter;
-
-			// const temp = menu[oldIndex];
-
-			// // Delete moved item from main menu
-			// menu = menu.filter((item, i) => {
-			// 	console.log(i, oldIndex);
-			// 	return i !== oldIndex;
-			// });
-
-			// // Insert moved item into it's sub menu
-			// menu = menu.map((item) => {
-			// 	if (item.id == nestedTo) {
-			// 		item.nested[newIndex] = temp;
-			// 	}
-			// 	return item;
-			// });
-		} else if (nestedTo === null) {
-			newIndex = menu.length;
-			debugger;
-		}
-
-		console.log(oldIndex, newIndex);
-
+	sortMenuItems(nestedIn, oldIndex, newIndex) {
 		return {
 			type: ACTIONS.SORT_MAIN_MENU_ITEMS,
-			payload: sortMenu(nestedIn, nestedTo, oldIndex, newIndex),
+			payload: sortMenu(nestedIn, oldIndex, newIndex),
 		};
 	},
 };
