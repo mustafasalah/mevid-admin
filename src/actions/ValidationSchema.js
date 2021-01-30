@@ -1,5 +1,4 @@
 import joi from "@hapi/joi";
-import getGenres from "./../components/services/getGenres";
 import {
 	getRates,
 	getShowStatus,

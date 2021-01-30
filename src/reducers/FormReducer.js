@@ -67,7 +67,7 @@ const formReducer = (formType) => {
 			case ACTIONS.EDIT_MAIN_MENU_ITEM:
 			case ACTIONS.EDIT_SUB_MENU_ITEM:
 				const {
-					item: { id, label, link, type, nested_in },
+					item: { id, label, link, type: link_type, nested_in },
 				} = payload;
 
 				newState = {
@@ -75,14 +75,14 @@ const formReducer = (formType) => {
 						id,
 						label,
 						link,
-						type,
+						type: link_type,
 						nested_in,
 					},
 					errors: {},
 				};
 
-				if (type === ACTIONS.EDIT_SUB_MENU_ITEM) {
-					newState.data.nested_in = state.data.nested_in;
+				if (type === ACTIONS.EDIT_MAIN_MENU_ITEM) {
+					delete newState.data.nested_in;
 				}
 
 				return newState;

@@ -9,7 +9,6 @@ import { sortLayout } from "../services/layoutServices";
 import { toast } from "react-toastify";
 import WidgetsWrapper from "./WidgetsWrapper";
 import Loader from "./../common/Loader";
-import { useHistory } from "react-router-dom";
 
 class Layout extends Component {
 	async onSortedHandler({
