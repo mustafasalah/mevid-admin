@@ -20,7 +20,6 @@ export const sortMenu = (nestedIn, oldIndex, newIndex) => {
 };
 
 export const deleteMenuItem = (id) => {
-	console.log("ID: " + id);
 	return http.delete(`/mainmenu/${id}`);
 };
 

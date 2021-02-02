@@ -53,8 +53,6 @@ const mainMenuActions = {
 					mainMenuActions.reflectMenuChanges(data, isUpdate)
 				);
 
-				console.log(item);
-
 				return {
 					type: ACTIONS.SUBMIT_FORM,
 					error: null,

@@ -4,7 +4,6 @@ const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 const loginReducer = (state = {}, { type, payload, error }) => {
 	if (type === ACTIONS.LOGIN_USER) {
 		if (error || payload.status !== 200) {
-			//console.log(payload);
 			redirectToLoginPage();
 			return state;
 		}

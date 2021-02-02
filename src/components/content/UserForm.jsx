@@ -13,9 +13,9 @@ import getUsers from "../services/usersServices";
 
 const UserForm = ({
 	data,
+	loggedUser,
 	onFormSubmit: onSubmit,
 	onFormReset: onReset,
-	onFieldChange: onChange,
 	onUserDataLoad,
 }) => {
 	const history = useHistory();
@@ -212,6 +212,7 @@ const UserForm = ({
 									name="user.role"
 									label="Account Role"
 									type="select"
+									disabled={userId === 1}
 									options={[
 										{ label: "User", value: "user" },
 										{
@@ -226,7 +227,6 @@ const UserForm = ({
 									]}
 								/>
 							</div>
-
 							<div className="col-1">
 								<FormField
 									name="user.email_verification"
@@ -239,17 +239,21 @@ const UserForm = ({
 								/>
 							</div>
 
-							<div className="col-1">
-								<FormField
-									name="user.banned"
-									label="Account Status"
-									type="select"
-									options={[
-										{ label: "Active", value: "0" },
-										{ label: "Banned", value: "1" },
-									]}
-								/>
-							</div>
+							{userId !== undefined &&
+								userId !== loggedUser.id &&
+								userId !== 1 && (
+									<div className="col-1">
+										<FormField
+											name="user.banned"
+											label="Account Status"
+											type="select"
+											options={[
+												{ label: "Active", value: "0" },
+												{ label: "Banned", value: "1" },
+											]}
+										/>
+									</div>
+								)}
 						</div>
 
 						<button
@@ -266,6 +270,6 @@ const UserForm = ({
 };
 
 export default connect(
-	(state) => ({ data: state.forms.user.data }),
+	(state) => ({ data: state.forms.user.data, loggedUser: state.loggedUser }),
 	UserFormActions
 )(UserForm);

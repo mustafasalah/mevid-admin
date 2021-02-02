@@ -51,7 +51,6 @@ class Reports extends AbstractTablePage {
 					},
 					permission: "supervisor",
 					customAuthorize: (report) => {
-						console.log(report);
 						return (
 							this.getReportOn(report).authorId ===
 							this.props.loggedUser.id

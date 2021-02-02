@@ -5,11 +5,11 @@ axios.defaults.contentType = "text/plain";
 axios.defaults.withCredentials = true;
 axios.interceptors.response.use(
 	(config) => {
-		console.log(config);
+		if (process.env.NODE_ENV === "development") console.log(config);
 		return config;
 	},
 	(error) => {
-		console.dir(error);
+		if (process.env.NODE_ENV === "development") console.dir(error);
 		return Promise.reject(error);
 	}
 );
