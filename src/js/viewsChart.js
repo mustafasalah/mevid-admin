@@ -1,6 +1,6 @@
 import Chart from "chart.js";
 import $ from "jquery";
-import http from "./../components/services/httpServices";
+import getViewsData from "./../components/services/viewsServices";
 import { toast } from "react-toastify";
 
 function getMonthLength(month) {
@@ -94,9 +94,7 @@ export default async function renderChartJS() {
 
 	try {
 		// get week views data
-		let { data: viewsData } = await http.get(
-			"http://localhost/api/views/week"
-		);
+		let { data: viewsData } = await getViewsData("week");
 
 		// fill empty days with zeros
 		viewsData = fillViewsData(viewsData, 7);
@@ -168,9 +166,7 @@ export default async function renderChartJS() {
 		});
 
 		$("#diagram-control").on("change", async function () {
-			let { data: viewsData } = await http.get(
-				`http://localhost/api/views/${this.value}`
-			);
+			let { data: viewsData } = await getViewsData(this.value);
 
 			switch (this.value) {
 				default:
