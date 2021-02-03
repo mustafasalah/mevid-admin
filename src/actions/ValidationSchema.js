@@ -6,7 +6,7 @@ import {
 	getAnimeStudios,
 	getAudioType,
 	getRawTypes,
-} from "../components/services/fakeShowsInfoServices";
+} from "../components/services/showsInfoServices";
 const generalSchema = {
 	id: joi.number().integer().min(1).empty(""),
 };

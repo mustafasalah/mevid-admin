@@ -1,5 +1,5 @@
 import React from "react";
-import getAuthors from "../services/fakeAuthorsServices";
+import getAuthors from "../services/authorsServices";
 import AbstractTablePage from "./AbstractTablePage";
 import getGenres from "./../services/getGenres";
 

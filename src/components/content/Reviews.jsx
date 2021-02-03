@@ -4,7 +4,7 @@ import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
-import getReviews from "./../services/fakeReviewsServices";
+import getReviews from "./../services/reviewsServices";
 import { authorize } from "./../../js/Utility";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;

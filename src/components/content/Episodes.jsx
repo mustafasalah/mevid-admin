@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import getAuthors from "../services/fakeAuthorsServices.js";
+import getAuthors from "../services/authorsServices.js";
 import getTableActions from "../../actions/TableActions";
 import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";

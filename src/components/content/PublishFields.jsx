@@ -1,7 +1,7 @@
 import React from "react";
 import { Fragment } from "react";
 import FormField from "./../common/form/FormField";
-import getAuthors from "./../services/fakeAuthorsServices";
+import getAuthors from "./../services/authorsServices";
 import { connect } from "react-redux";
 import { authorize } from "./../../js/Utility";
 

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import FormField from "../common/form/FormField";
-import { getRawTypes, getAudioType } from "./../services/fakeShowsInfoServices";
+import { getRawTypes, getAudioType } from "./../services/showsInfoServices";
 
 const VideoFileInfo = ({ videoNo, formName }) => {
 	const fieldNamePrefix = `${formName}.video_files.${videoNo}`;

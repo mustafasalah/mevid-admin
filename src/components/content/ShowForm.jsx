@@ -12,7 +12,7 @@ import {
 	getShowStatus,
 	getAnimeSource,
 	getAnimeStudios,
-} from "./../services/fakeShowsInfoServices";
+} from "./../services/showsInfoServices";
 import AddMoreBtn from "./AddMoreBtn";
 import ServerField from "./ServerField";
 import VideoFileField from "./VideoFileField";
