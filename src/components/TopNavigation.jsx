@@ -15,7 +15,10 @@ const TopNavigation = ({ location }) => {
 	return (
 		<ol id="navigation">
 			<li>
-				<i className="fas fa-home"></i> <Link to="/">Home</Link>
+				<i className="fas fa-home"></i>{" "}
+				<a href="/" target="_blank">
+					Home
+				</a>
 			</li>
 
 			{navItems.map((item, i) => (
