@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import SectionHeader from "./../common/SectionHeader";
@@ -9,9 +9,18 @@ import LogoField from "./LogoField";
 import SiteBackgroundField from "./SiteBackgroundField";
 import FaviconField from "./FaviconField";
 import SettingsActions from "../../actions/SettingsActions";
+import { getAvailableLangs } from "../services/settingsServices";
 
 const Settings = ({ data, onFormSubmit: onSubmit }) => {
 	const history = useHistory();
+	const [langs, setLangs] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			const availableLangs = await getAvailableLangs();
+			setLangs(availableLangs);
+		})();
+	}, []);
 
 	return (
 		<Fragment>
@@ -99,16 +108,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									label="Default Language"
 									type="select"
 									placeholder="Select Default Language"
-									options={[
-										{
-											label: "English",
-											value: "en",
-										},
-										{
-											label: "Arabic",
-											value: "ar",
-										},
-									]}
+									options={langs}
 									required
 								/>
 							</div>
