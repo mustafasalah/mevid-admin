@@ -15,6 +15,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 	const history = useHistory();
 	const [langs, setLangs] = useState([]);
 
+	// Get available languages list
 	useEffect(() => {
 		(async () => {
 			const availableLangs = await getAvailableLangs();
