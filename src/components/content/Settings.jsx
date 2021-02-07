@@ -12,7 +12,6 @@ import SettingsActions from "../../actions/SettingsActions";
 import { getAvailableLangs } from "../services/settingsServices";
 
 const Settings = ({ data, onFormSubmit: onSubmit }) => {
-	const history = useHistory();
 	const [langs, setLangs] = useState([]);
 
 	// Get available languages list
@@ -30,9 +29,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 				method="POST"
 				onSubmit={(e) => {
 					e.preventDefault();
-					onSubmit(data, () => {
-						history.go("/settings");
-					});
+					onSubmit(data);
 				}}
 			>
 				<div id="main-side">

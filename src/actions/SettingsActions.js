@@ -11,7 +11,7 @@ import {
 	handleSiteBackgroundImageUpload,
 } from "./UploadHandlers";
 
-const onFormSubmit = async (data, callback) => {
+const onFormSubmit = async (data) => {
 	const { value, error } = joi.object(settingsSchema).validate(data);
 
 	if (!error) {
@@ -31,8 +31,8 @@ const onFormSubmit = async (data, callback) => {
 			return {
 				type: ACTIONS.SUBMIT_FORM,
 				error: null,
-				callback,
 				formType: "settings",
+				noReset: true, // to a void reset all fields after submit
 			};
 		} catch (ex) {
 			// alert the network error

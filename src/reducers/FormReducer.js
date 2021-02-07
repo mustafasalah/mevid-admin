@@ -336,7 +336,12 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.SUBMIT_FORM:
-				const { error, callback, donotResetFields } = payload;
+				const {
+					error,
+					callback,
+					donotResetFields,
+					noReset = false,
+				} = payload;
 
 				// if there is error, show it to the user
 				if (error) {
@@ -354,10 +359,14 @@ const formReducer = (formType) => {
 				typeof callback === "function" &&
 					window.setTimeout(callback, 500);
 
-				const submitedData = { ...initialState.data };
+				let submitedData = {
+					// if noReset option is true then all
+					// fields will not be reset after form was submited
+					...(noReset ? state.data : initialState.data),
+				};
 
-				// Fields to don't reset their values after submit
-				if (donotResetFields) {
+				// Fields that we don't want to reset their values after submit
+				if (donotResetFields && noRest === false) {
 					for (let field of donotResetFields) {
 						if (state.data[field] === undefined) continue;
 						submitedData[field] = state.data[field];
