@@ -103,6 +103,4 @@ const LinksListWidget = ({ onSubmit, links, dispatch }) => {
 	);
 };
 
-export default connect((state) => ({
-	links: state.forms.layout.data.settings.links,
-}))(LinksListWidget);
+export default connect()(LinksListWidget);

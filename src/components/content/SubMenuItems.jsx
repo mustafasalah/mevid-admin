@@ -17,6 +17,7 @@ const SubMenuItems = ({ links, onEdit, onMove, onDelete }) => {
 					onMove={onMove}
 					onDelete={onDelete}
 					title="Current SubMenu Items"
+					startingIndex={1}
 				/>
 			</div>
 		</div>

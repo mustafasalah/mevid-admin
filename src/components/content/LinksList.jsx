@@ -6,6 +6,7 @@ const LinksList = ({
 	onMove,
 	onEdit,
 	onDelete,
+	startingIndex = 0,
 }) => {
 	return (
 		<div className="field">
@@ -23,7 +24,11 @@ const LinksList = ({
 									className="move-btn down-btn"
 									title="move down"
 									onClick={() =>
-										onMove(i + 1, link.nested_in, "down")
+										onMove(
+											i + startingIndex,
+											link.nested_in,
+											"down"
+										)
 									}
 								></button>
 								<button
@@ -31,7 +36,11 @@ const LinksList = ({
 									className="move-btn up-btn"
 									title="move up"
 									onClick={() =>
-										onMove(i + 1, link.nested_in, "up")
+										onMove(
+											i + startingIndex,
+											link.nested_in,
+											"up"
+										)
 									}
 								></button>
 								<button

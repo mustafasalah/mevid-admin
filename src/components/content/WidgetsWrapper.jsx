@@ -75,7 +75,12 @@ const WidgetsWrapper = ({ widget, onUpdate, onAddWidget, onDelete }) => {
 			return <AboutWidget onSubmit={() => onUpdate(widget)} />;
 
 		case "links_list":
-			return <LinksListWidget onSubmit={() => onUpdate(widget)} />;
+			return (
+				<LinksListWidget
+					links={widget.settings.links}
+					onSubmit={() => onUpdate(widget)}
+				/>
+			);
 
 		case "account":
 			return <AccountWidget onSubmit={() => onUpdate(widget)} />;

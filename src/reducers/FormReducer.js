@@ -366,7 +366,7 @@ const formReducer = (formType) => {
 				};
 
 				// Fields that we don't want to reset their values after submit
-				if (donotResetFields && noRest === false) {
+				if (donotResetFields && noReset === false) {
 					for (let field of donotResetFields) {
 						if (state.data[field] === undefined) continue;
 						submitedData[field] = state.data[field];
