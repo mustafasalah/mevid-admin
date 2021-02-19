@@ -38,8 +38,9 @@ const MainMenuForm = ({
 						type="select"
 						options={pages.map((page) => ({
 							label: page.title,
-							value: `/page/${window.encodeURIComponent(
-								page.title
+							value: `/pages/${page.id}/${page.title.replace(
+								/\s+/g,
+								"-"
 							)}`,
 						}))}
 						placeholder="Select page..."

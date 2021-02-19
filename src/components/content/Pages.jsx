@@ -24,7 +24,7 @@ class Pages extends AbstractTablePage {
 				{
 					label: "View",
 					className: "view-item",
-					href: `${HOSTNAME}/pages/:title`,
+					href: `${HOSTNAME}/pages/:id`,
 					absolute: true,
 				},
 				{
