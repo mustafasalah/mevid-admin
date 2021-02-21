@@ -34,10 +34,7 @@ const commonGenres = [
 		"cars",
 		"dementia",
 		"demons",
-		"ecchi",
 		"game",
-		"harem",
-		"hentai",
 		"historical",
 		"josei",
 		"kids",
@@ -60,8 +57,6 @@ const commonGenres = [
 		"super power",
 		"supernatural",
 		"vampire",
-		"yaoi",
-		"yuri",
 	];
 
 export default function getGenres(showType = "shows") {

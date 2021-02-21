@@ -11,6 +11,14 @@ import FaviconField from "./FaviconField";
 import SettingsActions from "../../actions/SettingsActions";
 import { getAvailableLangs } from "../services/settingsServices";
 
+const SaveButton = () => (
+	<section className="widget save-btn">
+		<button className="primary-btn focus-shadow radius">
+			<i className="fas fa-save"></i> Save Changes
+		</button>
+	</section>
+);
+
 const Settings = ({ data, onFormSubmit: onSubmit }) => {
 	const [langs, setLangs] = useState([]);
 
@@ -332,6 +340,8 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 				</div>
 
 				<div id="end-side">
+					<SaveButton />
+
 					<FormSideSection label="Site Logo" id="site-logo" required>
 						<LogoField />
 					</FormSideSection>
@@ -344,11 +354,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 						<FaviconField />
 					</FormSideSection>
 
-					<section className="widget save-btn">
-						<button className="primary-btn focus-shadow radius">
-							<i className="fas fa-save"></i> Save Changes
-						</button>
-					</section>
+					<SaveButton />
 				</div>
 			</form>
 		</Fragment>

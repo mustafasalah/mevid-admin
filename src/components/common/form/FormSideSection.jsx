@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import $ from "jquery";
 
 const FormSideSection = ({
@@ -12,13 +12,20 @@ const FormSideSection = ({
 	const [opened, setOpened] = useState(true);
 	const widgetContent = useRef(null);
 
+	useEffect(() => {
+		if (opened) {
+			$(widgetContent.current).slideDown(400);
+		} else {
+			$(widgetContent.current).slideUp(400);
+		}
+	}, [opened]);
+
 	return (
 		<section className="widget form radius" {...props}>
 			<h3
 				className={opened ? "" : "closed blur-shadow"}
 				onClick={() => {
 					setOpened(!opened);
-					$(widgetContent.current).slideToggle(400);
 				}}
 			>
 				<span className={required ? "required" : ""}>{label}</span>
