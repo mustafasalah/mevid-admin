@@ -1,6 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { useHistory } from "react-router-dom";
 import SectionHeader from "./../common/SectionHeader";
 import FormSection from "./../common/form/FormSection";
 import FormSideSection from "./../common/form/FormSideSection";
@@ -14,7 +13,8 @@ import { getAvailableLangs } from "../services/settingsServices";
 const SaveButton = () => (
 	<section className="widget save-btn">
 		<button className="primary-btn focus-shadow radius">
-			<i className="fas fa-save"></i> Save Changes
+			<i className="fas fa-save" style={{ marginRight: 3 }}></i> Save
+			Changes
 		</button>
 	</section>
 );
@@ -111,9 +111,9 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 							<div className="col-3-1">
 								<FormField
 									name="settings.default_language"
-									label="Default Language"
+									label="Site Language"
 									type="select"
-									placeholder="Select Default Language"
+									placeholder="Select Site Language"
 									options={langs}
 									required
 								/>
