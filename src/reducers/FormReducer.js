@@ -387,7 +387,6 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.DELETE_LINK_IN_LINKS_LIST_WIDGET:
-				toast.success("The link has been deleted");
 				return {
 					data: {
 						...state.data,
@@ -421,7 +420,6 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.ADD_LINK_IN_LINKS_LIST_WIDGET:
-				toast.success("The link has been added");
 				delete payload.link.id;
 				return {
 					data: {
@@ -435,7 +433,6 @@ const formReducer = (formType) => {
 				};
 
 			case ACTIONS.UPDATE_LINK_IN_LINKS_LIST_WIDGET:
-				toast.success("The link has been updated");
 				return {
 					data: {
 						...state.data,

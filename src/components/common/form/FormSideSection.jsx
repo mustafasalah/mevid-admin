@@ -7,6 +7,7 @@ const FormSideSection = ({
 	children,
 	submitBtn = false,
 	deleteBtn = false,
+	extraContent,
 	...props
 }) => {
 	const [opened, setOpened] = useState(true);
@@ -67,6 +68,8 @@ const FormSideSection = ({
 						{deleteBtn.label || "Delete"}
 					</button>
 				)}
+
+				{extraContent}
 			</div>
 		</section>
 	);

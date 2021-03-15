@@ -7,17 +7,17 @@ import mainMenuActions from "../../actions/MainMenuActions";
 const SubMenuItems = ({ links, onEdit, onMove, onDelete }) => {
 	return (
 		<div className="row">
-			<div className="col-1">
+			<div className="col-1" style={{ marginTop: 25 }}>
 				<SubMenuForm />
 			</div>
-			<div className="col-1">
+			<div className="col-1" style={{ marginBottom: -25 }}>
 				<LinksList
 					links={links}
 					onEdit={onEdit}
 					onMove={onMove}
 					onDelete={onDelete}
 					title="Current SubMenu Items"
-					startingIndex={1}
+					forSubMenu
 				/>
 			</div>
 		</div>

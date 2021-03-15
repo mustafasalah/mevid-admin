@@ -6,7 +6,7 @@ const LinksList = ({
 	onMove,
 	onEdit,
 	onDelete,
-	startingIndex = 0,
+	forSubMenu = false,
 }) => {
 	return (
 		<div className="field">
@@ -23,25 +23,30 @@ const LinksList = ({
 									type="button"
 									className="move-btn down-btn"
 									title="move down"
-									onClick={() =>
-										onMove(
-											i + startingIndex,
-											link.nested_in,
-											"down"
-										)
-									}
+									onClick={() => {
+										if (forSubMenu) {
+											onMove(
+												i + 1,
+												link.nested_in,
+												"down"
+											);
+										} else {
+											onMove(i, "down");
+										}
+									}}
 								></button>
 								<button
 									type="button"
 									className="move-btn up-btn"
 									title="move up"
-									onClick={() =>
-										onMove(
-											i + startingIndex,
-											link.nested_in,
-											"up"
-										)
-									}
+									onClick={() => {
+										if (forSubMenu) {
+											console.log("num: " + i);
+											onMove(i + 1, link.nested_in, "up");
+										} else {
+											onMove(i, "up");
+										}
+									}}
 								></button>
 								<button
 									type="button"
@@ -57,8 +62,17 @@ const LinksList = ({
 										const deleteIt = window.confirm(
 											"Are you sure to delete this link?"
 										);
-										deleteIt &&
-											onDelete(link.id, link.nested_in);
+
+										if (deleteIt) {
+											if (forSubMenu) {
+												onDelete(
+													link.id,
+													link.nested_in
+												);
+											} else {
+												onDelete(i);
+											}
+										}
 									}}
 								></button>
 							</div>

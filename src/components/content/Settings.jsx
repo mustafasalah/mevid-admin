@@ -200,7 +200,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									name="settings.fb_app_id"
 									label="Facebook App ID"
 									type="text"
-									placeholder="Get it from : https://www.facebook.com/app"
+									placeholder="Get it from: https://developers.facebook.com/apps"
 								/>
 							</div>
 							<div className="col-2">
@@ -208,7 +208,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									name="settings.fb_app_secret"
 									label="Facebook App Secret"
 									type="text"
-									placeholder="Get it from : https://www.facebook.com/app"
+									placeholder="Get it from: https://developers.facebook.com/apps"
 								/>
 							</div>
 						</div>
@@ -218,7 +218,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									name="settings.tw_app_id"
 									label="Twitter App ID"
 									type="text"
-									placeholder="Get it from : https://www.twitter.com/app"
+									placeholder="Get it from: https://apps.twitter.com/app/new"
 								/>
 							</div>
 							<div className="col-2">
@@ -226,7 +226,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									name="settings.tw_app_secret"
 									label="Twitter App Secret"
 									type="text"
-									placeholder="Get it from : https://www.twitter.com/app"
+									placeholder="Get it from: https://apps.twitter.com/app/new"
 								/>
 							</div>
 						</div>
@@ -236,7 +236,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									name="settings.captcha_site_key"
 									label="Captcha Site Key"
 									type="text"
-									placeholder="From: https://google.com/recaptcha/admin/create"
+									placeholder="https://www.google.com/recaptcha/admin/create"
 								/>
 							</div>
 							<div className="col-2">
@@ -244,7 +244,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 									name="settings.captcha_secret_key"
 									label="Captcha Secret Key"
 									type="text"
-									placeholder="From: https://google.com/recaptcha/admin/create"
+									placeholder="https://www.google.com/recaptcha/admin/create"
 								/>
 							</div>
 						</div>

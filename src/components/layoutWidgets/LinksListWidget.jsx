@@ -21,6 +21,14 @@ const LinksListWidget = ({ onSubmit, links, dispatch }) => {
 			return;
 		}
 
+		// change the form index when the moved link is in editing mode
+		if (index === form.id) {
+			setForm({
+				...form,
+				id: direction === "up" ? index - 1 : index + 1,
+			});
+		}
+
 		dispatch({
 			type: ACTIONS.MOVE_LINK_IN_LINKS_LIST_WIDGET,
 			index,
@@ -43,6 +51,16 @@ const LinksListWidget = ({ onSubmit, links, dispatch }) => {
 	};
 
 	const deleteLinkHandler = (index) => {
+
+		// if the deleted link is in editing mode then remove it from editing form
+		if (index === form.id) {
+			setForm({
+				id: null,
+				label: "",
+				url: "",
+			});
+		}
+
 		dispatch({
 			type: ACTIONS.DELETE_LINK_IN_LINKS_LIST_WIDGET,
 			index,

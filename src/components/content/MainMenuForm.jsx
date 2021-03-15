@@ -26,7 +26,7 @@ const MainMenuForm = ({
 						name="mainmenu.link"
 						label="URL"
 						type="url"
-						placeholder="e.g. http://www.example.com/scheduler"
+						placeholder="e.g. /scheduler"
 					/>
 				);
 
@@ -116,6 +116,15 @@ const MainMenuForm = ({
 					  }
 					: undefined
 			}
+			extraContent={
+				isUpdate ? (
+					<SubMenuItems
+						links={
+							mainmenu.find((item) => item.id === form.id).nested
+						}
+					/>
+				) : undefined
+			}
 		>
 			<div className="row">
 				<div className="col-1">
@@ -147,14 +156,6 @@ const MainMenuForm = ({
 				</div>
 
 				<div className="col-1">{linkField()}</div>
-
-				{isUpdate && (
-					<SubMenuItems
-						links={
-							mainmenu.find((item) => item.id === form.id).nested
-						}
-					/>
-				)}
 			</div>
 		</FormSideSection>
 	);

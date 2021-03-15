@@ -18,7 +18,7 @@ const subMenuForm = ({ form, siteContent, pages, onSubmit }) => {
 						name="submenu.link"
 						label="URL"
 						type="url"
-						placeholder="e.g. http://www.example.com/scheduler"
+						placeholder="e.g. /scheduler"
 					/>
 				);
 
