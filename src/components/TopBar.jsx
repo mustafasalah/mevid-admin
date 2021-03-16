@@ -14,6 +14,7 @@ const TopBar = ({ user }) => {
 				<Route component={TopNavigation} />
 				<div id="admin-btns">
 					<AddMenu
+						loggedUser={user}
 						active={activeBtn === "addMenu"}
 						onClick={setActiveBtn}
 					/>

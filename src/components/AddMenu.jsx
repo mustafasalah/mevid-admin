@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { authorize } from "../js/Utility";
 
-const AddMenu = ({ active, onClick }) => {
+const AddMenu = ({ loggedUser, active, onClick }) => {
 	return (
 		<div className="top-bar-btn" id="add-btn" title="Add Shows and Pages">
 			<button
@@ -33,11 +34,13 @@ const AddMenu = ({ active, onClick }) => {
 						<i className="fas fa-plus"></i> Add TV Show
 					</Link>
 				</li>
-				<li>
-					<Link to="/pages/new">
-						<i className="fas fa-plus"></i> Create Page
-					</Link>
-				</li>
+				{authorize(loggedUser.role, "admin") && (
+					<li>
+						<Link to="/pages/new">
+							<i className="fas fa-plus"></i> Create Page
+						</Link>
+					</li>
+				)}
 			</ul>
 		</div>
 	);

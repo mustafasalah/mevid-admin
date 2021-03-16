@@ -212,7 +212,9 @@ const UserForm = ({
 									name="user.role"
 									label="Account Role"
 									type="select"
-									disabled={userId === 1}
+									disabled={
+										userId === 1 || loggedUser.id === userId
+									}
 									options={[
 										{ label: "User", value: "user" },
 										{

@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { upperFirst } from "../js/Utility";
+import { authorize, upperFirst } from "../js/Utility";
 
 const UserProfile = ({ user, active, onClick }) => {
 	return (
@@ -23,14 +23,20 @@ const UserProfile = ({ user, active, onClick }) => {
 
 			<ul className="sub-menu blur-shadow">
 				<li>
-					<a href="/account/profile">
+					<a href="/account/profile" target="_blank">
 						<i className="fas fa-user-circle"></i> My Profile
 					</a>
 				</li>
 				<li>
-					<Link to={`/users/${user.id}`}>
-						<i className="fas fa-cog"></i> Account Settings
-					</Link>
+					{authorize(user.role, "admin") ? (
+						<Link to={`/users/${user.id}`}>
+							<i className="fas fa-cog"></i> Account Settings
+						</Link>
+					) : (
+						<a href="/account/settings" target="_blank">
+							<i className="fas fa-cog"></i> Account Settings
+						</a>
+					)}
 				</li>
 				<li>
 					<a href="/logout">
