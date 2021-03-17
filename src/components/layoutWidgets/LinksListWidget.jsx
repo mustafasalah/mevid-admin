@@ -51,7 +51,6 @@ const LinksListWidget = ({ onSubmit, links, dispatch }) => {
 	};
 
 	const deleteLinkHandler = (index) => {
-
 		// if the deleted link is in editing mode then remove it from editing form
 		if (index === form.id) {
 			setForm({
@@ -114,6 +113,19 @@ const LinksListWidget = ({ onSubmit, links, dispatch }) => {
 						onMove={moveLinkHandler}
 						onEdit={editLinkHandler}
 						onDelete={deleteLinkHandler}
+					/>
+				</div>
+
+				<div className="col-1">
+					<FormField
+						name="layout.enabled"
+						label="Enabled"
+						type="radio"
+						htmlAfterField={
+							<small>
+								Enable or Disable Links List in the Footer
+							</small>
+						}
 					/>
 				</div>
 			</div>

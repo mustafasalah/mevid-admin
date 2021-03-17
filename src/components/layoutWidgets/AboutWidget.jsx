@@ -21,6 +21,16 @@ const AboutWidget = ({ onSubmit }) => (
 					placeholder="Enter something about website..."
 				/>
 			</div>
+			<div className="col-1">
+				<FormField
+					name="layout.enabled"
+					label="Enabled"
+					type="radio"
+					htmlAfterField={
+						<small>Enable or Disable About Us in the Footer</small>
+					}
+				/>
+			</div>
 		</div>
 	</FormSideSection>
 );
