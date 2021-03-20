@@ -15,7 +15,7 @@ class Reports extends AbstractTablePage {
 		{
 			dataProp: "show_id",
 			label: "Report on",
-			classNames: "primary-col align-start",
+			classNames: "primary-col",
 			haveSort: false,
 			type: "custom",
 			render: ({ showId, episodeNo, showName }, renderLinksNav) => {
