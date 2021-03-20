@@ -122,11 +122,6 @@ class Dashboard extends React.Component {
 								title="Shows"
 								data={siteContent.map((content) => {
 									switch (content) {
-										case "movies":
-											return {
-												label: "Movies",
-												counter: movies.length,
-											};
 										case "anime":
 											return {
 												label: "Anime",
@@ -136,6 +131,12 @@ class Dashboard extends React.Component {
 											return {
 												label: "TV Shows",
 												counter: tvshows.length,
+											};
+										case "movies":
+										default:
+											return {
+												label: "Movies",
+												counter: movies.length,
 											};
 									}
 								})}
