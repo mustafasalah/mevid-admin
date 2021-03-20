@@ -2,8 +2,9 @@ import React from "react";
 import FormSideSection from "./../common/form/FormSideSection";
 import FormField from "./../common/form/FormField";
 import TagsField from "./../content/TagsField";
+import { connect } from "react-redux";
 
-const CategoryWidget = ({ onSubmit, onDelete }) => (
+const CategoryWidget = ({ siteContent, onSubmit, onDelete }) => (
 	<FormSideSection
 		label="Category of Shows"
 		id="category"
@@ -25,17 +26,24 @@ const CategoryWidget = ({ onSubmit, onDelete }) => (
 					name="layout.settings.category"
 					label="Category"
 					type="select"
-					options={[
-						{
-							label: "Movie",
-							value: "movie",
-						},
-						{ label: "Anime", value: "anime" },
-						{
-							label: "TV Show",
-							value: "tvshow",
-						},
-					]}
+					options={siteContent.map((content) => {
+						if (content === "movies") {
+							return {
+								label: "Movie",
+								value: "movie",
+							};
+						} else if (content === "tvshows") {
+							return {
+								label: "TV Show",
+								value: "tvshow",
+							};
+						} else {
+							return {
+								label: "Anime",
+								value: "anime",
+							};
+						}
+					})}
 				/>
 			</div>
 
@@ -68,4 +76,6 @@ const CategoryWidget = ({ onSubmit, onDelete }) => (
 	</FormSideSection>
 );
 
-export default CategoryWidget;
+export default connect((state) => ({
+	siteContent: state.forms.settings.data.site_content,
+}))(CategoryWidget);

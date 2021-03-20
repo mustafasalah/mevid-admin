@@ -48,7 +48,10 @@ class App extends Component {
 	render() {
 		return this.props.loaded ? (
 			<Fragment>
-				<TopBar user={this.props.loggedUser} />
+				<TopBar
+					user={this.props.loggedUser}
+					siteContent={this.props.forms.settings.data.site_content}
+				/>
 				<SideBar />
 				<Content />
 			</Fragment>

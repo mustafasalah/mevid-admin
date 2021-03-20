@@ -5,7 +5,7 @@ import UserProfile from "./UserProfile";
 import Notification from "./Notification";
 import AddMenu from "./AddMenu";
 
-const TopBar = ({ user }) => {
+const TopBar = ({ user, siteContent }) => {
 	const [activeBtn, setActiveBtn] = useState("");
 
 	return (
@@ -15,6 +15,7 @@ const TopBar = ({ user }) => {
 				<div id="admin-btns">
 					<AddMenu
 						loggedUser={user}
+						siteContent={siteContent}
 						active={activeBtn === "addMenu"}
 						onClick={setActiveBtn}
 					/>

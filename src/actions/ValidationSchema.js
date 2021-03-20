@@ -181,7 +181,7 @@ export const showSchema = {
 	...mediaSchema,
 	type: joi.allow("movie", "anime", "tvshow").empty("").required(),
 	name: joi.string().required().empty("").label("Show Name"),
-	another_name: joi.string().empty(""),
+	another_name: joi.string().empty("").label("Another Name"),
 	genres: joi.array().min(1).required().label("Genres"),
 	release_year: joi
 		.number()
@@ -238,8 +238,8 @@ const social_counter_joi_schema = joi
 
 export const settingsSchema = {
 	...generalSchema,
-	site_name: joi.string().empty("").required(),
-	home_page_title: joi.string().empty("").required(),
+	site_name: joi.string().empty("").required().label("Site Name"),
+	home_page_title: joi.string().empty("").required().label("Home Page Title"),
 	keywords: joi.string().empty("").required(),
 	description: joi.string().empty("").required(),
 	site_content: joi
@@ -247,7 +247,8 @@ export const settingsSchema = {
 		.items(joi.allow("movies", "anime", "tvshows"))
 		.min(1)
 		.max(3)
-		.required(),
+		.required()
+		.label("Site Content Type"),
 	comments_enabled: joi.allow("0", "1").required(),
 	reviews_enabled: joi.allow("0", "1").required(),
 	comments_supervisor: joi.allow("0", "1").required(),

@@ -30,7 +30,9 @@ const renderShowsLinks = (siteContent) => {
 
 		return result;
 	} else {
-		const content = siteContent[0];
+		if (siteContent.length === 0) return;
+
+		let content = siteContent[0];
 		if (content === "tvshows") content = "tv-shows";
 
 		return (

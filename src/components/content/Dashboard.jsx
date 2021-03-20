@@ -85,6 +85,11 @@ class Dashboard extends React.Component {
 			fixReportAction,
 			changeCommentStatus,
 			changeReviewStatus,
+			forms: {
+				settings: {
+					data: { site_content: siteContent },
+				},
+			},
 		} = this.props;
 		const { movies, anime, tvshows } = this.getShowsByCategory();
 		const {
@@ -115,14 +120,25 @@ class Dashboard extends React.Component {
 						>
 							<StatisticWidget
 								title="Shows"
-								data={[
-									{ label: "Movies", counter: movies.length },
-									{ label: "Anime", counter: anime.length },
-									{
-										label: "TV Shows",
-										counter: tvshows.length,
-									},
-								]}
+								data={siteContent.map((content) => {
+									switch (content) {
+										case "movies":
+											return {
+												label: "Movies",
+												counter: movies.length,
+											};
+										case "anime":
+											return {
+												label: "Anime",
+												counter: anime.length,
+											};
+										case "tvshows":
+											return {
+												label: "TV Shows",
+												counter: tvshows.length,
+											};
+									}
+								})}
 								moreLink="/shows"
 								faClass="fas fa-film"
 							/>
