@@ -471,6 +471,10 @@ ol {
 	color: #8d99ae;
 }
 
+#side-bar .sub-menu a.add-link::before {
+	content: "\f067";
+}
+
 #side-bar .sub-menu a:hover,
 #side-bar .sub-menu a.active {
 	background-color: #d90429;

@@ -65,7 +65,6 @@ const UserForm = ({
 									label="Username"
 									type="text"
 									placeholder="e.g. mustafa"
-									required
 								/>
 							</div>
 							<div className="col-2">
@@ -108,7 +107,6 @@ const UserForm = ({
 									label="Last Name"
 									type="text"
 									placeholder="e.g. Salah"
-									required
 								/>
 							</div>
 							<div className="col-2">

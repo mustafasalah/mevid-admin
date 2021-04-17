@@ -88,7 +88,10 @@ const NavBar = ({
 							</li>
 
 							<li>
-								<NavLink to="/episodes/add">
+								<NavLink
+									to="/episodes/add"
+									className="add-link"
+								>
 									Add Episode
 								</NavLink>
 							</li>
@@ -137,7 +140,12 @@ const NavBar = ({
 								</li>
 
 								<li>
-									<NavLink to="/users/new">Add User</NavLink>
+									<NavLink
+										to="/users/new"
+										className="add-link"
+									>
+										Add User
+									</NavLink>
 								</li>
 							</ul>
 						</li>
@@ -155,7 +163,10 @@ const NavBar = ({
 								</li>
 
 								<li>
-									<NavLink to="/pages/new">
+									<NavLink
+										to="/pages/new"
+										className="add-link"
+									>
 										Create Page
 									</NavLink>
 								</li>

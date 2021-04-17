@@ -9,7 +9,7 @@ const SideBar = (props) => {
 				<Link to="">
 					<img
 						alt="MEVid - Admin Control Panel"
-						src="assets/images/logo.png"
+						src="/assets/images/panel-logo.png"
 					/>
 				</Link>
 			</div>

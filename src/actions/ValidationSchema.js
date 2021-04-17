@@ -14,15 +14,17 @@ const generalSchema = {
 const publishSchema = {
 	publish_date: joi
 		.object({
-			date: joi.date().raw(true),
+			date: joi.date().raw(true).label("Publish Date"),
 			time: joi
 				.string()
-				.regex(/\d{1,2}:\d{1,2}:\d{1,2}/)
+				.regex(/\d{1,2}:\d{1,2}(:\d{1,2})?/)
 				.messages({
 					"string.pattern.base": "Invalid time value syntax",
-				}),
+				})
+				.label("Publish Time")
+				.empty(""),
 		})
-		.with("date", "time")
+		.with("time", "date")
 		.empty({ date: "", time: "" }),
 	published: joi.allow("0", "1").required(),
 	author: joi.number().integer().positive().required(),
@@ -62,7 +64,6 @@ export const userSchema = {
 		.string()
 		.regex(/^[a-zA-Z]\w+$/)
 		.empty("")
-		.required()
 		.messages({
 			"string.pattern.base":
 				"The username can contain only english letters, digits and underscore(_), and must start with english letter.",
@@ -75,7 +76,7 @@ export const userSchema = {
 	password: joi.string().min(6).max(20).empty("").required(),
 	confirm_password: joi.ref("password"),
 	first_name: joi.string().min(2).empty("").required(),
-	last_name: joi.string().min(2).empty("").required(),
+	last_name: joi.string().min(2).empty(""),
 	age: joi.number().integer().min(10).max(100).empty(""),
 	gender: joi.allow("m", "f").empty(""),
 	country: joi.string().empty(""),
@@ -326,7 +327,7 @@ export const nestedSchema = {
 	social_accounts_instagram: joi.string().uri().empty(""),
 	social_accounts_youtube: joi.string().uri().empty(""),
 	publish_date_date: joi.date().required().raw(true),
-	publish_date_time: joi.string().regex(/\d{1,2}:\d{1,2}:\d{1,2}/),
+	publish_date_time: joi.string().regex(/\d{1,2}:\d{1,2}(:\d{1,2})?/),
 	watching_servers_name: joi.string(),
 	watching_servers_code: joi.string(),
 	video_files_raw_type: joi.string(),
