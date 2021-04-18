@@ -12,7 +12,7 @@ const getWidgetTypeOptions = (position) => {
 		});
 	} else {
 		widgetTypeOptions.push({
-			label: "Selected Shows",
+			label: "Picked Shows",
 			value: "selected_shows",
 		});
 	}
