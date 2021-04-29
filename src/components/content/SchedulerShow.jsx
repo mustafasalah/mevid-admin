@@ -42,7 +42,7 @@ const SchedulerShow = ({
 				<div className="day-show-actions">
 					<button
 						onClick={() =>
-							confirm(
+							window.confirm(
 								"Are you sure to delete this show from the scheduler?"
 							) && onShowDeleted(schedulerId)
 						}
