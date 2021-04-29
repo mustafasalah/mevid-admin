@@ -1,9 +1,11 @@
 import * as ACTIONS from "../actions/ActionTypes";
 import { toast } from "react-toastify";
 
+const schedulerForm = { id: null, showId: "", day: "", time: "" };
+
 const SchedulerReducer = (
 	state = {
-		schedulerForm: { id: null, showId: "", day: "", time: "" },
+		schedulerForm,
 		schedulers: [],
 	},
 	{ type, ...payload }
@@ -27,8 +29,10 @@ const SchedulerReducer = (
 		case ACTIONS.SCHEDULER_ADD_SHOW:
 			payload = payload.payload;
 
+			toast.success("Show has been added successfully in scheduler!");
+
 			return {
-				schedulerForm: payload.data,
+				schedulerForm,
 				schedulers: [...state.schedulers, payload.data],
 			};
 
@@ -44,13 +48,18 @@ const SchedulerReducer = (
 
 		case ACTIONS.SCHEDULER_UPDATED_SHOW:
 			payload = payload.payload;
+
 			const updatedSchedulers = state.schedulers.map((scheduler) => {
 				if (scheduler.id !== payload.data.id) return scheduler;
 				return { ...payload.data };
 			});
 
+			toast.success(
+				"Show date has been updated successfully in scheduler!"
+			);
+
 			return {
-				schedulerForm: state.schedulerForm,
+				schedulerForm,
 				schedulers: updatedSchedulers,
 			};
 
@@ -59,8 +68,11 @@ const SchedulerReducer = (
 			const filteredSchedulers = state.schedulers.filter(
 				(scheduler) => scheduler.id !== payload.data.id
 			);
+
+			toast.success("Show has been removed successfully from scheduler!");
+
 			return {
-				schedulerForm: state.schedulerForm,
+				schedulerForm,
 				schedulers: filteredSchedulers,
 			};
 

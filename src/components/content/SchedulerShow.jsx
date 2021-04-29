@@ -41,7 +41,11 @@ const SchedulerShow = ({
 				</dl>
 				<div className="day-show-actions">
 					<button
-						onClick={() => onShowDeleted(schedulerId)}
+						onClick={() =>
+							confirm(
+								"Are you sure to delete this show from the scheduler?"
+							) && onShowDeleted(schedulerId)
+						}
 						className="dark-btn focus-shadow radius-3"
 					>
 						Remove
