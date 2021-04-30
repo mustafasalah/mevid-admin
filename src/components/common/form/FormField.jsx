@@ -152,6 +152,10 @@ const FormField = ({
 												: input.files[0]
 										);
 									}
+
+									// addtonal onchange handler
+									props.onChangeHandler &&
+										props.onChangeHandler();
 								})
 							}
 							checked={

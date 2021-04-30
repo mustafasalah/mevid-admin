@@ -46,7 +46,10 @@ const EpisodeForm = ({
 				// Authorize this page
 				if (
 					!authorize(loggedUser.role, "supervisor") &&
-					loggedUser.id !== +episodeData.author
+					!(
+						loggedUser.role === "publisher" &&
+						loggedUser.id === +episodeData.author
+					)
 				) {
 					history.replace("/episodes");
 				}
@@ -62,9 +65,6 @@ const EpisodeForm = ({
 	}, []);
 
 	useEffect(() => {
-		// to reset episode arc field to nothing when the show of episode was changed
-		onShowIdChange();
-
 		(async () => {
 			// if there is no show selected do nothing
 			if (data.show_id === "") return;
@@ -118,6 +118,11 @@ const EpisodeForm = ({
 												label: show.name,
 												value: show.id,
 											}))}
+										onChangeHandler={() => {
+											// to reset episode arc field to nothing when the show of episode was changed
+											onShowIdChange();
+										}}
+										disabled={episodeId}
 										required
 									/>
 								</div>
