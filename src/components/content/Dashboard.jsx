@@ -47,6 +47,16 @@ class Dashboard extends React.Component {
 			.map((show) => show.id);
 	}
 
+	getAuthorizedEpisodesNo() {
+		const { loggedUser, episodes } = this.props;
+
+		if (authorize(loggedUser.role, "supervisor")) return episodes;
+
+		return episodes
+			.filter((episode) => episode.authorId === loggedUser.id)
+			.map((episode) => [episode.showId, episode.episodeNo]);
+	}
+
 	getItemsByStatus(items) {
 		let approvedItems = [],
 			unapprovedItems = [];
@@ -102,6 +112,7 @@ class Dashboard extends React.Component {
 		} = this.getItemsByStatus(comments);
 		const { activeUsers, bannedUsers } = this.getUsersByStatus();
 		const authorizedShowsId = this.getAuthorizedShowsId();
+		const authorizedEpisodesNo = this.getAuthorizedEpisodesNo();
 
 		return (
 			<Fragment>
@@ -220,11 +231,24 @@ class Dashboard extends React.Component {
 						data={
 							authorize(loggedUser.role, "supervisor")
 								? reports
-								: reports.filter((report) =>
-										authorizedShowsId.includes(
-											report.showId
-										)
-								  )
+								: reports.filter((report) => {
+										if (report.episodeNo === null) {
+											return authorizedShowsId.includes(
+												report.showId
+											);
+										} else {
+											return authorizedEpisodesNo.some(
+												([showId, episodeNo]) => {
+													return (
+														report.showId ===
+															showId &&
+														report.episodeNo ===
+															episodeNo
+													);
+												}
+											);
+										}
+								  })
 						}
 						doBtnAction={(id) => {
 							const isDelete = window.confirm(
@@ -244,8 +268,14 @@ class Dashboard extends React.Component {
 							authorize(loggedUser.role, "supervisor")
 								? comments
 								: comments.filter((comment) =>
-										authorizedShowsId.includes(
-											comment.showId
+										authorizedEpisodesNo.some(
+											([showId, episodeNo]) => {
+												return (
+													comment.showId === showId &&
+													comment.episodeNo ===
+														episodeNo
+												);
+											}
 										)
 								  )
 						}

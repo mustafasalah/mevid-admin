@@ -99,7 +99,9 @@ const TopAuthorsWidget = ({ authorsNo = 5, ...props }) => {
 								</div>
 								<div className="item-info">
 									<h4>
-										<a href={authorUrl} target="_blank"s>{author.name}</a>
+										<a href={authorUrl} target="_blank">
+											{author.name}
+										</a>
 									</h4>
 									<p>
 										<span>{upperFirst(author.role)}</span>
