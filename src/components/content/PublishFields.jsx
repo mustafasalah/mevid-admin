@@ -74,23 +74,25 @@ const PublishFields = ({
 					/>
 				</div>
 
-				<div className="col-3-2">
+				<div className="col-2">
 					<FormField
 						label="Publish Date"
 						name={`${form}.publish_date.date`}
 						className="date"
 						type="text"
+						placeholder="today's date"
 						autoComplete="off"
 						dateType="date-from"
 					/>
 				</div>
 
-				<div className="col-3-1">
+				<div className="col-2">
 					<FormField
 						label="Publish Time"
 						name={`${form}.publish_date.time`}
 						className="time"
 						type="text"
+						placeholder="current time"
 					/>
 				</div>
 
