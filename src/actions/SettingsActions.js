@@ -19,14 +19,14 @@ const onFormSubmit = async (data) => {
 			await http.put(`/settings/`, value);
 			toast.success("The new settings have been saved!");
 
-			handleLogoImageUpload(value.logo, value.dark_logo);
+			await handleLogoImageUpload(value.logo, value.dark_logo);
 
-			handleSiteBackgroundImageUpload(
+			await handleSiteBackgroundImageUpload(
 				value.site_background,
 				value.dark_site_background
 			);
 
-			handleFaviconImageUpload(value.favicon);
+			await handleFaviconImageUpload(value.favicon);
 
 			return {
 				type: ACTIONS.SUBMIT_FORM,
