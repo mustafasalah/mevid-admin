@@ -124,11 +124,16 @@ export const handleProfileImageUpload = async (user_id, avatar) => {
 
 export const handleFileUpload = async ({ show_id, name }, value) => {
 	const formData = new FormData();
+
 	formData.append("show_name", name);
 
-	if (value.poster) formData.append("poster_image", value.poster);
+	if (value.poster) {
+		formData.append("poster_image", value.poster);
+	}
 
-	if (value.background) formData.append("background_image", value.background);
+	if (value.background) {
+		formData.append("background_image", value.background);
+	}
 
 	if (value.square_image) {
 		if (value.square_image instanceof File) {
@@ -138,7 +143,17 @@ export const handleFileUpload = async ({ show_id, name }, value) => {
 		}
 	}
 
-	return http.post(`/upload/${show_id}`, formData);
+	const { onUploadProgress, toastId } = handleProgressUpload(
+		"Uploading Poster & Background images..."
+	);
+
+	await http.post(`/upload/${show_id}`, formData, {
+		onUploadProgress,
+	});
+
+	setTimeout(() => toast.done(toastId.current), 250);
+
+	return Promise.resolve();
 };
 
 export const handleGalleryDelete = async ({ show_id }, images) => {
