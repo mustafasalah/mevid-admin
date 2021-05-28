@@ -1,8 +1,14 @@
 import React, { useState, useRef } from "react";
 import $ from "jquery";
 
-const FormSection = ({ header, faClass, children, ...props }) => {
-	const [opened, setOpened] = useState(true);
+const FormSection = ({
+	header,
+	faClass,
+	children,
+	closed = false,
+	...props
+}) => {
+	const [opened, setOpened] = useState(!closed);
 	const widgetContent = useRef(null);
 
 	return (
@@ -19,7 +25,11 @@ const FormSection = ({ header, faClass, children, ...props }) => {
 					{" " + header}
 				</span>
 			</h3>
-			<div className="widget-content radius" ref={widgetContent}>
+			<div
+				className="widget-content radius"
+				style={{ display: opened ? "" : "none" }}
+				ref={widgetContent}
+			>
 				{children}
 			</div>
 		</section>

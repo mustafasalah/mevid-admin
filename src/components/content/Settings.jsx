@@ -8,7 +8,27 @@ import LogoField from "./LogoField";
 import SiteBackgroundField from "./SiteBackgroundField";
 import FaviconField from "./FaviconField";
 import SettingsActions from "../../actions/SettingsActions";
+import { upperFirst } from "../../js/Utility";
 import { getAvailableLangs } from "../services/settingsServices";
+
+const supported_social_media = [
+	"facebook",
+	"twitter",
+	"instagram",
+	"youtube",
+	"pinterest",
+	"linkedin",
+	"reddit",
+	"tiktok",
+	"dribbble",
+	"flickr",
+	"twitch",
+	"soundcloud",
+	"vk",
+	"telegram",
+	"snapchat",
+	"patreon",
+];
 
 const SaveButton = () => (
 	<section className="widget save-btn">
@@ -253,88 +273,33 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 					<FormSection
 						header="Social Media Accounts"
 						faClass="fas fa-share-alt"
+						closed
 					>
 						<div className="row">
-							<div className="col-2">
-								<div className="row">
-									<div className="col-4-3">
-										<FormField
-											name="settings.facebook.url"
-											label="Facebook Account"
-											type="url"
-											placeholder="e.g. https://www.facebook.com/mevid"
-										/>
-									</div>
-									<div className="col-4-1">
-										<FormField
-											name="settings.facebook.counter"
-											label="Likes"
-											type="text"
-											placeholder="e.g. 20K"
-										/>
-									</div>
-								</div>
-							</div>
-							<div className="col-2">
-								<div className="row">
-									<div className="col-4-3">
-										<FormField
-											name="settings.twitter.url"
-											label="Twitter Account"
-											type="url"
-											placeholder="e.g. https://www.twitter.com/mevid"
-										/>
-									</div>
-									<div className="col-4-1">
-										<FormField
-											name="settings.twitter.counter"
-											label="Followers"
-											type="text"
-											placeholder="e.g. 20K"
-										/>
+							{supported_social_media.map((social_media) => (
+								<div className="col-2">
+									<div className="row">
+										<div className="col-4-3">
+											<FormField
+												name={`settings.${social_media}.url`}
+												label={`${upperFirst(
+													social_media
+												)} Account`}
+												type="url"
+												placeholder={`e.g. https://www.${social_media}.com/mevid`}
+											/>
+										</div>
+										<div className="col-4-1">
+											<FormField
+												name={`settings.${social_media}.counter`}
+												label="Fans"
+												type="text"
+												placeholder="e.g. 20K"
+											/>
+										</div>
 									</div>
 								</div>
-							</div>
-							<div className="col-2">
-								<div className="row">
-									<div className="col-4-3">
-										<FormField
-											name="settings.instagram.url"
-											label="Instagram Account"
-											type="url"
-											placeholder="e.g. https://www.instagram.com/mevid"
-										/>
-									</div>
-									<div className="col-4-1">
-										<FormField
-											name="settings.instagram.counter"
-											label="Followers"
-											type="text"
-											placeholder="e.g. 20K"
-										/>
-									</div>
-								</div>
-							</div>
-							<div className="col-2">
-								<div className="row">
-									<div className="col-4-3">
-										<FormField
-											name="settings.youtube.url"
-											label="YouTube Channel"
-											type="url"
-											placeholder="e.g. https://www.youtube.com/mevid"
-										/>
-									</div>
-									<div className="col-4-1">
-										<FormField
-											name="settings.youtube.counter"
-											label="Subscribers"
-											type="text"
-											placeholder="e.g. 20K"
-										/>
-									</div>
-								</div>
-							</div>
+							))}
 						</div>
 					</FormSection>
 				</div>

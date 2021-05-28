@@ -237,6 +237,14 @@ const social_counter_joi_schema = joi
 			"The value must be number only or number followed by 'K' or 'M' character.",
 	});
 
+const social_account_joi_schema = joi
+	.object({
+		url: social_url_joi_schema,
+		counter: social_counter_joi_schema,
+	})
+	.with("counter", "url")
+	.required();
+
 export const settingsSchema = {
 	...generalSchema,
 	site_name: joi.string().empty("").required().label("Site Name"),
@@ -261,34 +269,22 @@ export const settingsSchema = {
 	fb_app_secret: joi.string().empty(""),
 	tw_app_id: joi.string().empty(""),
 	tw_app_secret: joi.string().empty(""),
-	facebook: joi
-		.object({
-			url: social_url_joi_schema,
-			counter: social_counter_joi_schema,
-		})
-		.with("counter", "url")
-		.required(),
-	twitter: joi
-		.object({
-			url: social_url_joi_schema,
-			counter: social_counter_joi_schema,
-		})
-		.with("counter", "url")
-		.required(),
-	instagram: joi
-		.object({
-			url: social_url_joi_schema,
-			counter: social_counter_joi_schema,
-		})
-		.with("counter", "url")
-		.required(),
-	youtube: joi
-		.object({
-			url: social_url_joi_schema,
-			counter: social_counter_joi_schema,
-		})
-		.with("counter", "url")
-		.required(),
+	facebook: social_account_joi_schema,
+	twitter: social_account_joi_schema,
+	instagram: social_account_joi_schema,
+	youtube: social_account_joi_schema,
+	pinterest: social_account_joi_schema,
+	linkedin: social_account_joi_schema,
+	reddit: social_account_joi_schema,
+	tiktok: social_account_joi_schema,
+	dribbble: social_account_joi_schema,
+	flickr: social_account_joi_schema,
+	twitch: social_account_joi_schema,
+	soundcloud: social_account_joi_schema,
+	vk: social_account_joi_schema,
+	telegram: social_account_joi_schema,
+	snapchat: social_account_joi_schema,
+	patreon: social_account_joi_schema,
 	captcha_site_key: joi.string().empty(""),
 	captcha_secret_key: joi.string().empty(""),
 	favicon: joi.object().empty(""),
@@ -305,6 +301,8 @@ export const schema = {
 	...settingsSchema,
 };
 
+const social_accounts_joi_schema = joi.string().uri().empty("");
+
 export const nestedSchema = {
 	settings_category: joi.any(),
 	settings_genres: joi.any(),
@@ -318,14 +316,50 @@ export const nestedSchema = {
 	youtube_counter: social_counter_joi_schema,
 	instagram_counter: social_counter_joi_schema,
 	facebook_counter: social_counter_joi_schema,
+	pinterest_counter: social_counter_joi_schema,
+	linkedin_counter: social_counter_joi_schema,
+	reddit_counter: social_counter_joi_schema,
+	tiktok_counter: social_counter_joi_schema,
+	dribbble_counter: social_counter_joi_schema,
+	flickr_counter: social_counter_joi_schema,
+	twitch_counter: social_counter_joi_schema,
+	soundcloud_counter: social_counter_joi_schema,
+	vk_counter: social_counter_joi_schema,
+	telegram_counter: social_counter_joi_schema,
+	snapchat_counter: social_counter_joi_schema,
+	patreon_counter: social_counter_joi_schema,
 	twitter_url: social_url_joi_schema,
 	instagram_url: social_url_joi_schema,
 	youtube_url: social_url_joi_schema,
 	facebook_url: social_url_joi_schema,
-	social_accounts_facebook: joi.string().uri().empty(""),
-	social_accounts_twitter: joi.string().uri().empty(""),
-	social_accounts_instagram: joi.string().uri().empty(""),
-	social_accounts_youtube: joi.string().uri().empty(""),
+	pinterest_url: social_url_joi_schema,
+	linkedin_url: social_url_joi_schema,
+	reddit_url: social_url_joi_schema,
+	tiktok_url: social_url_joi_schema,
+	dribbble_url: social_url_joi_schema,
+	flickr_url: social_url_joi_schema,
+	twitch_url: social_url_joi_schema,
+	soundcloud_url: social_url_joi_schema,
+	vk_url: social_url_joi_schema,
+	telegram_url: social_url_joi_schema,
+	snapchat_url: social_url_joi_schema,
+	patreon_url: social_url_joi_schema,
+	social_accounts_facebook: social_accounts_joi_schema,
+	social_accounts_twitter: social_accounts_joi_schema,
+	social_accounts_instagram: social_accounts_joi_schema,
+	social_accounts_youtube: social_accounts_joi_schema,
+	social_accounts_pinterest: social_accounts_joi_schema,
+	social_accounts_linkedin: social_accounts_joi_schema,
+	social_accounts_reddit: social_accounts_joi_schema,
+	social_accounts_tiktok: social_accounts_joi_schema,
+	social_accounts_dribbble: social_accounts_joi_schema,
+	social_accounts_flickr: social_accounts_joi_schema,
+	social_accounts_twitch: social_accounts_joi_schema,
+	social_accounts_soundcloud: social_accounts_joi_schema,
+	social_accounts_vk: social_accounts_joi_schema,
+	social_accounts_telegram: social_accounts_joi_schema,
+	social_accounts_snapchat: social_accounts_joi_schema,
+	social_accounts_patreon: social_accounts_joi_schema,
 	publish_date_date: joi.date().required().raw(true),
 	publish_date_time: joi.string().regex(/\d{1,2}:\d{1,2}(:\d{1,2})?/),
 	watching_servers_name: joi.string(),
