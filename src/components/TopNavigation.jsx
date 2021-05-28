@@ -16,7 +16,7 @@ const TopNavigation = ({ location }) => {
 		<ol id="navigation">
 			<li>
 				<i className="fas fa-home"></i>{" "}
-				<a href="/" target="_blank">
+				<a href="/" target="_blank" rel="noreferrer">
 					Home
 				</a>
 			</li>

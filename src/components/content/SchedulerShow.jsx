@@ -29,6 +29,7 @@ const SchedulerShow = ({
 						<a
 							href={`${HOSTNAME}/shows/${show.id}`}
 							target="_blank"
+							rel="noreferrer"
 						>
 							{show.name}
 						</a>

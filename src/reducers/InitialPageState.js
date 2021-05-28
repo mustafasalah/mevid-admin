@@ -1,4 +1,4 @@
-export default {
+const initialPageState = {
 	data: {
 		id: "",
 		title: "",
@@ -14,3 +14,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialPageState;

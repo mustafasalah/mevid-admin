@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment } from "react";
 import { connect } from "react-redux";
 import * as ACTIONS from "../../actions/ActionTypes";
 

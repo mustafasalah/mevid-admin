@@ -37,6 +37,7 @@ const RecentWidget = ({
 											<a
 												href={`${HOSTNAME}/users/${item.authorId}`}
 												target="_blank"
+												rel="noreferrer"
 											>
 												{item.author}
 											</a>
@@ -58,6 +59,7 @@ const RecentWidget = ({
 													: ""
 											}`}
 											target="_blank"
+											rel="noreferrer"
 										>
 											{item.showName}
 											{item.episodeNo != undefined

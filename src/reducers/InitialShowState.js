@@ -16,7 +16,7 @@ export const listItemsDefaults = {
 	"video_files.download_servers": { name: "", link: "" },
 };
 
-export default {
+const initialShowState = {
 	data: {
 		id: "",
 		type: "",
@@ -71,3 +71,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialShowState;

@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import getAuthors from "../services/authorsServices.js";
 import getTableActions from "../../actions/TableActions";
@@ -34,6 +33,7 @@ class Episodes extends AbstractTablePage {
 								<a
 									href={`${HOSTNAME}/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
 									target="_blank"
+									rel="noreferrer"
 								>
 									{`Episode ${rowData.episodeNo
 										.toString()
@@ -49,6 +49,7 @@ class Episodes extends AbstractTablePage {
 								<a
 									href={`${HOSTNAME}/shows/${rowData.showId}`}
 									target="_blank"
+									rel="noreferrer"
 								>
 									{rowData.showName}
 								</a>

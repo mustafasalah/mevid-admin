@@ -86,6 +86,7 @@ const TodayEpisodesWidget = ({ schedulers, shows, episodes }) => {
 												backgroundImage: `url('${show.poster}')`,
 											}}
 											target="_blank"
+											rel="noreferrer"
 										></a>
 									</div>
 									<div className="show-info">

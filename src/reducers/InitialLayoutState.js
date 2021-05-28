@@ -1,4 +1,4 @@
-export default {
+const initialLayoutState = {
 	data: {
 		type: "add",
 		widgetType: "ads",
@@ -6,3 +6,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialLayoutState;

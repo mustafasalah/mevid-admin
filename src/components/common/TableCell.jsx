@@ -40,6 +40,7 @@ class TableCell extends Component {
 												href={url}
 												className={link.className}
 												target="_blank"
+												rel="noreferrer"
 												onClick={(e) => {
 													if (
 														typeof link.onClick ===
@@ -101,7 +102,11 @@ class TableCell extends Component {
 				return (
 					<Fragment>
 						{column.externalLink ? (
-							<a href={hrefValue} target="_blank">
+							<a
+								href={hrefValue}
+								target="_blank"
+								rel="noreferrer"
+							>
 								{data}
 							</a>
 						) : (

@@ -85,6 +85,7 @@ class Comments extends AbstractTablePage {
 								<a
 									href={`${HOSTNAME}/user/${rowData.replyAuthorId}`}
 									target="_blank"
+									rel="noreferrer"
 								>
 									{
 										this.props.authors.find(
@@ -102,6 +103,7 @@ class Comments extends AbstractTablePage {
 							className={rowData.replyAuthorId ? "mg-top" : ""}
 							href={`${HOSTNAME}/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
 							target="_blank"
+							rel="noreferrer"
 						>
 							Episode
 							{` ${rowData.episodeNo
@@ -165,9 +167,8 @@ class Comments extends AbstractTablePage {
 		if (authorize(loggedUser.role, "supervisor") === false) {
 			selectedItems = selectedItems.filter((id) => {
 				const selectedComment = items.find((item) => item.id === id);
-				const episodeOfComment = this.getEpisodeOfComment(
-					selectedComment
-				);
+				const episodeOfComment =
+					this.getEpisodeOfComment(selectedComment);
 
 				if (episodeOfComment.authorId === loggedUser.id) return true;
 

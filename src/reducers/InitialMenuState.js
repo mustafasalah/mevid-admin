@@ -1,4 +1,4 @@
-export default {
+const initialMenuState = {
 	data: {
 		id: "",
 		type: "link",
@@ -7,3 +7,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialMenuState;

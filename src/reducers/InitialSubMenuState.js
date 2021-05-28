@@ -1,4 +1,4 @@
-export default {
+const initialSubMenuState = {
 	data: {
 		id: "",
 		nested_in: "",
@@ -8,3 +8,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialSubMenuState;

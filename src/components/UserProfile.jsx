@@ -23,7 +23,7 @@ const UserProfile = ({ user, active, onClick }) => {
 
 			<ul className="sub-menu blur-shadow">
 				<li>
-					<a href="/account/profile" target="_blank">
+					<a href="/account/profile" target="_blank" rel="noreferrer">
 						<i className="fas fa-user-circle"></i> My Profile
 					</a>
 				</li>
@@ -33,7 +33,11 @@ const UserProfile = ({ user, active, onClick }) => {
 							<i className="fas fa-cog"></i> Account Settings
 						</Link>
 					) : (
-						<a href="/account/settings" target="_blank">
+						<a
+							href="/account/settings"
+							target="_blank"
+							rel="noreferrer"
+						>
 							<i className="fas fa-cog"></i> Account Settings
 						</a>
 					)}

@@ -1,4 +1,4 @@
-export default {
+const initialSettingsState = {
 	data: {
 		id: "",
 		site_name: "",
@@ -43,3 +43,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialSettingsState;

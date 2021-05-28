@@ -95,11 +95,16 @@ const TopAuthorsWidget = ({ authorsNo = 5, ...props }) => {
 										}}
 										className="focus-shadow"
 										target="_blank"
+										rel="noreferrer"
 									></a>
 								</div>
 								<div className="item-info">
 									<h4>
-										<a href={authorUrl} target="_blank">
+										<a
+											href={authorUrl}
+											target="_blank"
+											rel="noreferrer"
+										>
 											{author.name}
 										</a>
 									</h4>

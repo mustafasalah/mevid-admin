@@ -26,6 +26,7 @@ class Reports extends AbstractTablePage {
 								episodeNo ? "/episodes/" + episodeNo : ""
 							}`}
 							target="_blank"
+							rel="noreferrer"
 						>
 							{`${showName}${
 								episodeNo

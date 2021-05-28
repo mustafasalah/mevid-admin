@@ -97,7 +97,11 @@ class Reviews extends AbstractTablePage {
 			classNames: "align-start primary-col",
 			type: "custom",
 			render: ({ showName, showId }) => (
-				<a href={`${HOSTNAME}/shows/${showId}`} target="_blank">
+				<a
+					href={`${HOSTNAME}/shows/${showId}`}
+					target="_blank"
+					rel="noreferrer"
+				>
 					{showName}
 				</a>
 			),

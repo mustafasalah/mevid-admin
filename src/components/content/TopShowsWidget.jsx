@@ -58,11 +58,16 @@ const TopShowsWidget = ({ shows, showsNo = 5 }) => {
 											}}
 											className="radius focus-shadow"
 											target="_blank"
+											rel="noreferrer"
 										></a>
 									</div>
 									<div className="item-info">
 										<h4>
-											<a href={showUrl} target="_blank">
+											<a
+												href={showUrl}
+												target="_blank"
+												rel="noreferrer"
+											>
 												{show.name}
 											</a>
 										</h4>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 const LinkForm = ({ form, onSubmit, onChange }) => {
 	const { id, label, url } = form;

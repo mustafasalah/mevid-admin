@@ -1,4 +1,4 @@
-export default {
+const initialUserState = {
 	data: {
 		id: "",
 		username: "",
@@ -24,3 +24,5 @@ export default {
 	},
 	errors: {},
 };
+
+export default initialUserState;
