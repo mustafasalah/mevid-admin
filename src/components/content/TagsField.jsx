@@ -10,14 +10,20 @@ class TagsField extends Component {
 	async componentDidMount() {
 		const { data } = await getTags();
 		const { tagValuePrefix, urlEncodeValue } = this.props;
-		this.setState({
-			options: data.map(({ name }) => ({
-				label: name,
-				value:
-					tagValuePrefix +
-					(urlEncodeValue ? window.encodeURIComponent(name) : name),
-			})),
-		});
+
+		let options = data.map(({ name }) => ({
+			label: name,
+			value:
+				tagValuePrefix +
+				(urlEncodeValue ? window.encodeURIComponent(name) : name),
+		}));
+
+		// add "no tag" option when selection doesn't support multi-select
+		if ( !this.props.multiple ) {
+			options = [{label: "No Tag", value: "no-selected-tag"}, ...options];
+		}
+
+		this.setState({ options });
 	}
 
 	render() {

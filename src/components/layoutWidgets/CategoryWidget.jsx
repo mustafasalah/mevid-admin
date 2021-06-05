@@ -52,7 +52,7 @@ const CategoryWidget = ({ siteContent, onSubmit, onDelete }) => (
 					name="layout.settings.tag"
 					label="Tag"
 					type="select"
-					placeholder="Default: no tag"
+					placeholder="Default: No Tag"
 					htmlAfterField={
 						<small>
 							Used to group collection of shows together under
