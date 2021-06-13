@@ -39,7 +39,7 @@ const SaveButton = () => (
 	</section>
 );
 
-const Settings = ({ data, onFormSubmit: onSubmit }) => {
+const Settings = ({ data, onFormSubmit: onSubmit, onSettingsDataLoad: loadSettingsData }) => {
 	const [langs, setLangs] = useState([]);
 
 	// Get available languages list
@@ -57,7 +57,7 @@ const Settings = ({ data, onFormSubmit: onSubmit }) => {
 				method="POST"
 				onSubmit={(e) => {
 					e.preventDefault();
-					onSubmit(data);
+					onSubmit(data, loadSettingsData);
 				}}
 			>
 				<div id="main-side">

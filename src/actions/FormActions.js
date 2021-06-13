@@ -108,8 +108,10 @@ const onFormReset = (formType) => (filledFields) => ({
 	formType,
 });
 
-export default {
+const formActions = {
 	onFieldChanged,
 	onFormReset,
 	updateList,
 };
+
+export default formActions;

@@ -11,7 +11,7 @@ import {
 	handleSiteBackgroundImageUpload,
 } from "./UploadHandlers";
 
-const onFormSubmit = async (data) => {
+const onFormSubmit = async (data, callback) => {
 	const { value, error } = joi.object(settingsSchema).validate(data);
 
 	if (!error) {
@@ -27,6 +27,9 @@ const onFormSubmit = async (data) => {
 			);
 
 			await handleFaviconImageUpload(value.favicon);
+
+			// execute the callback function after anything was done successfully!
+			if ( typeof callback === "function" ) callback();
 
 			return {
 				type: ACTIONS.SUBMIT_FORM,
@@ -64,9 +67,11 @@ const onImageDelete = (imageType) => ({
 	formType: "settings",
 });
 
-export default {
+const settingsActions = {
 	onFormSubmit,
 	onFieldChange: FormActions.onFieldChanged("episode"),
 	onSettingsDataLoad,
 	onImageDelete,
 };
+
+export default settingsActions;

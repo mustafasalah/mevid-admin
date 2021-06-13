@@ -110,7 +110,7 @@ const onShowDataLoad = (data) => ({
 	formType: "show",
 });
 
-export default {
+const showFormActions = {
 	onFormSubmit,
 	onFieldChanged: FormActions.onFieldChanged("show"),
 	onFormReset: FormActions.onFormReset("show"),
@@ -123,3 +123,5 @@ export default {
 	onShowImageDelete,
 	onShowDataLoad,
 };
+
+export default showFormActions;

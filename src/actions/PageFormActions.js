@@ -49,9 +49,11 @@ const onPageDataLoad = (data, callback) => ({
 	callback,
 });
 
-export default {
+const pageFormActions = {
 	onFormSubmit,
 	onFieldChange: FormActions.onFieldChanged("page"),
 	onFormReset: FormActions.onFormReset("page"),
 	onPageDataLoad,
 };
+
+export default pageFormActions;

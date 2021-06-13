@@ -71,7 +71,7 @@ const onShowIdChange = () => ({
 	type: ACTIONS.RESET_EPISODE_ARC,
 });
 
-export default {
+const episodeFormActions = {
 	onFormSubmit,
 	onFieldChange: FormActions.onFieldChanged("episode"),
 	onFormReset: FormActions.onFormReset("episode"),
@@ -83,3 +83,5 @@ export default {
 	onEpisodeDataLoad,
 	onShowIdChange,
 };
+
+export default episodeFormActions;

@@ -72,9 +72,11 @@ const onUserDataLoad = (data, callback) => ({
 	callback,
 });
 
-export default {
+const userFormActions = {
 	onFormSubmit,
 	onFieldChange: FormActions.onFieldChanged("user"),
 	onFormReset: FormActions.onFormReset("user"),
 	onUserDataLoad,
 };
+
+export default userFormActions;
