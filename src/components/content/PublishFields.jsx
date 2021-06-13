@@ -55,7 +55,7 @@ const PublishFields = ({
 						type="text"
 						htmlAfterField={
 							<small>
-								Used to find the show in the search engine
+								Used to find the {form} in the search engine
 							</small>
 						}
 					/>
@@ -68,7 +68,7 @@ const PublishFields = ({
 						type="textarea"
 						htmlAfterField={
 							<small>
-								Shown in search engine results below show title
+								Shown in search engine results below {form} title
 							</small>
 						}
 					/>
