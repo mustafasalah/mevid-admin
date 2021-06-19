@@ -3,8 +3,9 @@ import FormSideSection from "./../common/form/FormSideSection";
 import FormField from "./../common/form/FormField";
 import TagsField from "./../content/TagsField";
 import { getGenresOptions } from "./../services/getGenres";
+import { connect } from "react-redux";
 
-const SliderWidget = ({ onSubmit }) => (
+const SliderWidget = ({ siteContent, onSubmit }) => (
 	<FormSideSection
 		label="Shows Slider"
 		id="shows-slider"
@@ -16,17 +17,25 @@ const SliderWidget = ({ onSubmit }) => (
 					name="layout.settings.category"
 					label="Category"
 					type="select"
-					options={[
-						{
-							label: "Movie",
-							value: "movie",
-						},
-						{ label: "Anime", value: "anime" },
-						{
-							label: "TV Show",
-							value: "tvshow",
-						},
-					]}
+					placeholder="Default: All Categories"
+					options={siteContent.map((content) => {
+							if (content === "movies") {
+								return {
+									label: "Movie",
+									value: "movie",
+								};
+							} else if (content === "tvshows") {
+								return {
+									label: "TV Show",
+									value: "tvshow",
+								};
+							} else {
+								return {
+									label: "Anime",
+									value: "anime",
+								};
+							}
+						})}
 					multiple
 				/>
 			</div>
@@ -111,4 +120,6 @@ const SliderWidget = ({ onSubmit }) => (
 	</FormSideSection>
 );
 
-export default SliderWidget;
+export default connect((state) => ({
+	siteContent: state.forms.settings.data.site_content,
+}))(SliderWidget);
