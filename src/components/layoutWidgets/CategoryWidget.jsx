@@ -26,6 +26,7 @@ const CategoryWidget = ({ siteContent, onSubmit, onDelete }) => (
 					name="layout.settings.category"
 					label="Category"
 					type="select"
+					placeholder="Default: All Categories"
 					options={siteContent.map((content) => {
 						if (content === "movies") {
 							return {
@@ -44,6 +45,7 @@ const CategoryWidget = ({ siteContent, onSubmit, onDelete }) => (
 							};
 						}
 					})}
+					multiple
 				/>
 			</div>
 
