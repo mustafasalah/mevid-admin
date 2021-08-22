@@ -14,12 +14,12 @@
 
 ::-moz-selection {
     color: #fff;
-    background: #4284f4;
+    background: #ef233c;
 }
 
 ::selection {
     color: #fff;
-    background: #4284f4;
+    background: #ef233c;
 }
 
 img,
@@ -122,7 +122,7 @@ ol {
 }
 
 #top-bar a:hover {
-    color: #048cd4;
+    color: #d90429;
 }
 
 /*------------------------
@@ -150,7 +150,7 @@ ol {
 }
 
 #navigation li i {
-    color: #048cd4;
+    color: #d90429;
     font-size: 0.9333em;
     margin-right: 0.3846em;
 }
@@ -162,7 +162,6 @@ ol {
 #admin-btns {
     display: -webkit-flex;
     display: flex;
-    margin-left: auto;
 }
 
 #admin-btns > * {
@@ -184,7 +183,7 @@ ol {
 }
 
 #admin-btns .top-bar-btn button.active i {
-    color: #048cd4;
+    color: #d90429;
 }
 
 #add-btn button i {
@@ -213,7 +212,7 @@ ol {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
     border-radius: 50%;
-    background-color: #4284f4;
+    background-color: #ef233c;
     color: #fff;
     text-align: center;
     top: 0;
@@ -367,7 +366,7 @@ ol {
 #top-bar .sub-menu > li > a > i {
     font-size: 0.9333em;
     margin-right: 5px;
-    color: #048cd4;
+    color: #d90429;
 }
 
 #top-bar .sub-menu > li + li {
@@ -434,7 +433,7 @@ ol {
 }
 
 #side-bar nav > ul > li > a > i {
-    color: #048cd4;
+    color: #d90429;
     width: 20px;
     margin-right: 7px;
     text-align: center;
@@ -478,7 +477,7 @@ ol {
 
 #side-bar .sub-menu a:hover,
 #side-bar .sub-menu a.active {
-    background-color: #048cd4;
+    background-color: #d90429;
     color: #fff;
 }
 
@@ -523,7 +522,7 @@ ol {
 #content-section > h2 span {
     display: inline-block;
     padding-bottom: 2px;
-    color: #048cd4;
+    color: #d90429;
     border-bottom: 1px solid #eee;
     vertical-align: middle;
 }
@@ -549,12 +548,12 @@ ol {
 #content-section > h2 .nested-add-new a::before {
     content: "\f067 ";
     font: bold 0.8em "Font Awesome 5 Free";
-    color: #048cd4;
+    color: #d90429;
     margin-right: 5px;
 }
 
 #content-section > h2 .add-new:hover {
-    background-color: #048cd4;
+    background-color: #d90429;
     color: #fff;
     overflow: visible;
     border-bottom-left-radius: 0;
@@ -620,13 +619,13 @@ ol {
 .widget > h3 {
     font-size: 18px;
     margin-bottom: 25px;
-    color: #048cd4;
+    color: #d90429;
 }
 
 .widget > header {
     font-size: 18px;
     margin-bottom: 25px;
-    color: #048cd4;
+    color: #d90429;
     display: -webkit-flex;
     display: flex;
     justify-content: space-between;
@@ -652,7 +651,7 @@ ol {
 }
 
 .widget a:hover {
-    color: #048cd4;
+    color: #d90429;
 }
 
 .widget .widget-options {
@@ -668,7 +667,7 @@ ol {
 }
 
 .widget .do-btn {
-    background-color: #4284f4;
+    background-color: #ef233c;
     color: #fff;
     outline: none !important;
     border: none;
@@ -679,7 +678,7 @@ ol {
 
 .widget .do-btn:hover {
     background-color: #fff;
-    color: #048cd4;
+    color: #d90429;
 }
 
 .widget.list li {
