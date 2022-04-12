@@ -53,7 +53,7 @@ class Comments extends AbstractTablePage {
                 {
                     label: "Reply",
                     className: "reply-item",
-                    href: `${HOSTNAME}/shows/:showId/episodes/:episodeNo#comments-:id`,
+                    href: `${HOSTNAME}/shows/:showId/episodes/:episodeNo#comment-:id`,
                     absolute: true,
                 },
                 {
