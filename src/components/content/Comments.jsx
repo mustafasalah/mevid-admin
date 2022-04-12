@@ -52,6 +52,7 @@ class Comments extends AbstractTablePage {
                 },
                 {
                     label: "Reply",
+                    on: ({ status }) => status === "approved",
                     className: "reply-item",
                     href: `${HOSTNAME}/shows/:showId/episodes/:episodeNo#comment-:id`,
                     absolute: true,
@@ -101,7 +102,7 @@ class Comments extends AbstractTablePage {
                         )}
                         <a
                             className={rowData.replyAuthorId ? "mg-top" : ""}
-                            href={`${HOSTNAME}/shows/${rowData.showId}/episodes/${rowData.episodeNo}#comment-${rowData.id}`}
+                            href={`${HOSTNAME}/shows/${rowData.showId}/episodes/${rowData.episodeNo}`}
                             target="_blank"
                             rel="noreferrer"
                         >
