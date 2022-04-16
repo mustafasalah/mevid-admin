@@ -41,16 +41,13 @@ const BackgroundField = ({ backgroundFile }) => {
                     className="note radius"
                     style={{ marginLeft: "40px", marginRight: "40px" }}
                 >
-                    {
-                        (console.log(backgroundFile),
-                        backgroundFile
-                            ? `${backgroundFile.name} / ${(
-                                  backgroundFile.size / 1e6
-                              ).toFixed(2)}MB`
-                            : `An image that is displayed as background on the show
+                    {backgroundFile
+                        ? `${backgroundFile.name} / ${(
+                              backgroundFile.size / 1e6
+                          ).toFixed(2)}MB`
+                        : `An image that is displayed as background on the show
 						page and watch page, ensuring that it is of high quality
-						and its width is greater than its height.`)
-                    }
+						and its width is greater than its height.`}
                 </p>
             </div>
         </div>
