@@ -35,14 +35,6 @@ class Layout extends Component {
         activeWidget: null,
     };
 
-    componentDidMount() {
-        // Load layout data
-        this.props.loadLayoutData();
-
-        // Initial Sortable
-        this.initialSortable();
-    }
-
     initialSortable() {
         // Run Sortable script
         const { mainSortable, sidebarSortable, footerSortable } = runSortable();
@@ -51,6 +43,21 @@ class Layout extends Component {
         mainSortable.on("sortable:sorted", onSortedHandler.bind(this));
         sidebarSortable.on("sortable:sorted", onSortedHandler.bind(this));
         footerSortable.on("sortable:sorted", onSortedHandler.bind(this));
+    }
+
+    componentDidMount() {
+        // Load layout data
+        this.props.loadLayoutData();
+
+        // Initial Sortable
+        this.initialSortable();
+    }
+
+    componentDidUpdate({ header }) {
+        // inital sortable for first time after layout data is loaded
+        if (header.length === 0 && this.props.header.length !== 0) {
+            this.initialSortable();
+        }
     }
 
     render() {
