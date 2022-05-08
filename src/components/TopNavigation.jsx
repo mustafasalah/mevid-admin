@@ -20,7 +20,7 @@ const TopNavigation = ({ location }) => {
             {navItems.map((item, i) => (
                 <li key={i}>
                     {i + 1 === navItems.length ? (
-                        <strong>{text(item)}</strong>
+                        <strong>{isNaN(item) ? text(item) : item}</strong>
                     ) : (
                         <Link to={"/" + item.toLowerCase()}>{text(item)}</Link>
                     )}

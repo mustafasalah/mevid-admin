@@ -14,10 +14,10 @@ $("html").attr({
 });
 
 export const genre_text = (genre) => {
-    return genres[defaultLang][genre];
+    return genres[defaultLang][genre] ?? genre.replace("_", " ");
 };
 
 export default function text(pharse) {
     if (pharse === "") return "";
-    return lang[pharse][defaultLang];
+    return lang[pharse][defaultLang] ?? pharse.replace("_", " ");
 }
