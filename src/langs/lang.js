@@ -17,7 +17,12 @@ export const genre_text = (genre) => {
     return genres[defaultLang][genre] ?? genre.replace("_", " ");
 };
 
+export const isRtl = () => text("lang_code") === "ar";
+
 export default function text(pharse) {
+    pharse = pharse.toLowerCase().replace(" ", "_");
+
     if (pharse === "") return "";
+
     return lang[pharse][defaultLang] ?? pharse.replace("_", " ");
 }

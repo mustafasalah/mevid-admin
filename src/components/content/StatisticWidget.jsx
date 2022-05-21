@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import text from "../../langs/lang";
 
-const StatisticWidget = ({ title, data, faClass, moreLink }) => {
+const StatisticWidget = ({ title, typeClass, data, faClass, moreLink }) => {
     let totalCounter = 0;
 
     return (
-        <div className={`statistic radius focus-shadow ${title.toLowerCase()}`}>
+        <div className={`statistic radius focus-shadow ${typeClass}`}>
             <h3>
                 <span>{title}</span>
             </h3>

@@ -1,7 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import TimeAgo from "timeago-react";
-import text from "../../langs/lang";
+import text, { isRtl } from "../../langs/lang";
+import TimeAgo from "react-timeago";
+import arabicString from "react-timeago/lib/language-strings/ar";
+import buildFormatter from "react-timeago/lib/formatters/buildFormatter";
+
+const formatter = buildFormatter(arabicString);
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -47,7 +51,10 @@ const RecentWidget = ({
                                         <i>{onPhrase}:</i>
                                     </span>
                                     <TimeAgo
-                                        datetime={item.publishDate || item.date}
+                                        date={item.publishDate || item.date}
+                                        formatter={
+                                            isRtl() ? formatter : undefined
+                                        }
                                     />
                                 </p>
                                 <div className="item-content">

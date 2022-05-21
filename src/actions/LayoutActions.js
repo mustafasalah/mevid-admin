@@ -3,7 +3,7 @@ import getLayout from "./../components/services/layoutServices";
 import http from "./../components/services/httpServices";
 
 const layoutActions = {
-    loadLayoutData() {
+    loadLayoutData(callback = null) {
         return {
             type: ACTIONS.LOAD_LAYOUT,
             payload: getLayout(),

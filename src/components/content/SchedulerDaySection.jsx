@@ -1,5 +1,6 @@
 import React from "react";
-import text from "../../langs/lang";
+import text, { isRtl } from "../../langs/lang";
+import FormSideSection from "../common/form/FormSideSection";
 import SchedulerShow from "./SchedulerShow";
 
 const daysText = text("full_days");
@@ -23,11 +24,48 @@ const SchedulerDaySection = ({
     let isGray = true;
 
     return (
+        <FormSideSection
+            className="day-shows"
+            contentClass="radius blur-shadow"
+            headClass="radius"
+            label={
+                <>
+                    <i className="fas fa-calendar-day"></i>
+                    {isRtl()
+                        ? ` ${text("day_shows")} ${daysMap[day]}`
+                        : ` ${daysMap[day]} ${text("shows")}`}
+                </>
+            }
+        >
+            {schedulers.length ? (
+                <ul>
+                    {schedulers.map(({ id, showId, time }, i) => {
+                        if (i % 3 === 0) isGray = !isGray;
+                        return (
+                            <SchedulerShow
+                                key={id}
+                                schedulerId={id}
+                                show={shows.find((show) => show.id === showId)}
+                                time={time}
+                                isGray={isGray}
+                                onShowDeleted={onShowDeleted}
+                                onShowUpdate={onShowUpdate}
+                            />
+                        );
+                    })}
+                </ul>
+            ) : (
+                <p>{text("there_are_no_scheduled_shows_on_this_day_yet")}</p>
+            )}
+        </FormSideSection>
+    );
+
+    return (
         <section className="widget form day-shows">
             <h3 className="blur-shadow radius">
                 <span>
                     <i className="fas fa-calendar-day"></i>
-                    {text("lang_code") === "ar"
+                    {isRtl()
                         ? ` ${text("day_shows")} ${daysMap[day]}`
                         : ` ${daysMap[day]} ${text("shows")}`}
                 </span>

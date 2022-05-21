@@ -2,7 +2,7 @@ import Chart from "chart.js";
 import $ from "jquery";
 import getViewsData from "./../components/services/viewsServices";
 import { toast } from "react-toastify";
-import text from "../langs/lang";
+import text, { isRtl } from "../langs/lang";
 
 function getMonthLength(month) {
     if (month === 2) return 28;
@@ -147,6 +147,7 @@ export default async function renderChartJS() {
                     xPadding: 8,
                     yPadding: 8,
                     titleMarginBottom: 8,
+                    rtl: isRtl(),
                 },
             },
         });

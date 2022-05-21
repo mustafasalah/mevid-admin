@@ -129,9 +129,12 @@ ol {
 => Navigation Style Sheet 
 ------------------------*/
 
+#navigation {
+    display: flex;
+}
+
 #navigation li {
     font-size: 0.9375em;
-    float: left;
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -296,7 +299,7 @@ ol {
     font-size: 0.875em;
     padding: 10px;
     background-color: #eee;
-    text-align: left;
+    text-align: start;
 }
 
 #admin-profile button strong {

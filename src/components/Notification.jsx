@@ -2,8 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { deleteNotification } from "../actions/NotificationsActions";
-import { upperFirst } from "../js/Utility";
-import text from "../langs/lang";
+import text, { isRtl } from "../langs/lang";
 
 const countNotifications = (notifications) => {
     let counter = 0;
@@ -25,7 +24,7 @@ const Notification = ({
     const getNotificationMessage = (notification) => {
         if (notification.episode_id) {
             const { showName, episodeNo, episodeTitle } = notification;
-            return `${showName} - ${text("the_episode")} ${episodeNo}${
+            return `${text("the_episode")} ${episodeNo} - ${showName}${
                 episodeTitle ? `: ${episodeTitle}` : ""
             }`;
         } else {
@@ -69,10 +68,14 @@ const Notification = ({
                                         className={`notify-label ${notification.type}`}
                                     >
                                         {`${
-                                            notification.is_new === "1"
-                                                ? text("new")
-                                                : text("edited")
-                                        } ${upperFirst(notification.type)}`}
+                                            isRtl()
+                                                ? text(notification.type)
+                                                : ""
+                                        }`}{" "}
+                                        {notification.is_new == "1"
+                                            ? text("new")
+                                            : text("edited")}{" "}
+                                        {isRtl() ? "" : text(notification.type)}
                                     </span>
                                     <span className="counter">
                                         {notification.counter}

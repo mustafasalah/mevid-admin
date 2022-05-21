@@ -132,6 +132,7 @@ class Dashboard extends React.Component {
                         >
                             <StatisticWidget
                                 title={text("shows")}
+                                typeClass="shows"
                                 data={siteContent.map((content) => {
                                     switch (content) {
                                         case "anime":
@@ -158,6 +159,7 @@ class Dashboard extends React.Component {
 
                             <StatisticWidget
                                 title={text("comments")}
+                                typeClass="comments"
                                 data={[
                                     {
                                         label: text("approved"),
@@ -174,6 +176,7 @@ class Dashboard extends React.Component {
 
                             <StatisticWidget
                                 title={text("reviews")}
+                                typeClass="reviews"
                                 data={[
                                     {
                                         label: text("approved"),
@@ -191,6 +194,7 @@ class Dashboard extends React.Component {
                             {authorize(loggedUser.role, "admin") && (
                                 <StatisticWidget
                                     title={text("users")}
+                                    typeClass="users"
                                     data={[
                                         {
                                             label: text("active_users"),

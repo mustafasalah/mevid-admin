@@ -16,15 +16,16 @@ import "./css/scheduler.css";
 import "./index.css";
 import "react-toastify/dist/ReactToastify.css";
 import "./css/custom-toastify.css";
+import "./css/rtl.css";
 
 ReactDOM.render(
-	<BrowserRouter basename="/admin">
-		<React.StrictMode>
-			<Provider store={store}>
-				<ToastContainer position="top-center" />
-				<App />
-			</Provider>
-		</React.StrictMode>
-	</BrowserRouter>,
-	document.getElementById("root")
+    <BrowserRouter basename="/admin">
+        <React.StrictMode>
+            <Provider store={store}>
+                <ToastContainer position="top-center" />
+                <App />
+            </Provider>
+        </React.StrictMode>
+    </BrowserRouter>,
+    document.getElementById("root")
 );

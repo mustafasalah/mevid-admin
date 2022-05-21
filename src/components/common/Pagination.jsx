@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { paginationLength } from "../../configs.json";
 import { range } from "../../js/Utility";
-import text from "../../langs/lang";
+import text, { isRtl } from "../../langs/lang";
 
 class Pagination extends Component {
     getPaginationRange(pagesNo) {
@@ -35,7 +35,11 @@ class Pagination extends Component {
                             onClick={() => onPageChange(1)}
                             disabled={currentPage === 1}
                         >
-                            <i className="fas fa-angle-double-left"></i>{" "}
+                            <i
+                                className={`fas fa-angle-double-${
+                                    isRtl() ? "right" : "left"
+                                }`}
+                            ></i>{" "}
                             {text("first")}
                         </button>
                     </li>
@@ -73,7 +77,11 @@ class Pagination extends Component {
                             disabled={currentPage === pagesNo}
                         >
                             {text("last")}{" "}
-                            <i className="fas fa-angle-double-right"></i>
+                            <i
+                                className={`fas fa-angle-double-${
+                                    isRtl() ? "left" : "right"
+                                }`}
+                            ></i>
                         </button>
                     </li>
                 </ul>

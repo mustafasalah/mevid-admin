@@ -186,13 +186,13 @@ const NavBar = ({
                             <ul className="sub-menu blur-shadow radius">
                                 <li>
                                     <NavLink exact to="/layout">
-                                        Site Layout
+                                        {text("site_layout")}
                                     </NavLink>
                                 </li>
 
                                 <li>
                                     <NavLink to="/layout/main-menu">
-                                        Menu Layout
+                                        {text("menu_layout")}
                                     </NavLink>
                                 </li>
                             </ul>
