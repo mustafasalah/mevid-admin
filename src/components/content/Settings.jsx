@@ -10,6 +10,7 @@ import FaviconField from "./FaviconField";
 import SettingsActions from "../../actions/SettingsActions";
 import { upperFirst } from "../../js/Utility";
 import { getAvailableLangs } from "../services/settingsServices";
+import text, { isRtl } from "../../langs/lang";
 
 const supported_social_media = [
     "facebook",
@@ -33,8 +34,8 @@ const supported_social_media = [
 const SaveButton = () => (
     <section className="widget save-btn">
         <button className="primary-btn focus-shadow radius">
-            <i className="fas fa-save" style={{ marginRight: 3 }}></i> Save
-            Changes
+            <i className="fas fa-save" style={{ marginRight: 3 }}></i>{" "}
+            {text("save_changes")}
         </button>
     </section>
 );
@@ -56,7 +57,10 @@ const Settings = ({
 
     return (
         <Fragment>
-            <SectionHeader name="General Settings" faClass="fas fa-cogs" />
+            <SectionHeader
+                name={text("general_settings")}
+                faClass="fas fa-cogs"
+            />
             <form
                 method="POST"
                 onSubmit={(e) => {
@@ -65,66 +69,79 @@ const Settings = ({
                 }}
             >
                 <div id="main-side">
-                    <FormSection header="Website Meta Information">
+                    <FormSection header={text("website_meta_information")}>
                         <div className="row">
                             <div className="col-2">
                                 <FormField
                                     name="settings.site_name"
-                                    label="Site Name"
+                                    label={text("site_name")}
                                     type="text"
-                                    placeholder="e.g. MEVid"
+                                    placeholder={`${text("e.g.")} MEVid`}
                                     required
                                 />
                             </div>
                             <div className="col-2">
                                 <FormField
                                     name="settings.home_page_title"
-                                    label="Home Page Title"
+                                    label={text("home_page_title")}
                                     type="text"
-                                    placeholder="[site-name] - [page title will appear here...]"
+                                    placeholder={`[${text(
+                                        "site_name"
+                                    )}] - [${text(
+                                        "page_title_will_appear_here"
+                                    )}]`}
                                     required
                                 />
                             </div>
                             <div className="col-2">
                                 <FormField
                                     name="settings.keywords"
-                                    label="Keywords"
+                                    label={text("keywords")}
                                     type="text"
-                                    placeholder="e.g. Movies, TV Shows, Anime, online watching..."
+                                    placeholder={`${text("e.g.")} ${text(
+                                        "movies"
+                                    )}, ${text("tv_shows")}, ${text(
+                                        "anime"
+                                    )}, ${text("online_watching")}...`}
                                     required
                                 />
                             </div>
                             <div className="col-2">
                                 <FormField
                                     name="settings.description"
-                                    label="Site Description"
+                                    label={text("site_description")}
                                     type="textarea"
-                                    placeholder="eg. MEVid for watching and downloading Movies, anime and TV Show as you want, With different resolution and Quality!"
+                                    placeholder={`${text("e.g.")} ${text(
+                                        "site_description_example"
+                                    )}`}
                                     required
                                 />
                             </div>
                         </div>
                     </FormSection>
 
-                    <FormSection header="General Options" faClass="fas fa-cog">
+                    <FormSection
+                        header={text("general_options")}
+                        faClass="fas fa-cog"
+                    >
                         <div className="row">
                             <div className="col-3-1">
                                 <FormField
                                     name="settings.site_content"
-                                    label="Site Content Type"
+                                    label={text("site_content_type")}
                                     type="select"
-                                    placeholder="Select content types"
+                                    placeholder={text("select_content_types")}
                                     options={[
                                         {
-                                            label: "Movies",
+                                            label: text("movies"),
                                             value: "movies",
                                         },
                                         {
-                                            label: "TV Shows",
+                                            label: text("tv_shows"),
                                             value: "tvshows",
                                         },
                                         {
-                                            label: "Anime",
+                                            label: text("anime"),
                                             value: "anime",
                                         },
                                     ]}
@@ -135,9 +152,9 @@ const Settings = ({
                             <div className="col-3-1">
                                 <FormField
                                     name="settings.default_language"
-                                    label="Site Language"
+                                    label={text("site_language")}
                                     type="select"
-                                    placeholder="Select Site Language"
+                                    placeholder={text("select_site_language")}
                                     options={langs}
                                     required
                                 />
@@ -145,16 +162,16 @@ const Settings = ({
                             <div className="col-3-1">
                                 <FormField
                                     name="settings.dark_mode"
-                                    label="Default Theme"
+                                    label={text("default_theme")}
                                     type="select"
-                                    placeholder="Select Default Theme"
+                                    placeholder={text("select_default_theme")}
                                     options={[
                                         {
-                                            label: "Light Theme",
+                                            label: text("light_theme"),
                                             value: 0,
                                         },
                                         {
-                                            label: "Dark Theme",
+                                            label: text("dark_theme"),
                                             value: 1,
                                         },
                                     ]}
@@ -166,7 +183,7 @@ const Settings = ({
                                 <div className="field">
                                     <FormField
                                         name="settings.comments_enabled"
-                                        label="Comments"
+                                        label={text("comments")}
                                         type="radio"
                                     />
                                 </div>
@@ -176,7 +193,7 @@ const Settings = ({
                                 <div className="field">
                                     <FormField
                                         name="settings.comments_supervisor"
-                                        label="Supervise Comments"
+                                        label={text("supervise_comments")}
                                         type="radio"
                                     />
                                 </div>
@@ -186,7 +203,7 @@ const Settings = ({
                                 <div className="field">
                                     <FormField
                                         name="settings.reviews_enabled"
-                                        label="Reviews"
+                                        label={text("reviews")}
                                         type="radio"
                                     />
                                 </div>
@@ -196,7 +213,7 @@ const Settings = ({
                                 <div className="field">
                                     <FormField
                                         name="settings.reviews_supervisor"
-                                        label="Supervise Reviews"
+                                        label={text("supervise_reviews")}
                                         type="radio"
                                     />
                                 </div>
@@ -206,7 +223,7 @@ const Settings = ({
                                 <div className="field">
                                     <FormField
                                         name="settings.registeration_enabled"
-                                        label="User Registeration"
+                                        label={text("user_registeration")}
                                         type="radio"
                                     />
                                 </div>
@@ -215,24 +232,28 @@ const Settings = ({
                     </FormSection>
 
                     <FormSection
-                        header="External Api Configuration"
+                        header={text("external_api_configuration")}
                         faClass="fas fa-cog"
                     >
                         <div className="row">
                             <div className="col-2">
                                 <FormField
                                     name="settings.fb_app_id"
-                                    label="Facebook App ID"
+                                    label={text("facebook_app_id")}
                                     type="text"
-                                    placeholder="Get it from: https://developers.facebook.com/apps"
+                                    placeholder={`${text(
+                                        "get_it_from"
+                                    )} https://developers.facebook.com/apps`}
                                 />
                             </div>
                             <div className="col-2">
                                 <FormField
                                     name="settings.fb_app_secret"
-                                    label="Facebook App Secret"
+                                    label={text("facebook_app_secret")}
                                     type="text"
-                                    placeholder="Get it from: https://developers.facebook.com/apps"
+                                    placeholder={`${text(
+                                        "get_it_from"
+                                    )} https://developers.facebook.com/apps`}
                                 />
                             </div>
                         </div>
@@ -240,17 +261,21 @@ const Settings = ({
                             <div className="col-2">
                                 <FormField
                                     name="settings.tw_app_id"
-                                    label="Twitter App ID"
+                                    label={text("twitter_app_id")}
                                     type="text"
-                                    placeholder="Get it from: https://apps.twitter.com/app/new"
+                                    placeholder={`${text(
+                                        "get_it_from"
+                                    )} https://apps.twitter.com/app/new`}
                                 />
                             </div>
                             <div className="col-2">
                                 <FormField
                                     name="settings.tw_app_secret"
-                                    label="Twitter App Secret"
+                                    label={text("twitter_app_secret")}
                                     type="text"
-                                    placeholder="Get it from: https://apps.twitter.com/app/new"
+                                    placeholder={`${text(
+                                        "get_it_from"
+                                    )} https://apps.twitter.com/app/new`}
                                 />
                             </div>
                         </div>
@@ -258,7 +283,7 @@ const Settings = ({
                             <div className="col-2">
                                 <FormField
                                     name="settings.captcha_site_key"
-                                    label="Captcha Site Key"
+                                    label={text("captcha_site_key")}
                                     type="text"
                                     placeholder="https://www.google.com/recaptcha/admin/create"
                                 />
@@ -266,7 +291,7 @@ const Settings = ({
                             <div className="col-2">
                                 <FormField
                                     name="settings.captcha_secret_key"
-                                    label="Captcha Secret Key"
+                                    label={text("captcha_secret_key")}
                                     type="text"
                                     placeholder="https://www.google.com/recaptcha/admin/create"
                                 />
@@ -275,7 +300,7 @@ const Settings = ({
                     </FormSection>
 
                     <FormSection
-                        header="Social Media Accounts"
+                        header={text("social_media_accounts")}
                         faClass="fas fa-share-alt"
                         closed
                     >
@@ -286,19 +311,33 @@ const Settings = ({
                                         <div className="col-4-3">
                                             <FormField
                                                 name={`settings.${social_media}.url`}
-                                                label={`${upperFirst(
-                                                    social_media
-                                                )} Account`}
+                                                label={
+                                                    isRtl()
+                                                        ? `${text(
+                                                              "a_account"
+                                                          )} ${upperFirst(
+                                                              social_media
+                                                          )}`
+                                                        : `${upperFirst(
+                                                              social_media
+                                                          )} ${text(
+                                                              "a_account"
+                                                          )}`
+                                                }
                                                 type="url"
-                                                placeholder={`e.g. https://www.${social_media}.com/mevid`}
+                                                placeholder={`${text(
+                                                    "e.g."
+                                                )} https://www.${social_media}.com/mevid`}
                                             />
                                         </div>
                                         <div className="col-4-1">
                                             <FormField
                                                 name={`settings.${social_media}.counter`}
-                                                label="Fans"
+                                                label={text("fans")}
                                                 type="text"
-                                                placeholder="e.g. 20K"
+                                                placeholder={`${text(
+                                                    "e.g."
+                                                )} 20K`}
                                             />
                                         </div>
                                     </div>
@@ -311,15 +350,25 @@ const Settings = ({
                 <div id="end-side">
                     <SaveButton />
 
-                    <FormSideSection label="Site Logo" id="site-logo" required>
+                    <FormSideSection
+                        label={text("site_logo")}
+                        id="site-logo"
+                        required
+                    >
                         <LogoField />
                     </FormSideSection>
 
-                    <FormSideSection label="Site Background" id="site-bg">
+                    <FormSideSection
+                        label={text("site_background")}
+                        id="site-bg"
+                    >
                         <SiteBackgroundField />
                     </FormSideSection>
 
-                    <FormSideSection label="Site Favicon" id="site-favicon">
+                    <FormSideSection
+                        label={text("site_favicon")}
+                        id="site-favicon"
+                    >
                         <FaviconField />
                     </FormSideSection>
 

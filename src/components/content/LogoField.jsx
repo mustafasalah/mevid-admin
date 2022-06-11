@@ -2,13 +2,14 @@ import React, { Fragment } from "react";
 import FormField from "../common/form/FormField";
 import { connect } from "react-redux";
 import { toFileSize } from "./../../js/Utility";
+import text from "../../langs/lang";
 
 const LogoField = ({ logo, dark_logo }) => {
     return (
         <Fragment>
             <div className="row">
                 <div className="col-1 center">
-                    <span className="version">Light Version</span>
+                    <span className="version">{text("light_version")}</span>
                 </div>
                 <div className="col-1">
                     <span
@@ -35,7 +36,7 @@ const LogoField = ({ logo, dark_logo }) => {
                     <FormField
                         type="file"
                         name="settings.logo"
-                        label="Upload Logo"
+                        label={text("upload_image")}
                         labelClass="primary-btn upload-btn radius focus-shadow"
                         accept="image/*"
                         unwrappedField
@@ -46,7 +47,7 @@ const LogoField = ({ logo, dark_logo }) => {
 
             <div className="row">
                 <div className="col-1 center">
-                    <span className="version">Dark Version</span>
+                    <span className="version">{text("dark_version")}</span>
                 </div>
                 <div className="col-1">
                     <span
@@ -76,7 +77,7 @@ const LogoField = ({ logo, dark_logo }) => {
                     <FormField
                         type="file"
                         name="settings.dark_logo"
-                        label="Upload Logo"
+                        label={text("upload_image")}
                         labelClass="primary-btn upload-btn radius focus-shadow"
                         accept="image/*"
                         unwrappedField
@@ -88,7 +89,7 @@ const LogoField = ({ logo, dark_logo }) => {
             <div className="row note">
                 <div className="col-1">
                     <small>
-                        Note: recommended image width to height ratio is 225:100
+                        {text("note_recommended_image_width_to_height_ratio")}
                     </small>
                 </div>
             </div>
