@@ -272,4 +272,12 @@
 
 .rtl .widget.form input:checked + label.switch-btn::after {
     content: "مفعّل";
-}   
+}
+
+.rtl #watching .upload-btn {
+    float: left;
+}
+
+.rtl .Toastify__toast {
+    direction: rtl;
+}

@@ -16,6 +16,7 @@ import { getShowArcs } from "../services/showsServices";
 import Loader from "./../common/Loader";
 import { authorize } from "./../../js/Utility";
 import getDataActions from "./../../actions/DataActions";
+import text from "../../langs/lang";
 
 const EpisodeForm = ({
     loggedUser,
@@ -56,10 +57,13 @@ const EpisodeForm = ({
 
                 onEpisodeDataLoad(episodeData);
             } catch (ex) {
-                toast.error("There is no episode with this id: " + episodeId, {
-                    autoClose: 2500,
-                    onClose: () => history.goBack(),
-                });
+                toast.error(
+                    `${text("there_is_no_episode_with_this_id")} ` + episodeId,
+                    {
+                        autoClose: 2500,
+                        onClose: () => history.goBack(),
+                    }
+                );
             }
         })();
     }, []);
@@ -74,10 +78,13 @@ const EpisodeForm = ({
             try {
                 setShowArcs(await getShowArcs(data.show_id));
             } catch (ex) {
-                toast.error("There is no show with this id: " + data.show_id, {
-                    autoClose: 2500,
-                    onClose: () => history.goBack(),
-                });
+                toast.error(
+                    `${text("there_is_no_show_with_this_id")} ` + data.show_id,
+                    {
+                        autoClose: 2500,
+                        onClose: () => history.goBack(),
+                    }
+                );
             }
         })();
     }, [data.show_id]);
@@ -85,7 +92,7 @@ const EpisodeForm = ({
     return (
         <Fragment>
             <SectionHeader
-                name={`${episodeId ? "Edit" : "New"} Episode`}
+                name={episodeId ? text("edit_episode") : text("new_episode")}
                 faClass={`fas ${episodeId ? "fa-edit" : "fa-plus fa-sm"}`}
             />
 
@@ -101,14 +108,16 @@ const EpisodeForm = ({
                     }}
                 >
                     <div id="main-side">
-                        <FormSection header="Episode Information">
+                        <FormSection header={text("episode_information")}>
                             <div className="row">
                                 <div className="col-1">
                                     <FormField
                                         name="episode.show_id"
-                                        label="Select Show"
+                                        label={text("select_show")}
                                         type="select"
-                                        placeholder="Select Episode Show"
+                                        placeholder={text(
+                                            "select_episode_show"
+                                        )}
                                         options={shows
                                             .filter(
                                                 (show) =>
@@ -131,15 +140,17 @@ const EpisodeForm = ({
                                 <div className="col-3-2">
                                     <FormField
                                         name="episode.title"
-                                        label="Episode Title"
+                                        label={text("episode_title")}
                                         type="text"
-                                        placeholder="e.g. The Pirates Of The Caribbean"
+                                        placeholder={`${text(
+                                            "e.g."
+                                        )} The End of the beginning`}
                                     />
                                 </div>
                                 <div className="col-3-1">
                                     <FormField
                                         name="episode.episode_no"
-                                        label="Episode No"
+                                        label={text("episode_no")}
                                         type="number"
                                         min="0"
                                         required
@@ -154,16 +165,18 @@ const EpisodeForm = ({
                                             <FormField
                                                 name="episode.duration"
                                                 className="time"
-                                                label="Duration"
+                                                label={text("duration")}
                                                 type="text"
-                                                placeholder="XX hours XX min OR XX min"
+                                                placeholder={`XX hours XX min ${text(
+                                                    "or"
+                                                )} XX min`}
                                             />
                                         </div>
                                         <div className="col-2">
                                             <FormField
                                                 name="episode.release_date"
                                                 className="date"
-                                                label="Release Date"
+                                                label={text("release_date")}
                                                 type="text"
                                                 dateType="date"
                                                 autoComplete="off"
@@ -174,9 +187,11 @@ const EpisodeForm = ({
                                 <div className="col-3-1">
                                     <FormField
                                         name="episode.episode_arc"
-                                        label="Arc of Episode"
+                                        label={text("arc_of_episode")}
                                         type="select"
-                                        placeholder="The arc of episode, if it have"
+                                        placeholder={text(
+                                            "the_arc_of_episode_if_it_have"
+                                        )}
                                         options={showArcs.map((arc) => {
                                             return {
                                                 label: arc.arc_name,
@@ -191,16 +206,18 @@ const EpisodeForm = ({
                                 <div className="col-1">
                                     <FormField
                                         name="episode.story"
-                                        label="Story"
+                                        label={text("story")}
                                         type="textarea"
-                                        placeholder="Something about episode story here..."
+                                        placeholder={text(
+                                            "something_about_episode_story_here"
+                                        )}
                                     />
                                 </div>
                             </div>
                         </FormSection>
 
                         <FormSection
-                            header="Watching Servers"
+                            header={text("watching_servers")}
                             faClass="fas fa-video"
                             id="watching"
                         >
@@ -213,14 +230,14 @@ const EpisodeForm = ({
                                 />
                             ))}
                             <AddMoreBtn
-                                label="Add More Servers"
+                                label={text("add_more_servers")}
                                 formName="episode"
                                 listName="watching_servers"
                             />
                         </FormSection>
 
                         <FormSection
-                            header="Video Files and Download Links"
+                            header={text("video_files_and_download_links")}
                             faClass="far fa-file-video"
                             id="video-files"
                         >
@@ -233,7 +250,7 @@ const EpisodeForm = ({
                             ))}
 
                             <AddMoreBtn
-                                label="Add More Videos"
+                                label={text("add_more_videos")}
                                 formName="episode"
                                 listName="video_files"
                             />
@@ -241,31 +258,38 @@ const EpisodeForm = ({
                     </div>
 
                     <div id="end-side">
-                        <FormSideSection label="Publish" id="publish">
+                        <FormSideSection label={text("publish")} id="publish">
                             <PublishFields
                                 form="episode"
                                 submitLabel={
-                                    data.id ? "Save Changes" : "Create"
+                                    data.id
+                                        ? text("save_changes")
+                                        : text("create")
                                 }
                                 extraFields={[
                                     <FormField
                                         type="select"
-                                        label="Comments"
+                                        label={text("comments")}
                                         name="episode.comments_enabled"
                                         options={[
-                                            { label: "Enable", value: 1 },
-                                            { label: "Disable", value: 0 },
+                                            { label: text("enable"), value: 1 },
+                                            {
+                                                label: text("disable"),
+                                                value: 0,
+                                            },
                                         ]}
                                     />,
                                 ]}
                                 deleteBtn={
                                     data.id
                                         ? {
-                                              label: "Delete",
+                                              label: text("delete"),
                                               handler: () => {
                                                   const deleteIt =
                                                       window.confirm(
-                                                          "Are you sure to delete this episode?"
+                                                          text(
+                                                              "are_you_sure_to_delete_this_episode"
+                                                          )
                                                       );
                                                   deleteIt &&
                                                       deleteEpisodeHandler(

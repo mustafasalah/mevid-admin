@@ -628,7 +628,7 @@
 	padding-bottom: 25px;
 }
 
-#watching input[name^="res"] {
+#watching input.resolution-field {
 	width: 70px;
 }
 
@@ -813,6 +813,7 @@ ol#arcs-list .arc-actions a.delete::before {
 	color: #8d99ae;
 	font-size: 11px;
 	display: block;
+	margin-top: 7px;
 }
 
 #end-side .image {

@@ -1,6 +1,7 @@
 import React from "react";
 import * as ACTIONS from "../../actions/ActionTypes";
 import { connect } from "react-redux";
+import text from "../../langs/lang";
 
 const ArcsListItem = ({ arc, dispatch }) => {
     const { id, key, no, name } = arc;
@@ -8,7 +9,9 @@ const ArcsListItem = ({ arc, dispatch }) => {
     return (
         <li>
             <div className="arc-info">
-                <span>Arc {no.toString().padStart(2, "0")}: </span>
+                <span>
+                    {text("arc")} {no.toString().padStart(2, "0")}:{" "}
+                </span>
                 <strong>{name}</strong>
             </div>
             <ul className="arc-actions">
@@ -30,7 +33,7 @@ const ArcsListItem = ({ arc, dispatch }) => {
                         }}
                     >
                         {" "}
-                        edit
+                        {text("edit")}
                     </a>
 
                     <a
@@ -46,7 +49,7 @@ const ArcsListItem = ({ arc, dispatch }) => {
                         }}
                     >
                         {" "}
-                        delete
+                        {text("delete")}
                     </a>
                 </li>
             </ul>
