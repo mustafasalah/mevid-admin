@@ -10,7 +10,7 @@ import {
     handleFaviconImageUpload,
     handleSiteBackgroundImageUpload,
 } from "./UploadHandlers";
-import text from "../langs/lang";
+import text, { setDefaultLang } from "../langs/lang";
 
 const onFormSubmit = async (data, callback) => {
     const { value, error } = joi.object(settingsSchema).validate(data);
@@ -56,7 +56,11 @@ const onFormSubmit = async (data, callback) => {
 
 const onSettingsDataLoad = async () => ({
     type: ACTIONS.LOAD_SETTINGS_DATA,
-    payload: getSettings(),
+    payload: (async () => {
+        const settings = await getSettings();
+        setDefaultLang(settings.default_language);
+        return settings;
+    })(),
     meta: {
         formType: "settings",
     },

@@ -33,7 +33,7 @@
     content: "\f053";
 }
 
-.rtl #navigation li + li, #navigation li + li > * {
+.rtl #navigation li + li, .rtl #navigation li + li > * {
     margin-left: 0;
     margin-right: 0.6666em;
 }

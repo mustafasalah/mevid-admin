@@ -2,16 +2,18 @@ import lang from "./lang.json";
 import genres from "./genres.lang.json";
 import $ from "jquery";
 
-// const defaultLang =
-//     localStorage.getItem("default_lang") ?? window.navigator.language;
+const supportedLanguages = ["en", "ar"];
+let defaultLang = "en";
 
-const defaultLang = "ar";
+export const setDefaultLang = (lang) => {
+    defaultLang = supportedLanguages.includes(lang) ? lang : "en";
 
-// Change lang attribute
-$("html").attr({
-    lang: defaultLang,
-    // dir: defaultLang === "ar" ? "rtl" : "ltr",
-});
+    $("html").attr({
+        lang,
+        dir: lang === "ar" ? "rtl" : "ltr",
+        class: lang === "ar" ? "rtl" : "ltr",
+    });
+};
 
 export const genre_text = (genre) => {
     return genres[defaultLang][genre] ?? genre.replace("_", " ");

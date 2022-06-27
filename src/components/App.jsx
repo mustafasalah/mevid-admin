@@ -10,18 +10,8 @@ import SideBar from "./SideBar";
 import Content from "./Content";
 import Loader from "./common/Loader";
 import "promise-polyfill/src/polyfill";
-import $ from "jquery";
 
 class App extends Component {
-    applyDashboardLanguage() {
-        const lang = this.props.forms.settings.data.default_language;
-        $("html").attr({
-            lang,
-            dir: lang === "ar" ? "rtl" : "ltr",
-            class: lang === "ar" ? "rtl" : "ltr",
-        });
-    }
-
     async componentDidMount() {
         const {
             loginUser,
@@ -38,9 +28,6 @@ class App extends Component {
 
             // Load App Settings from the server
             await loadAppSettings();
-
-            // Apply the selected language
-            this.applyDashboardLanguage();
 
             // Load App Data (shows, episodes, users, etc...) from the server
             await loadAppData();

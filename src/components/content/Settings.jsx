@@ -10,6 +10,7 @@ import FaviconField from "./FaviconField";
 import SettingsActions from "../../actions/SettingsActions";
 import { upperFirst } from "../../js/Utility";
 import { getAvailableLangs } from "../services/settingsServices";
+import * as ACTIONS from "../../actions/ActionTypes";
 import text, { isRtl } from "../../langs/lang";
 
 const supported_social_media = [
@@ -44,6 +45,8 @@ const Settings = ({
     data,
     onFormSubmit: onSubmit,
     onSettingsDataLoad: loadSettingsData,
+    makeAppLoading,
+    appLoaded,
 }) => {
     const [langs, setLangs] = useState([]);
 
@@ -65,7 +68,11 @@ const Settings = ({
                 method="POST"
                 onSubmit={(e) => {
                     e.preventDefault();
-                    onSubmit(data, loadSettingsData);
+                    makeAppLoading();
+                    onSubmit(data, async () => {
+                        await loadSettingsData();
+                        appLoaded();
+                    });
                 }}
             >
                 <div id="main-side">
@@ -379,7 +386,8 @@ const Settings = ({
     );
 };
 
-export default connect(
-    (state) => ({ data: state.forms.settings.data }),
-    SettingsActions
-)(Settings);
+export default connect((state) => ({ data: state.forms.settings.data }), {
+    ...SettingsActions,
+    makeAppLoading: () => ({ type: ACTIONS.APP_LOADING }),
+    appLoaded: () => ({ type: ACTIONS.APP_LOADED }),
+})(Settings);
