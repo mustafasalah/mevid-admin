@@ -100,8 +100,16 @@ class Users extends AbstractTablePage {
     ];
 
     filtersData = {
-        status: ["active", "banned"],
-        role: ["admin", "supervisor", "user"],
+        status: [
+            { label: text("active"), value: "active" },
+            { label: text("banned"), value: "banned" },
+        ],
+        role: [
+            { label: text("admin"), value: "admin" },
+            { label: text("supervisor"), value: "supervisor" },
+            { label: text("publisher"), value: "publisher" },
+            { label: text("user"), value: "user" },
+        ],
     };
 
     actions = [

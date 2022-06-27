@@ -1,7 +1,7 @@
 import React from "react";
 import getAuthors from "../services/authorsServices";
 import AbstractTablePage from "./AbstractTablePage";
-import getGenres from "./../services/getGenres";
+import { getGroupGenresOptions } from "./../services/getGenres";
 import text from "../../langs/lang";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
@@ -89,9 +89,15 @@ class AbstractShows extends AbstractTablePage {
     ];
 
     filtersData = {
-        genres: getGenres(this.constructor.name),
-        author: getAuthors().map((author) => author.name),
-        status: ["published", "drafted"],
+        genres: getGroupGenresOptions(this.constructor.name),
+        author: getAuthors().map((author) => ({
+            label: author.name,
+            value: author.name,
+        })),
+        status: [
+            { label: text("published"), value: "published" },
+            { label: text("drafted"), value: "drafted" },
+        ],
     };
 
     actions = [
@@ -113,7 +119,10 @@ class AbstractShows extends AbstractTablePage {
     ];
 
     componentWillUpdate() {
-        this.filtersData.author = getAuthors().map((author) => author.name);
+        this.filtersData.author = getAuthors().map((author) => ({
+            label: author.name,
+            value: author.name,
+        }));
     }
 
     handleDelete() {

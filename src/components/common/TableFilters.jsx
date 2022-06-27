@@ -26,9 +26,9 @@ const TableFilters = ({ filters, filtersData, onFilter }) => {
                         >
                             <option value="">{filter.label}</option>
 
-                            {filtersData[filterName].map((opt) => (
-                                <option key={opt} value={opt}>
-                                    {opt}
+                            {filtersData[filterName].map(({ label, value }) => (
+                                <option key={value} value={value}>
+                                    {label}
                                 </option>
                             ))}
                         </select>

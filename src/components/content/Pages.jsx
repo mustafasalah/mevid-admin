@@ -78,7 +78,10 @@ class Pages extends AbstractTablePage {
     ];
 
     filtersData = {
-        status: ["published", "drafted"],
+        status: [
+            { label: text("published"), value: "published" },
+            { label: text("drafted"), value: "drafted" },
+        ],
     };
 
     actions = [

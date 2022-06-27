@@ -79,6 +79,12 @@ export default function getGenres(showType = "shows") {
     }
 }
 
+export const getGroupGenresOptions = (group) =>
+    getGenres(group).map((genre) => ({
+        label: genre_text(genre),
+        value: genre,
+    }));
+
 export const getGenresOptions = getGenres().map((genre) => ({
     label: genre_text(genre),
     value: genre,

@@ -134,7 +134,10 @@ class Comments extends AbstractTablePage {
     ];
 
     filtersData = {
-        status: ["approved", "unapproved"],
+        status: [
+            { label: text("approved"), value: "approved" },
+            { label: text("unapproved"), value: "unapproved" },
+        ],
     };
 
     actions = [
