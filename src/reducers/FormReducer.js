@@ -9,6 +9,7 @@ import initialLayoutState from "./InitialLayoutState";
 import initialMenuState from "./InitialMenuState";
 import initialSubMenuState from "./InitialSubMenuState";
 import { toast } from "react-toastify";
+import text from "../langs/lang";
 
 const formReducer = (formType) => {
     let initialState;

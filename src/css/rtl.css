@@ -25,6 +25,10 @@
     padding-left: 0;
 }
 
+.rtl #navigation li {
+    unicode-bidi: inherit;
+}
+
 .rtl #navigation li + li::before {
     content: "\f053";
 }
@@ -268,10 +272,13 @@
 
 .rtl .widget.form label.switch-btn::after {
     content: "متوقّف";
+    font-size: 11px;
+    padding: 0 0 0 2px;
 }
 
 .rtl .widget.form input:checked + label.switch-btn::after {
     content: "مفعّل";
+    padding: 0 2px 0 0;
 }
 
 .rtl #watching .upload-btn {
@@ -280,4 +287,9 @@
 
 .rtl .Toastify__toast {
     direction: rtl;
+}
+
+.rtl #video-files .video-file-name {
+    margin-left: 0;
+    margin-right: 10px;
 }

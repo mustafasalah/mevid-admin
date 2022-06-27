@@ -56,7 +56,10 @@ const PublishFields = ({
                         type="text"
                         htmlAfterField={
                             <small>
-                                {text("used_to_find_the")} {text(form)}{" "}
+                                {text("used_to_find_the")}{" "}
+                                {form === "page"
+                                    ? text(form)
+                                    : text(`the_${form}`)}{" "}
                                 {text("in_the_search_engines")}
                             </small>
                         }
@@ -71,7 +74,9 @@ const PublishFields = ({
                         htmlAfterField={
                             <small>
                                 {text("shown_in_search_engine_results_below")}{" "}
-                                {text(form)}{" "}
+                                {form === "page"
+                                    ? text(form)
+                                    : text(`the_${form}`)}{" "}
                                 {text("lang_code") === "en"
                                     ? text("title")
                                     : ""}

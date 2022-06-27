@@ -1,5 +1,6 @@
 import * as ACTIONS from "../actions/ActionTypes";
 import { toast } from "react-toastify";
+import text from "../langs/lang";
 
 const layoutReducer =
     (layoutType) =>
@@ -17,7 +18,7 @@ const layoutReducer =
                 }
 
                 // alert success message
-                toast.success(`The widget has been deleted successfully!`);
+                toast.success(text("the_widget_has_been_deleted_successfully"));
 
                 return state.filter((widget) => widget.id !== meta.id);
 

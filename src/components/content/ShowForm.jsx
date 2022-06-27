@@ -104,7 +104,7 @@ const ShowForm = ({
                 onShowDataLoad(showData);
             } catch (ex) {
                 toast.error(
-                    `${text("there_is_no_show_with_this_id")} ` + showId,
+                    `${text("there_is_no_show_with_this_id")} ${showId}`,
                     {
                         autoClose: 2500,
                         onClose: () => history.goBack(),

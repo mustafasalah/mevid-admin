@@ -49,10 +49,13 @@ const Page = ({
                     editor.html(content);
                 });
             } catch (ex) {
-                toast.error(`${text("there_is_no_page_with_this_id")} pageId`, {
-                    autoClose: 2500,
-                    onClose: () => history.goBack(),
-                });
+                toast.error(
+                    `${text("there_is_no_page_with_this_id")} ${pageId}`,
+                    {
+                        autoClose: 2500,
+                        onClose: () => history.goBack(),
+                    }
+                );
             }
         })();
     }, []);

@@ -6,72 +6,73 @@ import { settingsSchema } from "./ValidationSchema";
 import FormActions from "./FormActions";
 import getSettings from "../components/services/settingsServices";
 import {
-	handleLogoImageUpload,
-	handleFaviconImageUpload,
-	handleSiteBackgroundImageUpload,
+    handleLogoImageUpload,
+    handleFaviconImageUpload,
+    handleSiteBackgroundImageUpload,
 } from "./UploadHandlers";
+import text from "../langs/lang";
 
 const onFormSubmit = async (data, callback) => {
-	const { value, error } = joi.object(settingsSchema).validate(data);
+    const { value, error } = joi.object(settingsSchema).validate(data);
 
-	if (!error) {
-		try {
-			await http.put(`/settings/`, value);
-			toast.success("The new settings have been saved!");
+    if (!error) {
+        try {
+            await http.put(`/settings/`, value);
+            toast.success(text("the_new_settings_have_been_saved"));
 
-			await handleLogoImageUpload(value.logo, value.dark_logo);
+            await handleLogoImageUpload(value.logo, value.dark_logo);
 
-			await handleSiteBackgroundImageUpload(
-				value.site_background,
-				value.dark_site_background
-			);
+            await handleSiteBackgroundImageUpload(
+                value.site_background,
+                value.dark_site_background
+            );
 
-			await handleFaviconImageUpload(value.favicon);
+            await handleFaviconImageUpload(value.favicon);
 
-			// execute the callback function after anything was done successfully!
-			if ( typeof callback === "function" ) callback();
+            // execute the callback function after anything was done successfully!
+            if (typeof callback === "function") callback();
 
-			return {
-				type: ACTIONS.SUBMIT_FORM,
-				error: null,
-				formType: "settings",
-				noReset: true, // to a void reset all fields after submit
-			};
-		} catch (ex) {
-			// alert the network error
-			toast.error(ex.message);
-			return {
-				type: ACTIONS.SUBMIT_FORM,
-				error: ex,
-				formType: "settings",
-			};
-		}
-	} else {
-		// alert the validation error
-		toast.error(error.message);
-		return { type: ACTIONS.SUBMIT_FORM, error, formType: "settings" };
-	}
+            return {
+                type: ACTIONS.SUBMIT_FORM,
+                error: null,
+                formType: "settings",
+                noReset: true, // to a void reset all fields after submit
+            };
+        } catch (ex) {
+            // alert the network error
+            toast.error(ex.message);
+            return {
+                type: ACTIONS.SUBMIT_FORM,
+                error: ex,
+                formType: "settings",
+            };
+        }
+    } else {
+        // alert the validation error
+        toast.error(error.message);
+        return { type: ACTIONS.SUBMIT_FORM, error, formType: "settings" };
+    }
 };
 
 const onSettingsDataLoad = async () => ({
-	type: ACTIONS.LOAD_SETTINGS_DATA,
-	payload: getSettings(),
-	meta: {
-		formType: "settings",
-	},
+    type: ACTIONS.LOAD_SETTINGS_DATA,
+    payload: getSettings(),
+    meta: {
+        formType: "settings",
+    },
 });
 
 const onImageDelete = (imageType) => ({
-	type: ACTIONS.DELETE_APP_IMAGE,
-	imageType,
-	formType: "settings",
+    type: ACTIONS.DELETE_APP_IMAGE,
+    imageType,
+    formType: "settings",
 });
 
 const settingsActions = {
-	onFormSubmit,
-	onFieldChange: FormActions.onFieldChanged("episode"),
-	onSettingsDataLoad,
-	onImageDelete,
+    onFormSubmit,
+    onFieldChange: FormActions.onFieldChanged("episode"),
+    onSettingsDataLoad,
+    onImageDelete,
 };
 
 export default settingsActions;

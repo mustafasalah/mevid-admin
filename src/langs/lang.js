@@ -22,7 +22,7 @@ export const isRtl = () => text("lang_code") === "ar";
 export default function text(pharse) {
     pharse = pharse.toLowerCase().replace(" ", "_");
 
-    if (pharse === "") return "";
+    if (pharse === "" || lang[pharse] === undefined) return "";
 
     return lang[pharse][defaultLang] ?? pharse.replace("_", " ");
 }
