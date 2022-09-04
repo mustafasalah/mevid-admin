@@ -6,7 +6,7 @@ const supportedLanguages = ["en", "ar"];
 let defaultLang = "en";
 
 export const setDefaultLang = (lang) => {
-    defaultLang = supportedLanguages.includes(lang) ? lang : "en";
+    lang = supportedLanguages.includes(lang) ? lang : defaultLang;
 
     $("html").attr({
         lang,
