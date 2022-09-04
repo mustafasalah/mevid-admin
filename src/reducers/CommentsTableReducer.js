@@ -6,11 +6,11 @@ const commentsTableInitialState = {
     filters: {
         select: {
             status: {
-                label: text("all_status"),
+                label: "all_status",
                 value: "",
             },
         },
-        search: { showName: { label: text("show_name"), value: "" } },
+        search: { showName: { label: "show_name", value: "" } },
     },
     sortColumn: {
         column: "publishDate",

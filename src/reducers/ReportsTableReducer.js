@@ -5,7 +5,7 @@ const reportsTableInitialState = {
     ...tableInitialState,
     filters: {
         select: {},
-        search: { showName: { label: text("show_name"), value: "" } },
+        search: { showName: { label: "show_name", value: "" } },
     },
     sortColumn: {
         column: "date",

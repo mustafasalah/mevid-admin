@@ -2,17 +2,6 @@ import React from "react";
 import text from "../../langs/lang";
 import Select from "./../common/form/Select";
 
-const daysText = text("full_days");
-const daysMap = new Map([
-    ["sun", daysText[0]],
-    ["mon", daysText[1]],
-    ["tue", daysText[2]],
-    ["wed", daysText[3]],
-    ["thu", daysText[4]],
-    ["fri", daysText[5]],
-    ["sat", daysText[6]],
-]);
-
 const SchedulerForm = ({
     shows,
     data,
@@ -21,6 +10,17 @@ const SchedulerForm = ({
     onShowUpdated,
     onFieldUpdate,
 }) => {
+    const daysText = text("full_days");
+    const daysMap = new Map([
+        ["sun", daysText[0]],
+        ["mon", daysText[1]],
+        ["tue", daysText[2]],
+        ["wed", daysText[3]],
+        ["thu", daysText[4]],
+        ["fri", daysText[5]],
+        ["sat", daysText[6]],
+    ]);
+
     function isFormFilled() {
         const { showId, day, time } = data;
         return showId !== "" && day !== "" && time !== "";

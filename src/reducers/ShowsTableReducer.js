@@ -1,15 +1,14 @@
-import text from "../langs/lang";
 import tableReducer, { tableInitialState } from "./TableReducer";
 
 const showsTableInitialState = {
     ...tableInitialState,
     filters: {
         select: {
-            genres: { label: text("all_genres"), value: "" },
-            author: { label: text("all_authors"), value: "" },
-            status: { label: text("all_status"), value: "" },
+            genres: { label: "all_genres", value: "" },
+            author: { label: "all_authors", value: "" },
+            status: { label: "all_status", value: "" },
         },
-        search: { name: { label: text("show_name"), value: "" } },
+        search: { name: { label: "show_name", value: "" } },
     },
     sortColumn: {
         column: "publishDate",

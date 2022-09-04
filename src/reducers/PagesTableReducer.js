@@ -6,11 +6,11 @@ const pagesTableInitialState = {
     filters: {
         select: {
             status: {
-                label: text("all_status"),
+                label: "all_status",
                 value: "",
             },
         },
-        search: { title: { label: text("page_title"), value: "" } },
+        search: { title: { label: "page_title", value: "" } },
     },
     sortColumn: {
         column: "publishDate",

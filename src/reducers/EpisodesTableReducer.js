@@ -5,11 +5,11 @@ const episodesTableInitialState = {
     ...tableInitialState,
     filters: {
         select: {
-            category: { label: text("all_categories"), value: "" },
-            author: { label: text("all_authors"), value: "" },
-            status: { label: text("all_status"), value: "" },
+            category: { label: "all_categories", value: "" },
+            author: { label: "all_authors", value: "" },
+            status: { label: "all_status", value: "" },
         },
-        search: { showName: { label: text("show_name"), value: "" } },
+        search: { showName: { label: "show_name", value: "" } },
     },
     sortColumn: {
         column: "publishDate",

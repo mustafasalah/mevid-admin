@@ -5,13 +5,15 @@ import $ from "jquery";
 const supportedLanguages = ["en", "ar"];
 let defaultLang = "en";
 
-export const setDefaultLang = (lang) => {
-    lang = supportedLanguages.includes(lang) ? lang : defaultLang;
+export const setDefaultLang = (selectedLang) => {
+    defaultLang = supportedLanguages.includes(selectedLang)
+        ? selectedLang
+        : defaultLang;
 
     $("html").attr({
-        lang,
-        dir: lang === "ar" ? "rtl" : "ltr",
-        class: lang === "ar" ? "rtl" : "ltr",
+        lang: defaultLang,
+        dir: defaultLang === "ar" ? "rtl" : "ltr",
+        class: defaultLang === "ar" ? "rtl" : "ltr",
     });
 };
 
@@ -20,6 +22,8 @@ export const genre_text = (genre) => {
 };
 
 export const isRtl = () => text("lang_code") === "ar";
+
+export const getCurrentLanguage = () => defaultLang;
 
 export default function text(pharse) {
     pharse = pharse.toLowerCase().replace(" ", "_");

@@ -17,14 +17,14 @@ const TableFilters = ({ filters, filtersData, onFilter }) => {
                             onChange={({ currentTarget: select }) =>
                                 onFilter("select", {
                                     [filterName]: {
-                                        label: filter.label,
+                                        label: text(filter.label),
                                         value: select.value,
                                     },
                                 })
                             }
                             className="radius-3"
                         >
-                            <option value="">{filter.label}</option>
+                            <option value="">{text(filter.label)}</option>
 
                             {filtersData[filterName].map(({ label, value }) => (
                                 <option key={value} value={value}>
@@ -44,14 +44,16 @@ const TableFilters = ({ filters, filtersData, onFilter }) => {
                         onChange={({ currentTarget: search }) =>
                             onFilter("search", {
                                 [filterName]: {
-                                    label: filter.label,
+                                    label: text(filter.label),
                                     value: search.value,
                                 },
                             })
                         }
                         type="search"
                         className="radius-3"
-                        placeholder={`${text("search_by")} ${filter.label}...`}
+                        placeholder={`${text("search_by")} ${text(
+                            filter.label
+                        )}...`}
                     />
                 </div>
             ))}

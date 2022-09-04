@@ -1,4 +1,3 @@
-import text from "../langs/lang";
 import tableReducer, { tableInitialState } from "./TableReducer";
 
 const reviewsTableInitialState = {
@@ -6,15 +5,15 @@ const reviewsTableInitialState = {
     filters: {
         select: {
             status: {
-                label: text("all_status"),
+                label: "all_status",
                 value: "",
             },
             rate: {
-                label: text("all_rates"),
+                label: "all_rates",
                 value: "",
             },
         },
-        search: { showName: { label: text("show_name"), value: "" } },
+        search: { showName: { label: "show_name", value: "" } },
     },
     sortColumn: {
         column: "publishDate",

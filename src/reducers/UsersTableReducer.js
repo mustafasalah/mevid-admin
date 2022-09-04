@@ -6,15 +6,15 @@ const usersTableInitialState = {
     filters: {
         select: {
             status: {
-                label: text("all_status"),
+                label: "all_status",
                 value: "",
             },
             role: {
-                label: text("all_roles"),
+                label: "all_roles",
                 value: "",
             },
         },
-        search: { username: { label: text("username"), value: "" } },
+        search: { username: { label: "username", value: "" } },
     },
     sortColumn: {
         column: "id",
