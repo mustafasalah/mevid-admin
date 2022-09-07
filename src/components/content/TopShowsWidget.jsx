@@ -41,9 +41,8 @@ const TopShowsWidget = ({ shows, showsNo = 5 }) => {
                         {period === ALL_TIME_PERIOD
                             ? ""
                             : period === WEEK_PERIOD
-                            ? " this week"
-                            : " this month"}{" "}
-                        yet
+                            ? text(" this week")
+                            : text(" this month")}{" "}
                     </p>
                 ) : (
                     <ol>
