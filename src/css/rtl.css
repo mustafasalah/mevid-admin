@@ -1,0 +1,295 @@
+.rtl #side-bar {
+    right: 0;
+}
+
+.rtl #content-section {
+    margin-left: 0;
+    margin-right: 260px;
+}
+
+.rtl #main-side {
+    float: right;
+}
+
+.rtl #end-side {
+    float: left;
+}
+
+.rtl #top-bar {
+    right: 260px;
+    left: 0;
+}
+
+.rtl #admin-profile {
+    padding-right: 30px;
+    padding-left: 0;
+}
+
+.rtl #navigation li {
+    unicode-bidi: inherit;
+}
+
+.rtl #navigation li + li::before {
+    content: "\f053";
+}
+
+.rtl #navigation li + li, .rtl #navigation li + li > * {
+    margin-left: 0;
+    margin-right: 0.6666em;
+}
+
+.rtl #navigation li i {
+    margin-right: 0;
+    margin-left: 0.3846em;
+}
+
+.rtl #admin-btns > * {
+    border-left: none;
+    border-right: 1px solid #eee;
+}
+
+.rtl #admin-avatar {
+    margin-right: 0;
+    margin-left: 0.9375em;
+}
+
+.rtl #top-bar .sub-menu > li > a > i {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+.rtl #side-bar nav > ul > li > a > i {
+    margin-right: 0;
+    margin-left: 7px;
+}
+
+.rtl #side-bar nav > ul > li > a.active::after {
+    content: "\f053";
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.rtl #side-bar .sub-menu a::before {
+    content: "\f30a";
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+.rtl #statistics-container .statistic .info-side .count {
+    margin-right: 0;
+    margin-left: 7px;
+}
+
+.rtl #end-side .widget .item-info time, .rtl #layout.menu-widget .widget-box button + button {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.rtl #end-side .widget .item-content .do-btn {
+    margin: 8px 15px 0 0 ;
+}
+
+.rtl #end-side .widget .item-info time::before {
+    margin-right: 0;
+    margin-left: 3px;
+}
+
+.rtl #day-shows .show-poster {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+.rtl #top-lists-widgets .item-info {
+    margin: 5px 15px 0 0;
+}
+
+.rtl #top-authors .author-statistics {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.rtl ol#arcs-list .arc-actions a + a, .rtl #top-authors .statistic + .statistic, .rtl #apply-action-btn, .rtl #table-filters .table-filter {
+    margin-left: 0;
+    margin-right: 15px;
+}
+
+.rtl #content-section > h2 .add-new {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.rtl table ul li a::before, .rtl #table-filters > label::before, .rtl #content-section > h2 .add-new::before, .rtl #content-section > h2 .nested-add-new a::before {
+    margin-left: 5px;
+    margin-right: 0;
+}
+
+.rtl #action-control {
+    padding-right: 0;
+    padding-left: 30px;
+    border-right: none;
+    border-left: 1px solid #eee;
+}
+
+.rtl #table-filters {
+    margin-left: 0;
+    margin-right: 30px;
+}
+
+.rtl #table-filters .search-filter > input {
+    padding: 7px;
+    padding-left: 20px;
+}
+
+.rtl #table-filters .search-filter::after {
+    right: auto;
+    left: 10px;
+}
+
+.rtl #control-section .end-side > label {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.rtl table th.have-sort::after, .rtl #current-links-list .btns-wrapper button + button {
+    margin-right: 5px;
+    margin-left: 0;
+}
+
+.rtl table ul li + li {
+    border-left: none;
+    border-right: 1px solid #eee;
+}
+
+.rtl table ul li:first-child {
+    padding-right: 0;
+    padding-left: 10px;
+}
+
+.rtl table ul li:last-child {
+    padding-left: 0;
+    padding-right: 10px;
+}
+
+.rtl table span.poster {
+    float: right;
+}
+
+.rtl table span.poster, .rtl #layout h4::before, .rtl #layout .add-widget button::before {
+    margin-left: 15px;
+    margin-right: 0;
+}
+
+.rtl table th:first-child, .rtl table td:first-child {
+    border-right: none;
+    border-left: 2px solid #eee;
+}
+
+.rtl table .episode {
+    margin-left: 0;
+    margin-right: 95px;
+}
+
+.rtl #notify-btn > .sub-menu .counter {
+    transform: translate(15px, 14.7px);
+}
+
+.rtl #notify-btn .counter {
+    right: auto;
+    left: 0;
+}
+
+.rtl #content-section .more-btn::before {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+.rtl .day-shows .show-poster {
+    margin-right: 0;
+    margin-left: 20px;
+}
+
+.rtl .day-shows button + button, .rtl .icons-wrapper > label:not(:first-of-type) {
+    margin-left: 0;
+    margin-right: 10px;
+}
+
+.rtl .day-shows .day-show-actions {
+    right: auto;
+    left: 0;
+}
+
+.rtl .widget.form > h3 i {
+    margin-right: 0;
+    margin-left: 2px;
+}
+
+.rtl .day-shows ul li:not(:nth-child(3n)) {
+    border-right: none;
+    border-left: 1px solid #eee;
+}
+
+.rtl #end-side .widget .delete-btn::before, .rtl #content-section .upload-btn::before, .rtl #current-links-list .link-name::before {
+    margin-right: 0;
+    margin-left: 5px;
+}
+
+.rtl #page-html-editor .ql-editor {
+    direction: rtl;
+}
+
+.rtl #layout.menu-widget .widget-box .link-type {
+    margin-right: auto;
+    margin-left: 15px;
+}
+
+.rtl #current-links-list .btns-wrapper {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+.rtl #layout.menu-widget .sub-link::after {
+    content: "\f3bf";
+    transform: rotate(180deg);
+    display: inline-block;
+    margin-left: 0;
+    margin-right: 3px;
+}
+
+.rtl #favicon-btns * + * {
+    margin-right: 20px;
+    margin-left: 0;
+}
+
+.rtl #video-files .delete-server-btn {
+    right: auto;
+    left: 12px;
+}
+
+.rtl .widget.form button.delete-server-btn {
+    right: auto;
+    left: 0;
+}
+
+.rtl .widget.form label.switch-btn::after {
+    content: "متوقّف";
+    font-size: 11px;
+    padding: 0 0 0 2px;
+}
+
+.rtl .widget.form input:checked + label.switch-btn::after {
+    content: "مفعّل";
+    padding: 0 2px 0 0;
+}
+
+.rtl #watching .upload-btn {
+    float: left;
+}
+
+.rtl .Toastify__toast {
+    direction: rtl;
+}
+
+.rtl #video-files .video-file-name {
+    margin-left: 0;
+    margin-right: 10px;
+}

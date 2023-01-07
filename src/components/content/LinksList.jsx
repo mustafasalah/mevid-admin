@@ -1,7 +1,8 @@
 import React from "react";
+import text from "../../langs/lang";
 
 const LinksList = ({
-    title = "Current Links List",
+    title = text("current_links_list"),
     links,
     onMove,
     onEdit,
@@ -12,7 +13,7 @@ const LinksList = ({
         <div className="field">
             <label>{title}</label>
             {links.length === 0 ? (
-                <p className="not-available radius">No links yet</p>
+                <p className="not-available radius">{text("no_links_yet")}</p>
             ) : (
                 <ul id="current-links-list" className="blur-shadow radius">
                     {links.map((link, i) => (
@@ -22,7 +23,7 @@ const LinksList = ({
                                 <button
                                     type="button"
                                     className="move-btn down-btn"
-                                    title="move down"
+                                    title={text("move_down")}
                                     onClick={() => {
                                         if (forSubMenu) {
                                             onMove(
@@ -38,7 +39,7 @@ const LinksList = ({
                                 <button
                                     type="button"
                                     className="move-btn up-btn"
-                                    title="move up"
+                                    title={text("move_up")}
                                     onClick={() => {
                                         if (forSubMenu) {
                                             onMove(i + 1, link.nested_in, "up");
@@ -50,16 +51,18 @@ const LinksList = ({
                                 <button
                                     type="button"
                                     className="edit-btn"
-                                    title="edit link"
+                                    title={text("edit_link")}
                                     onClick={() => onEdit(link, i)}
                                 ></button>
                                 <button
                                     type="button"
                                     className="delete-btn"
-                                    title="delete link"
+                                    title={text("delete_link")}
                                     onClick={() => {
                                         const deleteIt = window.confirm(
-                                            "Are you sure to delete this link?"
+                                            text(
+                                                "are_you_sure_to_delete_this_link"
+                                            )
                                         );
 
                                         if (deleteIt) {

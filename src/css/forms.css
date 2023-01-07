@@ -51,7 +51,7 @@
 }
 
 .widget.form .widget-content.radius {
-	overflow: visible;
+	overflow-y: visible;
 }
 
 .widget.form button.close-btn::before {
@@ -330,7 +330,7 @@
 }
 
 .widget.form .row.note {
-	margin-top: 10px;
+	margin-top: 15px;
 	text-align: center;
 }
 
@@ -628,7 +628,7 @@
 	padding-bottom: 25px;
 }
 
-#watching input[name^="res"] {
+#watching input.resolution-field {
 	width: 70px;
 }
 
@@ -813,6 +813,7 @@ ol#arcs-list .arc-actions a.delete::before {
 	color: #8d99ae;
 	font-size: 11px;
 	display: block;
+	margin-top: 7px;
 }
 
 #end-side .image {
@@ -998,6 +999,10 @@ div.center > #favicon-btns {
 
 #page-html-editor .ql-editor {
 	min-height: 350px;
+}
+
+#page-editor .ql-picker-label {
+    text-align: end;
 }
 
 /*------------ Gallery dropzone style sheet -----------*/

@@ -1,4 +1,5 @@
 import React from "react";
+import text from "../../langs/lang";
 import FormField from "./../common/form/FormField";
 
 const BackgroundField = ({ backgroundFile }) => {
@@ -30,7 +31,7 @@ const BackgroundField = ({ backgroundFile }) => {
                     <FormField
                         type="file"
                         name="show.background"
-                        label="Upload Background"
+                        label={text("upload_image")}
                         labelClass="primary-btn upload-btn radius focus-shadow"
                         accept="image/*"
                         unwrappedField
@@ -45,9 +46,7 @@ const BackgroundField = ({ backgroundFile }) => {
                         ? `${backgroundFile.name} / ${(
                               backgroundFile.size / 1e6
                           ).toFixed(2)}MB`
-                        : `An image that is displayed as background on the show
-						page and watch page, ensuring that it is of high quality
-						and its width is greater than its height.`}
+                        : text("background_note")}
                 </p>
             </div>
         </div>

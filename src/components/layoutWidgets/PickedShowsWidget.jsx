@@ -4,10 +4,11 @@ import FormField from "./../common/form/FormField";
 import TagsField from "./../content/TagsField";
 import { getGenresOptions } from "./../services/getGenres";
 import IconsFormField from "./IconsFormField";
+import text from "../../langs/lang";
 
 const PickedShowsWidget = ({ onSubmit, onDelete }) => (
     <FormSideSection
-        label="Picked Shows"
+        label={text("picked_shows")}
         id="selected-shows"
         submitBtn={onSubmit}
         deleteBtn={onDelete}
@@ -16,9 +17,9 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
             <div className="col-1">
                 <FormField
                     name="layout.title"
-                    label="Title"
+                    label={text("title")}
                     type="text"
-                    placeholder="default: Picked Shows"
+                    placeholder={`${text("default")}: ${text("picked_shows")}`}
                 />
             </div>
 
@@ -29,17 +30,17 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
             <div className="col-1">
                 <FormField
                     name="layout.settings.category"
-                    label="Category"
+                    label={text("category")}
                     type="select"
-                    placeholder="Default: all categories"
+                    placeholder={text("default_all_categories")}
                     options={[
                         {
-                            label: "Movie",
+                            label: text("movie"),
                             value: "movie",
                         },
                         { label: "Anime", value: "anime" },
                         {
-                            label: "TV Show",
+                            label: text("tv_show"),
                             value: "tvshow",
                         },
                     ]}
@@ -50,10 +51,10 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
             <div className="col-1">
                 <FormField
                     name="layout.settings.genres"
-                    label="Genres"
+                    label={text("genres")}
                     type="select"
                     options={getGenresOptions}
-                    placeholder="Default: all genres"
+                    placeholder={`${text("default")}: ${text("all_genres")}`}
                     multiple
                 />
             </div>
@@ -61,15 +62,16 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
             <div className="col-1">
                 <TagsField
                     name="layout.settings.tag"
-                    label="Tags"
+                    label={text("tags")}
                     type="select"
-                    placeholder="Press 'enter' after any tag you write"
+                    placeholder={text("press_enter_after_any_tag_you_write")}
                     multiple
                     tags
                     htmlAfterField={
                         <small>
-                            Used to group collection of shows together under
-                            certain name
+                            {text(
+                                "used_to_group_collection_of_shows_together_under_certain_name"
+                            )}
                         </small>
                     }
                 />
@@ -78,23 +80,23 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
             <div className="col-1">
                 <FormField
                     name="layout.settings.order"
-                    label="Order By"
+                    label={text("order_by")}
                     type="select"
                     options={[
                         {
-                            label: "Latest",
+                            label: text("latest"),
                             value: "latest",
                         },
                         {
-                            label: "Oldest",
+                            label: text("oldest"),
                             value: "oldest",
                         },
                         {
-                            label: "Most Viewed",
+                            label: text("most_viewed"),
                             value: "views",
                         },
                         {
-                            label: "Top Rated",
+                            label: text("top_rated"),
                             value: "rates",
                         },
                     ]}
@@ -104,10 +106,10 @@ const PickedShowsWidget = ({ onSubmit, onDelete }) => (
             <div className="col-1">
                 <FormField
                     name="layout.settings.shows_no"
-                    label="Shows No"
+                    label={text("shows_no")}
                     type="number"
                     min="2"
-                    placeholder="default: 8"
+                    placeholder={`${text("default")}: 8`}
                 />
             </div>
         </div>

@@ -29,6 +29,7 @@ import getShows from "../services/showsServices";
 import Loader from "./../common/Loader";
 import { authorize } from "../../js/Utility";
 import getDataActions from "./../../actions/DataActions";
+import text, { genre_text, isRtl } from "../../langs/lang";
 
 const paramTypeToDataType = new Map([
     ["movies", "movie"],
@@ -37,15 +38,15 @@ const paramTypeToDataType = new Map([
 ]);
 
 const typeDataToLabel = new Map([
-    ["movie", "Movie"],
-    ["anime", "Anime"],
-    ["tvshow", "TV Show"],
+    ["movie", text("movie")],
+    ["anime", text("anime")],
+    ["tvshow", text("tv_show")],
 ]);
 
 const typeParamToLabel = new Map([
-    ["movies", "Movie"],
-    ["anime", "Anime"],
-    ["tv-shows", "TV Show"],
+    ["movies", text("movie")],
+    ["anime", text("anime")],
+    ["tv-shows", text("tv_show")],
 ]);
 
 const ShowForm = ({
@@ -73,9 +74,9 @@ const ShowForm = ({
     }
 
     if (showType) {
-        isMovie = showType === "Movie";
-        isAnime = showType === "Anime";
-        isTVShow = showType === "TV Show";
+        isMovie = showType === text("movie");
+        isAnime = showType === text("anime");
+        isTVShow = showType === text("tv_show");
     }
 
     useEffect(() => {
@@ -102,10 +103,13 @@ const ShowForm = ({
 
                 onShowDataLoad(showData);
             } catch (ex) {
-                toast.error("There is no show with this id: " + showId, {
-                    autoClose: 2500,
-                    onClose: () => history.goBack(),
-                });
+                toast.error(
+                    `${text("there_is_no_show_with_this_id")} ${showId}`,
+                    {
+                        autoClose: 2500,
+                        onClose: () => history.goBack(),
+                    }
+                );
             }
         })();
     }, []);
@@ -121,7 +125,13 @@ const ShowForm = ({
     return (
         <Fragment>
             <SectionHeader
-                name={`${showId ? "Edit" : "New"} ${showType || "Show"}`}
+                name={
+                    showId
+                        ? `${text("edit")} ${showType || text("show")}`
+                        : isRtl()
+                        ? `${showType || text("show")} ${text("new")}`
+                        : `${text("new")} ${showType || text("show")}`
+                }
                 faClass={`fas ${showId ? "fa-edit" : "fa-plus fa-sm"}`}
             />
             {showType === undefined ? (
@@ -136,26 +146,36 @@ const ShowForm = ({
                     }}
                 >
                     <div id="main-side">
-                        <FormSection header={`${showType} Information`}>
+                        <FormSection
+                            header={`${
+                                isMovie
+                                    ? text("movie_information")
+                                    : isAnime
+                                    ? text("anime_information")
+                                    : text("tvshow_information")
+                            }`}
+                        >
                             <div className="row">
                                 <div className="col-3-2">
                                     <FormField
                                         name="show.name"
-                                        label={`${showType} Name`}
+                                        label={text("name")}
                                         type="text"
-                                        placeholder="e.g. The Pirates Of The Caribbean"
+                                        placeholder={`${text(
+                                            "e.g."
+                                        )} The Pirates Of The Caribbean`}
                                         required
                                     />
                                 </div>
                                 <div className="col-3-1">
                                     <FormField
                                         name="show.genres"
-                                        label="Genres"
+                                        label={text("genres")}
                                         type="select"
-                                        placeholder="Select Genres"
+                                        placeholder={text("select_genres")}
                                         options={getGenres(showType).map(
                                             (genre) => ({
-                                                label: upperFirst(genre),
+                                                label: genre_text(genre),
                                                 value: genre,
                                             })
                                         )}
@@ -168,8 +188,10 @@ const ShowForm = ({
                             <div className="row">
                                 <div className="col-3-2">
                                     <FormField
-                                        label="Another Name"
-                                        placeholder="e.g. The name of the show in other language"
+                                        label={text("another_name")}
+                                        placeholder={text(
+                                            "the_name_of_the_show_in_other_language"
+                                        )}
                                         name="show.another_name"
                                         type="text"
                                     />
@@ -179,17 +201,21 @@ const ShowForm = ({
                                         <FormField
                                             name="show.duration"
                                             className="time"
-                                            label="Duration"
+                                            label={text("duration")}
                                             type="text"
-                                            placeholder="XX hours XX min OR XX min"
+                                            placeholder={`XX hours XX min ${text(
+                                                "or"
+                                            )} XX min`}
                                         />
                                     ) : (
                                         <FormField
                                             name="show.season"
-                                            label="Season No."
+                                            label={text("season_no")}
                                             type="number"
                                             min="1"
-                                            placeholder="default: none"
+                                            placeholder={`${text(
+                                                "default"
+                                            )}: ${text("none")}`}
                                         />
                                     )}
                                 </div>
@@ -202,9 +228,11 @@ const ShowForm = ({
                                             <FormField
                                                 name="show.release_year"
                                                 className="date"
-                                                label="Release Year"
+                                                label={text("release_year")}
                                                 type="number"
-                                                placeholder="e.g. 2020"
+                                                placeholder={`${text(
+                                                    "e.g."
+                                                )} 2020`}
                                                 dateType="year"
                                                 autoComplete="off"
                                                 required
@@ -213,14 +241,16 @@ const ShowForm = ({
                                         <div className="col-2">
                                             <FormField
                                                 name="show.score"
-                                                label="Score"
+                                                label={text("score")}
                                                 type="number"
-                                                placeholder="e.g. 9"
+                                                placeholder={`${text(
+                                                    "e.g."
+                                                )} 9`}
                                                 style={{ width: 110 }}
                                                 required
                                                 htmlAfterField={
                                                     <span className="appendix">
-                                                        of 10
+                                                        {text("of")} 10
                                                     </span>
                                                 }
                                             />
@@ -231,7 +261,7 @@ const ShowForm = ({
                                 <div className="col-3-1">
                                     <FormField
                                         name="show.rate"
-                                        label="Rate"
+                                        label={text("the_show_rate")}
                                         type="select"
                                         defaultValue=""
                                         options={getRates()}
@@ -249,9 +279,11 @@ const ShowForm = ({
                                             >
                                                 <FormField
                                                     name="show.episodes"
-                                                    label="Episodes No"
+                                                    label={text("episodes_no")}
                                                     type="number"
-                                                    placeholder="e.g. 12"
+                                                    placeholder={`${text(
+                                                        "e.g."
+                                                    )} 12`}
                                                     min="0"
                                                 />
                                             </div>
@@ -262,7 +294,9 @@ const ShowForm = ({
                                             >
                                                 <FormField
                                                     name="show.status"
-                                                    label="Airing Status"
+                                                    label={text(
+                                                        "airing_status"
+                                                    )}
                                                     type="select"
                                                     options={getShowStatus()}
                                                 />
@@ -271,9 +305,13 @@ const ShowForm = ({
                                                 <div className="col-3">
                                                     <FormField
                                                         name="show.source"
-                                                        label="Source Type"
+                                                        label={text(
+                                                            "source_type"
+                                                        )}
                                                         type="select"
-                                                        defaultValue="manga"
+                                                        defaultValue={text(
+                                                            "manga"
+                                                        )}
                                                         options={getAnimeSource()}
                                                     />
                                                 </div>
@@ -284,12 +322,12 @@ const ShowForm = ({
                                         {isAnime ? (
                                             <FormField
                                                 name="show.studio"
-                                                label="Studios"
+                                                label={text("studio")}
                                                 type="select"
-                                                defaultValue="N/A"
+                                                defaultValue={text("n/a")}
                                                 options={[
                                                     {
-                                                        label: "N/A",
+                                                        label: text("n/a"),
                                                         value: "n/a",
                                                     },
                                                     ...getAnimeStudios(),
@@ -300,7 +338,7 @@ const ShowForm = ({
                                             <FormField
                                                 name="show.release_date"
                                                 className="date"
-                                                label="Release Date"
+                                                label={text("release_date")}
                                                 type="text"
                                                 dateType="date"
                                                 autoComplete="off"
@@ -314,9 +352,11 @@ const ShowForm = ({
                                     <FormField
                                         name="show.related_shows"
                                         className="shows"
-                                        label="Related Shows"
+                                        label={text("related_shows")}
                                         type="select"
-                                        placeholder="Enter Related Shows..."
+                                        placeholder={text(
+                                            "enter_related_shows"
+                                        )}
                                         options={shows.map((show) => ({
                                             label: show.name,
                                             value: show.id,
@@ -331,7 +371,7 @@ const ShowForm = ({
                                             name="show.release_date"
                                             dateType="date"
                                             className="date"
-                                            label="Release Date"
+                                            label={text("release_date")}
                                             type="text"
                                             autoComplete="off"
                                         />
@@ -344,7 +384,9 @@ const ShowForm = ({
                                                     <FormField
                                                         name="show.aired_from"
                                                         className="date"
-                                                        label="Aired from"
+                                                        label={text(
+                                                            "aired_from"
+                                                        )}
                                                         type="text"
                                                         autoComplete="off"
                                                         dateType="date-from"
@@ -354,7 +396,7 @@ const ShowForm = ({
                                                     <FormField
                                                         name="show.aired_to"
                                                         className="date"
-                                                        label="Aired to"
+                                                        label={text("aired_to")}
                                                         type="text"
                                                         autoComplete="off"
                                                         dateType="date-to"
@@ -368,9 +410,9 @@ const ShowForm = ({
                                         <FormField
                                             name="show.imdb_link"
                                             className="url"
-                                            label="IMDB Link"
+                                            label={text("imdb_link")}
                                             type="url"
-                                            placeholder="IMDB Link here..."
+                                            placeholder={text("imdb_link_here")}
                                         />
                                     </div>
                                 )}
@@ -379,9 +421,11 @@ const ShowForm = ({
                                 <div className="col-1">
                                     <FormField
                                         name="show.story"
-                                        label="Story"
+                                        label={text("story")}
                                         type="textarea"
-                                        placeholder="Something about movie story here..."
+                                        placeholder={text(
+                                            "something_about_show_story_here"
+                                        )}
                                         required
                                     />
                                 </div>
@@ -392,18 +436,18 @@ const ShowForm = ({
                                         <FormField
                                             name="show.imdb_link"
                                             className="url"
-                                            label="IMDB Link"
+                                            label={text("imdb_link")}
                                             type="url"
-                                            placeholder="IMDB Link here..."
+                                            placeholder={text("imdb_link_here")}
                                         />
                                     </div>
                                     <div className="col-2">
                                         <FormField
                                             name="show.mal_link"
                                             className="url"
-                                            label="MyAnimeList Link"
+                                            label={text("mal_link")}
                                             type="url"
-                                            placeholder="MyAnimeList Link here..."
+                                            placeholder={text("mal_link_here")}
                                         />
                                     </div>
                                 </div>
@@ -411,7 +455,7 @@ const ShowForm = ({
                         </FormSection>
 
                         <FormSection
-                            header="Gallery"
+                            header={text("gallery")}
                             faClass="far fa-images"
                             id="gallery"
                         >
@@ -425,7 +469,7 @@ const ShowForm = ({
                         {isMovie && (
                             <Fragment>
                                 <FormSection
-                                    header="Watching Servers"
+                                    header={text("watching_servers")}
                                     faClass="fas fa-video"
                                     id="watching"
                                 >
@@ -438,14 +482,16 @@ const ShowForm = ({
                                         />
                                     ))}
                                     <AddMoreBtn
-                                        label="Add More Servers"
+                                        label={text("add_more_servers")}
                                         formName="show"
                                         listName="watching_servers"
                                     />
                                 </FormSection>
 
                                 <FormSection
-                                    header="Video Files and Download Links"
+                                    header={text(
+                                        "video_files_and_download_links"
+                                    )}
                                     faClass="far fa-file-video"
                                     id="video-files"
                                 >
@@ -458,7 +504,7 @@ const ShowForm = ({
                                     ))}
 
                                     <AddMoreBtn
-                                        label="Add More Videos"
+                                        label={text("add_more_videos")}
                                         formName="show"
                                         listName="video_files"
                                     />
@@ -468,7 +514,7 @@ const ShowForm = ({
 
                         {isAnime && (
                             <FormSection
-                                header="Anime Arcs"
+                                header={text("anime_arcs")}
                                 id="arcs"
                                 faClass="fas fa-folder"
                             >
@@ -479,7 +525,7 @@ const ShowForm = ({
 
                     <div id="end-side">
                         <FormSideSection
-                            label="Show Poster"
+                            label={text("show_poster")}
                             id="show-poster-widget"
                             required
                         >
@@ -487,7 +533,7 @@ const ShowForm = ({
                         </FormSideSection>
 
                         <FormSideSection
-                            label="Show Background"
+                            label={text("show_background")}
                             id="show-background-widget"
                             required
                         >
@@ -495,7 +541,7 @@ const ShowForm = ({
                         </FormSideSection>
 
                         <FormSideSection
-                            label="Square Image"
+                            label={text("square_image")}
                             id="show-square-image-widget"
                         >
                             <SquareImageField
@@ -504,18 +550,22 @@ const ShowForm = ({
                             />
                         </FormSideSection>
 
-                        <FormSideSection label="Trailer Link" id="trailer-link">
+                        <FormSideSection
+                            label={text("trailer_link")}
+                            id="trailer-link"
+                        >
                             <div className="row">
                                 <div className="col-1">
                                     <FormField
                                         type="url"
                                         name="show.trailer_link"
-                                        placeholder="Enter YouTube Trailer Link here..."
+                                        placeholder={text("trailer_link_here")}
                                         unwrappedField
                                         htmlAfterField={
                                             <small>
-                                                you can also use any video
-                                                sharing service like dailymotion
+                                                {text(
+                                                    "you_can_use_any_other_video_sharing_service"
+                                                )}
                                             </small>
                                         }
                                     />
@@ -523,21 +573,23 @@ const ShowForm = ({
                             </div>
                         </FormSideSection>
 
-                        <FormSideSection label="Tags" id="tags">
+                        <FormSideSection label={text("tags")} id="tags">
                             <div className="row">
                                 <div className="col-1">
                                     <TagsField
                                         type="select"
                                         name="show.tags"
-                                        placeholder="Press 'enter' after any tag you write"
+                                        placeholder={text(
+                                            "press_enter_after_any_tag_you_write"
+                                        )}
                                         multiple
                                         tags
                                         unwrappedField
                                         htmlAfterField={
                                             <small>
-                                                Used to group collection of
-                                                shows together under certain
-                                                name
+                                                {text(
+                                                    "used_to_group_collection_of_shows_together_under_certain_name"
+                                                )}
                                             </small>
                                         }
                                     />
@@ -545,27 +597,32 @@ const ShowForm = ({
                             </div>
                         </FormSideSection>
 
-                        <FormSideSection label="Publish" id="publish">
+                        <FormSideSection label={text("publish")} id="publish">
                             <PublishFields
                                 form="show"
                                 submitLabel={
-                                    data.id ? "Save Changes" : "Create"
+                                    data.id
+                                        ? text("save_changes")
+                                        : text("create")
                                 }
                                 extraFields={[
                                     <FormField
                                         type="select"
-                                        label="Reviews"
+                                        label={text("reviews")}
                                         name="show.reviews_enabled"
                                         options={[
-                                            { label: "Enable", value: 1 },
-                                            { label: "Disable", value: 0 },
+                                            { label: text("enable"), value: 1 },
+                                            {
+                                                label: text("disable"),
+                                                value: 0,
+                                            },
                                         ]}
                                     />,
                                 ]}
                                 deleteBtn={
                                     data.id
                                         ? {
-                                              label: "Delete",
+                                              label: text("delete"),
                                               handler: () => {
                                                   const deleteIt =
                                                       window.confirm(

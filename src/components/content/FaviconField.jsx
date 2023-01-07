@@ -3,6 +3,7 @@ import FormField from "../common/form/FormField";
 import { connect } from "react-redux";
 import { toFileSize } from "./../../js/Utility";
 import SettingsActions from "../../actions/SettingsActions";
+import text from "../../langs/lang";
 
 const FaviconField = ({ favicon, onDelete }) => {
     const isFaviconUploaded =
@@ -41,7 +42,7 @@ const FaviconField = ({ favicon, onDelete }) => {
                         <FormField
                             type="file"
                             name="settings.favicon"
-                            label="Upload Image"
+                            label={text("upload_image")}
                             labelClass="primary-btn upload-btn radius focus-shadow"
                             accept="image/png,image/x-icon,image/gif"
                             unwrappedField
@@ -53,7 +54,7 @@ const FaviconField = ({ favicon, onDelete }) => {
                                         type="button"
                                         className="dark-btn delete-btn radius focus-shadow"
                                     >
-                                        Delete
+                                        {text("delete")}
                                     </button>
                                 ) : undefined
                             }
@@ -64,8 +65,7 @@ const FaviconField = ({ favicon, onDelete }) => {
             <div className="row note">
                 <div className="col-1">
                     <small>
-                        Note: Image ratio is 1:1 and supported formats are
-                        (.ico, .png or .gif)
+                        {text("note_image_ratio_and_supported_formats")}
                     </small>
                 </div>
             </div>

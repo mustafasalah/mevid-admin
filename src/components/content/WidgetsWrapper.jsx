@@ -11,6 +11,7 @@ import SchedulerWidget from "./../layoutWidgets/SchedulerWidget";
 import SearchWidget from "./../layoutWidgets/SearchWidget";
 import SliderWidget from "./../layoutWidgets/SliderWidget";
 import SocialMediaWidget from "./../layoutWidgets/SocialMediaWidget";
+import text from "../../langs/lang";
 
 const WidgetsWrapper = ({ widget, onUpdate, onAddWidget, onDelete }) => {
     if (widget.type === undefined) return null;
@@ -21,7 +22,7 @@ const WidgetsWrapper = ({ widget, onUpdate, onAddWidget, onDelete }) => {
                 <AddWidget
                     position={widget.position}
                     onSubmit={{
-                        label: "Add Widget",
+                        label: text("add_widget"),
                         handler: () =>
                             onAddWidget(widget.position, widget.widgetType),
                     }}

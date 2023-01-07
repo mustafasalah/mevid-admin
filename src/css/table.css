@@ -193,7 +193,7 @@ table th.have-sort.sort-down::after {
 }
 
 table td.align-start {
-	text-align: left;
+	text-align: start;
 }
 
 table img {
@@ -219,7 +219,8 @@ table span.poster {
 }
 
 table .episode {
-	text-align: left;
+	text-align: start;
+	margin-left: 95px;
 }
 
 table .episode ul {
@@ -238,6 +239,10 @@ table dl.episode-info dt {
 
 table dl.episode-info dt:not(:first-child) {
 	margin-top: 10px;
+}
+
+table dl.episode-info dd {
+	margin: 0;
 }
 
 table dl.episode-info dd:first-of-type {

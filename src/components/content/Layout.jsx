@@ -9,6 +9,7 @@ import { sortLayout } from "../services/layoutServices";
 import { toast } from "react-toastify";
 import WidgetsWrapper from "./WidgetsWrapper";
 import Loader from "./../common/Loader";
+import text from "../../langs/lang";
 
 class Layout extends Component {
     async onSortedHandler({
@@ -34,6 +35,8 @@ class Layout extends Component {
     state = {
         activeWidget: null,
     };
+
+    headerWidgetsTitleTranslated = false;
 
     initialSortable() {
         // Run Sortable script
@@ -65,7 +68,10 @@ class Layout extends Component {
 
         return (
             <Fragment>
-                <SectionHeader name="Layout and View" faClass="fas fa-brush" />
+                <SectionHeader
+                    name={text("layout_and_view")}
+                    faClass="fas fa-brush"
+                />
                 <div id="main-side">
                     {header.length === 0 ? (
                         <Loader />
@@ -73,10 +79,10 @@ class Layout extends Component {
                         <div className="widget form" id="layout">
                             <div className="widget-content radius">
                                 <div className="row">
-                                    <WidgetSection title="Header">
+                                    <WidgetSection title={text("header")}>
                                         <Widget
                                             data={{
-                                                title: "Main Menu",
+                                                title: text("main_menu"),
                                                 type: "main-menu",
                                                 enabled: "1",
                                             }}
@@ -87,7 +93,7 @@ class Layout extends Component {
                                                 );
                                             }}
                                         />
-                                        {header.map((widget) => (
+                                        {header.map((widget, i) => (
                                             <Widget
                                                 key={widget.id}
                                                 data={widget}
@@ -109,7 +115,7 @@ class Layout extends Component {
                                     <div className="col-2">
                                         <div className="row">
                                             <WidgetSection
-                                                title="Main Content"
+                                                title={text("main_content")}
                                                 dropzone="main-drop-zone"
                                                 sectionName="main"
                                                 addWidget="main"
@@ -143,7 +149,7 @@ class Layout extends Component {
                                     <div className="col-2">
                                         <div className="row">
                                             <WidgetSection
-                                                title="Sidebar Content"
+                                                title={text("sidebar_content")}
                                                 dropzone="sidebar-drop-zone"
                                                 addWidget="sidebar"
                                                 removeActive={() =>
@@ -176,7 +182,7 @@ class Layout extends Component {
                                 </div>
                                 <div className="row">
                                     <WidgetSection
-                                        title="Footer"
+                                        title={text("footer")}
                                         dropzone="footer-drop-zone"
                                     >
                                         {footer.map((widget) => (
@@ -207,7 +213,7 @@ class Layout extends Component {
                         onUpdate={this.props.onUpdateLayoutWidget}
                         onDelete={(data) => {
                             const deleteIt = window.confirm(
-                                "Are you sure to delete this widget?"
+                                text("are_you_sure_to_delete_this_widget")
                             );
                             if (deleteIt) {
                                 this.props.onDeleteWidget(data);

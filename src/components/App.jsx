@@ -12,59 +12,59 @@ import Loader from "./common/Loader";
 import "promise-polyfill/src/polyfill";
 
 class App extends Component {
-	async componentDidMount() {
-		const {
-			loginUser,
-			loadAppData,
-			loadNotifications,
-			loadScheduler,
-			loadAppSettings,
-			appLoaded,
-		} = this.props;
+    async componentDidMount() {
+        const {
+            loginUser,
+            loadAppData,
+            loadNotifications,
+            loadScheduler,
+            loadAppSettings,
+            appLoaded,
+        } = this.props;
 
-		try {
-			// Authenticate user
-			await loginUser();
+        try {
+            // Authenticate user
+            await loginUser();
 
-			// Load App Settings from the server
-			await loadAppSettings();
+            // Load App Settings from the server
+            await loadAppSettings();
 
-			// Load App Data (shows, episodes, users, etc...) from the server
-			await loadAppData();
+            // Load App Data (shows, episodes, users, etc...) from the server
+            await loadAppData();
 
-			// Make App loaded state true
-			appLoaded();
+            // Make App loaded state true
+            appLoaded();
 
-			// Then load App Notifications
-			await loadNotifications();
+            // Then load App Notifications
+            await loadNotifications();
 
-			// And load Shows Scheduler Data
-			await loadScheduler();
-		} catch (ex) {
-			console.error(ex);
-		}
-	}
+            // And load Shows Scheduler Data
+            await loadScheduler();
+        } catch (ex) {
+            console.error(ex);
+        }
+    }
 
-	render() {
-		return this.props.loaded ? (
-			<Fragment>
-				<TopBar
-					user={this.props.loggedUser}
-					siteContent={this.props.forms.settings.data.site_content}
-				/>
-				<SideBar />
-				<Content />
-			</Fragment>
-		) : (
-			<Loader />
-		);
-	}
+    render() {
+        return this.props.loaded ? (
+            <Fragment>
+                <TopBar
+                    user={this.props.loggedUser}
+                    siteContent={this.props.forms.settings.data.site_content}
+                />
+                <SideBar />
+                <Content />
+            </Fragment>
+        ) : (
+            <Loader />
+        );
+    }
 }
 
 export default connect((state) => state, {
-	...appActions,
-	loadNotifications,
-	loadAppSettings: SettingsActions.onSettingsDataLoad,
-	loadScheduler: SchedulerActions.onSchedulerLoad,
-	appLoaded: () => ({ type: ACTIONS.APP_LOADED }),
+    ...appActions,
+    loadNotifications,
+    loadAppSettings: SettingsActions.onSettingsDataLoad,
+    loadScheduler: SchedulerActions.onSchedulerLoad,
+    appLoaded: () => ({ type: ACTIONS.APP_LOADED }),
 })(App);

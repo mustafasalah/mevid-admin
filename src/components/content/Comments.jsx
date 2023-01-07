@@ -5,6 +5,7 @@ import getDataActions from "../../actions/DataActions";
 import AbstractTablePage from "../common/AbstractTablePage";
 import SectionHeader from "./../common/SectionHeader";
 import { authorize } from "./../../js/Utility";
+import text from "../../langs/lang";
 
 const HOSTNAME = process.env.REACT_APP_HOSTNAME;
 
@@ -14,7 +15,7 @@ class Comments extends AbstractTablePage {
     tableColumns = [
         {
             dataProp: "author",
-            label: "Author",
+            label: text("author"),
             haveSort: true,
             classNames: "more-padding primary-col",
             type: "link",
@@ -23,13 +24,13 @@ class Comments extends AbstractTablePage {
         },
         {
             dataProp: "content",
-            label: "Comment",
+            label: text("the_comment"),
             classNames: "align-start",
             haveSort: false,
             type: "text",
             linksNav: [
                 {
-                    label: "Approve",
+                    label: text("approve"),
                     className: "approve-item",
                     href: "#approve-comment-:id",
                     on: ({ status }) => status !== "approved",
@@ -40,7 +41,7 @@ class Comments extends AbstractTablePage {
                     customAuthorize: this.customAuthorize.bind(this),
                 },
                 {
-                    label: "Unapprove",
+                    label: text("unapprove"),
                     className: "unapprove-item",
                     href: "#unapprove-comment-:id",
                     on: ({ status }) => status === "approved",
@@ -51,19 +52,19 @@ class Comments extends AbstractTablePage {
                     customAuthorize: this.customAuthorize.bind(this),
                 },
                 {
-                    label: "Reply",
+                    label: text("reply"),
                     on: ({ status }) => status === "approved",
                     className: "reply-item",
                     href: `${HOSTNAME}/shows/:showId/episodes/:episodeNo#comment-:id`,
                     absolute: true,
                 },
                 {
-                    label: "Delete",
+                    label: text("delete"),
                     className: "delete-item",
                     href: "#delete-comment-:id",
                     onClick: ({ id }) => {
                         const isDelete = window.confirm(
-                            "Are you sure to delete this comment?"
+                            text("are_you_sure_to_delete_this_comment")
                         );
                         isDelete && this.props.deleteData(id);
                     },
@@ -74,7 +75,7 @@ class Comments extends AbstractTablePage {
         },
         {
             dataProp: "episodeNo",
-            label: "Response to",
+            label: text("response_to"),
             classNames: "align-start",
             haveSort: false,
             type: "custom",
@@ -96,7 +97,7 @@ class Comments extends AbstractTablePage {
                                         ).username
                                     }
                                 </a>
-                                <i> Comments on:</i>
+                                <i> {text("comments_on")}</i>
                                 <br />
                             </Fragment>
                         )}
@@ -117,37 +118,48 @@ class Comments extends AbstractTablePage {
         },
         {
             dataProp: "publishDate",
-            label: "Submitted On",
+            label: text("submitted_on"),
             haveSort: true,
             type: "text",
         },
-        { dataProp: "status", label: "Status", haveSort: true, type: "text" },
+        {
+            dataProp: "status",
+            label: text("status"),
+            haveSort: true,
+            type: "custom",
+            render({ status }) {
+                return text(status);
+            },
+        },
     ];
 
     filtersData = {
-        status: ["approved", "unapproved"],
+        status: [
+            { label: text("approved"), value: "approved" },
+            { label: text("unapproved"), value: "unapproved" },
+        ],
     };
 
     actions = [
         {
             value: "delete",
-            label: "Delete",
+            label: text("delete"),
             handler: this.handleDelete.bind(this),
         },
         {
             value: "approve",
-            label: "Approve",
+            label: text("approve"),
             handler: this.handleStatusChange.bind(this, "approve"),
         },
         {
             value: "unapprove",
-            label: "Unapprove",
+            label: text("unapprove"),
             handler: this.handleStatusChange.bind(this, "unapprove"),
         },
     ];
 
     sectionHeader = (
-        <SectionHeader name="Comments" faClass="fas fa-comments" />
+        <SectionHeader name={text("comments")} faClass="fas fa-comments" />
     );
 
     customAuthorize(comment) {
@@ -182,7 +194,7 @@ class Comments extends AbstractTablePage {
 
     handleDelete() {
         const isDelete = window.confirm(
-            "Are you sure to delete the selected comments?"
+            text("are_you_sure_to_delete_the_selected_comments")
         );
         const selectedItems = this.authorizeActionOnSelectedItems();
         isDelete && this.props.deleteData(selectedItems);
